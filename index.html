@@ -1,147 +1,175 @@
 <!DOCTYPE html>
-<html>
-	<head>
-        <meta charset="utf-8">
-        <meta name="google-site-verification" content="qlQ7n39K_l2Ejd_KvSZB0abU0yFx9vKMzzIeyqyj9uc"/>
-        <title>Profile - Shuta-Tsuchio</title>
-		<style>
-                #blackfont{
-                    color:black;
-                }
-                #redfont{
-                    color:red;
-                }
-                #bluefont{
-                    color:blue;
-                }
-                #greenfont{
-                    color:green;
-                }
-    
-                header {
-                width: 100%;
-                padding: 15px 0;
-                margin: 0 auto;
-                text-align: center;
-                background-color: white;;
-                color:black;
-                }
-                header .headline{
-                font-size: 32px;
-                }
-                .nav-list {
-                text-align: center;
-                padding: 10px 0;
-                margin: 0 auto;
-                }
-                .nav-list-item {
-                list-style: none;
-                display: inline-block;
-                margin: 0 20px;
-                }
-    
-                footer {
-                width: 100%;
-                height: 100px; 
-                text-align: center;
-                padding: 0px 0;
-                background-color: rgba(0, 10, 44, 0.753);
-                color:white;
-                }
-                .footer-text {
-                color: #fff;
-                }
-                body {line-height : 250%;}
-                
-                .delivery_list li {
-                    list-style-type: disc;/* リストの左側に黒丸 */
-                    margin-left:100px;/* リストの左側に余白 */
-                    text-align: left;
-                }
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="qlQ7n39K_l2Ejd_KvSZB0abU0yFx9vKMzzIeyqyj9uc"/>
+    <title>Profile - Shuta Tsuchio</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
 
-				a {
-                color:red;
-                text-decoration:underline;
-                }
+        header {
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            background-color: #333;
+            color: #fff;
+        }
 
-                a:link {
-                    color: red;
-                    text-decoration: underline;
-                }
+        header h1 {
+            font-size: 36px;
+            margin: 0;
+        }
 
-                a:visited{
-                    color: red;
-                    text-decoration: underline;
-                }
+        .nav-list {
+            padding: 10px 0;
+            margin: 0;
+            list-style: none;
+            display: flex;
+            justify-content: center;
+        }
 
-                a:hover{
-                    color: red;
-                    text-decoration: red;
-                }
-            </style>
-	</head>
-	<body>
-		<!-- header -->
-		<header>
-		<h1 class="headline">
-		<i>Shuta Tsuchio</i>
-		</h1>
-			<ul class="nav-list">
-		        <li class="nav-list-item"><a href="index.html">HOME</a></li>
-		        <li class="nav-list-item"><a href="pub.html">Publications</a></li>
-<!-- 		        <li class="nav-list-item"><a href="contact.html">Contact</a></li> -->
-		        </ul>
-	  	</header>
-		<hr>
+        .nav-list-item {
+            margin: 0 20px;
+        }
 
-		<h2>Profile</h2>
+        .nav-list-item a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
 
-		<p>氏名 :土尾　崇太</p>
-		
-		<p>NAME : Shuta Tshuchio </p>
+        .nav-list-item a:hover {
+            color: #ddd;
+        }
 
-		<p>email : shu1207t[at]gmail.com</p>
+        h2 {
+            font-size: 28px;
+            margin: 20px 0;
+            color: #333;
+        }
 
-		<hr>
+        p, ul {
+            margin: 0 0 20px;
+            padding: 0;
+        }
 
-		<h2>学歴</h2>
-		<ul>
-			<li>2018年4月　富山高等専門学校電気制御システム工学科　入学</li>
-			<li>2023年3月　富山高等専門学校電気制御システム工学科　卒業</li>
-			(卒業論文 : 異常検知問題における深層SVDDの学習効率化)
-			<li>2023年4月　富山高等専門学校エコデザイン工学専攻　入学</li>
-			<li>2025年3月　富山高等専門学校エコデザイン工学専攻　修了</li>
-			(特別研究論文 : 異常検知問題における疑似異常データを用いたSVDDの汎化能力向上方式)
-			<li>2025年4月　筑波大学システム情報工学研究科知能機能システム専攻　入学予定</li> -->
-			<li>2027年3月　筑波大学システム情報工学研究科知能機能システム専攻　修了予定</li> -->
-			(修士論文 : 未定) -->
-		</ul>
-		
-		<hr>
-		<h2>研究</h2> 
+        ul {
+            list-style: disc;
+            margin-left: 20px;
+        }
 
-		<p>キーワード : 機械学習, 深層学習, 異常検知，データ拡張，疑似異常データ，生成モデル</p>
-		<p>研究テーマ : 深層サポートベクトルデータ記述法の学習効率化<br>	
-		　　　　 　   疑似異常データによるサポートベクトルデータ記述法の汎化能力向上<br>
-		　　　　 　   観測者間変動に対応した少量訓練データによる医用画像診断システムの開発
-		</p><hr>
-		<h2>リサーチアシスタント(予定)</h2>
-		<ul>
-			<li>2025年4月〜2027年3月　産業技術総合研究所　人工知能研究センター　リサーチアシスタント
-		</ul>
+        hr {
+            border: none;
+            height: 1px;
+            background-color: #ccc;
+            margin: 30px 0;
+        }
 
-		<hr>
-		<h2>受賞等</h2>
-		<ul>
-			<li></li>
-            <li></li>
-		</ul>
+        a {
+            color: #e74c3c;
+            text-decoration: underline;
+        }
 
+        a:hover {
+            color: #c0392b;
+        }
 
-		<!-- footer -->
-		<footer>
-				<p>shu1207t[at]gmail.com</p>
-				<p>© Shuta Tsuchio</p>
-		</footer>
-	</body>
+        footer {
+            width: 100%;
+            padding: 20px 0;
+            background-color: #333;
+            text-align: center;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .headline i {
+            font-size: 36px;
+        }
+
+        @media screen and (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+            .nav-list-item a {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- header -->
+    <header>
+        <h1 class="headline"><i>Shuta Tsuchio</i></h1>
+        <ul class="nav-list">
+            <li class="nav-list-item"><a href="index.html">HOME</a></li>
+            <li class="nav-list-item"><a href="pub.html">Publications</a></li>
+        </ul>
+    </header>
+
+    <div class="container">
+        <hr>
+        <h2>Profile</h2>
+        <p>氏名 : 土尾 崇太</p>
+        <p>NAME : Shuta Tsuchio</p>
+        <p>Email : shu1207t[at]gmail.com</p>
+
+        <hr>
+        <h2>学歴</h2>
+        <ul>
+            <li>2018年4月 富山高等専門学校電気制御システム工学科 入学</li>
+            <li>2023年3月 富山高等専門学校電気制御システム工学科 卒業</li>
+            <li>2023年4月 富山高等専門学校エコデザイン工学専攻 入学</li>
+            <li>2025年3月 富山高等専門学校エコデザイン工学専攻 修了予定</li>
+            <li>2025年4月 筑波大学システム情報工学研究科知能機能システム専攻 入学予定</li>
+            <li>2027年3月 筑波大学システム情報工学研究科知能機能システム専攻 修了予定</li>
+        </ul>
+
+        <hr>
+        <h2>研究</h2>
+        <p>キーワード : 機械学習, 深層学習, 異常検知, データ拡張, 疑似異常データ, 生成モデル</p>
+        <p>研究テーマ :</p>
+        <ul>
+            <li>深層サポートベクトルデータ記述法の学習効率化</li>
+            <li>疑似異常データによるサポートベクトルデータ記述法の汎化能力向上</li>
+            <li>観測者間変動に対応した少量訓練データによる医用画像診断システムの開発</li>
+        </ul>
+
+        <hr>
+        <h2>リサーチアシスタント(予定)</h2>
+        <ul>
+            <li>2025年4月〜2027年3月 産業技術総合研究所 人工知能研究センター リサーチアシスタント</li>
+        </ul>
+
+        <hr>
+        <h2>受賞等</h2>
+        <ul>
+            <li>受賞歴なし</li>
+        </ul>
+    </div>
+
+    <!-- footer -->
+    <footer>
+        <p>shu1207t[at]gmail.com</p>
+        <p>© Shuta Tsuchio</p>
+    </footer>
+
+</body>
 </html>
