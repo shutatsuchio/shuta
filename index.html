@@ -1,181 +1,2559 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="google-site-verification" content="_m3hd6A_PdojiK2tVxnVWVU5CldXI7pgC84L-ADrrpM" />
-    <meta name="description" content="Shuta Tsuchio's profile">
-    <title>Profile : 土尾 崇太</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            color: #333;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="google-site-verification" content="_m3hd6A_PdojiK2tVxnVWVU5CldXI7pgC84L-ADrrpM">
+<meta name="description" content="Shuta Tsuchio's portfolio — researcher in machine learning and anomaly detection.">
+<title>Shuta Tsuchio｜土尾 崇太</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0a0a0c;
+    --bg-2: #111114;
+    --fg: #e8e8ec;
+    --fg-2: #b8b8c0;
+    --muted: #6a6a72;
+    --line: #2a2a30;
+    --line-2: #3a3a42;
+    --accent: #00ff9d;
+    --accent-2: #ff3860;
+    --card: rgba(20,20,24,0.85);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{
+    width:100%;height:100%;
+    background:var(--bg);
+    color:var(--fg);
+    font-family:'Inter','Helvetica Neue','Hiragino Kaku Gothic ProN','Hiragino Sans','Yu Gothic',YuGothic,Meiryo,sans-serif;
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+    user-select:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;background:none;border:none;color:inherit;cursor:pointer}
 
-        header {
-            width: 100%;
-            padding: 20px 0;
-            text-align: center;
-            background-color: #333;
-            color: #fff;
-        }
+  body::before{
+    content:'';
+    position:fixed;inset:0;
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(0,255,157,0.05), transparent 50%),
+      radial-gradient(ellipse at 85% 90%, rgba(255,56,96,0.04), transparent 50%);
+    pointer-events:none;
+    z-index:1;
+  }
 
-        header h1 {
-            font-size: 36px;
-            margin: 0;
-        }
+  /* ===== トップバー ===== */
+  .topbar{
+    position:fixed;top:0;left:0;right:0;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:18px 28px;
+    z-index:60;
+    pointer-events:none;
+  }
+  .topbar > *{pointer-events:auto}
+  .brand{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    letter-spacing:.15em;
+    color:var(--fg);
+  }
+  .brand .dot{
+    display:inline-block;width:8px;height:8px;
+    background:var(--accent);border-radius:50%;
+    margin-right:8px;
+    box-shadow:0 0 12px var(--accent);
+    animation:pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
 
-        .nav-list {
-            padding: 10px 0;
-            margin: 0;
-            list-style: none;
-            display: flex;
-            justify-content: center;
-        }
+  .topbar nav{
+    display:flex;gap:4px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:.15em;
+  }
+  .topbar nav a{
+    padding:8px 14px;color:var(--fg-2);
+    border:1px solid transparent;transition:all .2s;
+  }
+  .topbar nav a:hover{
+    color:var(--accent);
+    border-color:var(--line-2);
+    background:rgba(0,255,157,0.04);
+  }
 
-        .nav-list-item {
-            margin: 0 20px;
-        }
+  /* ===== ヒント ===== */
+  .hint{
+    position:fixed;left:50%;bottom:22px;
+    transform:translateX(-50%);
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;letter-spacing:.35em;
+    color:var(--muted);z-index:40;pointer-events:none;
+  }
+  .hint span{display:inline-block;animation:fade 2.4s ease-in-out infinite}
+  @keyframes fade{0%,100%{opacity:.3}50%{opacity:1}}
 
-        .nav-list-item a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 18px;
-            transition: color 0.3s ease;
-        }
+  /* ===== HUD ===== */
+  .hud{
+    position:fixed;left:20px;bottom:20px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;letter-spacing:.1em;
+    color:var(--muted);z-index:40;pointer-events:none;line-height:1.6;
+  }
+  .hud .v{color:var(--accent)}
 
-        .nav-list-item a:hover {
-            color: #ddd;
-        }
+  /* ===== ステージ ===== */
+  .stage{
+    position:fixed;inset:0;cursor:grab;overflow:hidden;z-index:5;
+  }
+  .stage.grabbing{cursor:grabbing}
 
-        h2 {
-            font-size: 28px;
-            margin: 20px 0;
-            color: #333;
-        }
+  .world{
+    position:absolute;top:0;left:0;
+    width:0;height:0;
+    will-change:transform;
+  }
+  .tile{
+    position:absolute;
+    width:4400px;height:3200px;
+  }
 
-        p, ul {
-            margin: 0 0 20px;
-            padding: 0;
-        }
+  /* ===== 穴（島） ===== */
+  .hole{
+    position:absolute;
+    border-radius:50%;
+    background:#1a1a1f;
+    overflow:hidden;
+    cursor:pointer;
+    transition:transform .35s cubic-bezier(.2,.7,.3,1.2), box-shadow .35s ease;
+    box-shadow:
+      inset 0 0 60px rgba(0,0,0,0.9),
+      inset 8px 8px 20px rgba(0,0,0,0.6),
+      0 0 0 1px rgba(255,255,255,0.04);
+  }
+  .hole:hover{
+    transform:scale(1.03);
+    box-shadow:
+      inset 0 0 60px rgba(0,0,0,0.7),
+      inset 8px 8px 20px rgba(0,0,0,0.5),
+      0 0 0 1px var(--accent),
+      0 0 40px rgba(0,255,157,0.3);
+  }
 
-        ul {
-            list-style: disc;
-            margin-left: 20px;
-        }
+  .hole-content{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  .hole-content > *{pointer-events:none}
 
-        hr {
-            border: none;
-            height: 1px;
-            background-color: #ccc;
-            margin: 30px 0;
-        }
+  /* 穴の下に出るタイトル */
+  .hole-label{
+    position:absolute;
+    top:calc(100% + 18px);
+    left:0;right:0;
+    text-align:left;
+    color:var(--fg);
+    pointer-events:none;
+  }
+  .hole-label .ja{
+    font-size:18px;font-weight:700;letter-spacing:.05em;margin-bottom:4px;
+  }
+  .hole-label .en{
+    font-size:11px;color:var(--muted);font-style:italic;
+    font-family:'JetBrains Mono',monospace;letter-spacing:.1em;
+    margin-bottom:6px;
+  }
+  .hole-label .yr{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;color:var(--accent);letter-spacing:.2em;
+    margin-bottom:4px;
+  }
+  .hole-label .desc{
+    font-size:11px;color:var(--fg-2);line-height:1.5;
+  }
 
-        a {
-            color: #e74c3c;
-            text-decoration: underline;
-        }
+  /* ===== 各穴の中身（プレビュー） ===== */
 
-        a:hover {
-            color: #c0392b;
-        }
+  /* ヒーロー名前穴 */
+  .preview-hero{
+    text-align:center;color:var(--fg);padding:20px;
+  }
+  .preview-hero .name{
+    font-size:42px;font-weight:900;font-style:italic;
+    background:linear-gradient(180deg,var(--fg),var(--accent) 80%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    line-height:.9;letter-spacing:-.04em;
+  }
+  .preview-hero .sub{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;letter-spacing:.3em;color:var(--muted);
+    margin-top:14px;
+  }
 
-        footer {
-            width: 100%;
-            padding: 20px 0;
-            background-color: #333;
-            text-align: center;
-            color: #fff;
-        }
+  /* 経歴穴 */
+  .preview-cv{
+    color:var(--fg-2);font-family:'JetBrains Mono',monospace;
+    font-size:10px;line-height:1.8;text-align:left;padding:30px;
+  }
+  .preview-cv .y{color:var(--accent)}
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
+  /* SVDD穴：散布図と円 */
+  .preview-svdd svg{width:80%;height:80%}
 
-        .headline i {
-            font-size: 36px;
-        }
+  /* ターミナル穴 */
+  .preview-term{
+    background:#000;width:80%;height:70%;
+    border:1px solid var(--line-2);
+    font-family:'JetBrains Mono',monospace;
+    font-size:9px;line-height:1.6;
+    color:var(--accent);text-align:left;
+    padding:10px 12px;
+  }
+  .preview-term .pr{color:var(--accent-2)}
+  .preview-term .o{color:var(--fg-2)}
 
-        @media screen and (max-width: 768px) {
-            h1 {
-                font-size: 28px;
-            }
-            .nav-list-item a {
-                font-size: 16px;
-            }
-        }
-    </style>
+  /* 異常検知ゲーム穴 */
+  .preview-evade{
+    width:90%;height:90%;
+    display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(6,1fr);
+    gap:3px;padding:10px;
+  }
+  .preview-evade span{
+    background:rgba(255,255,255,0.15);border-radius:50%;
+  }
+  .preview-evade span.target{
+    background:var(--accent-2);box-shadow:0 0 8px var(--accent-2);
+  }
+
+  /* お絵描き穴 */
+  .preview-draw{
+    width:80%;height:80%;background:#fff;
+    position:relative;
+  }
+  .preview-draw::before{
+    content:'';position:absolute;
+    width:60%;height:60%;
+    top:20%;left:20%;
+    border:8px solid #000;border-radius:50%;
+  }
+  .preview-draw::after{
+    content:'?';position:absolute;
+    bottom:6px;right:10px;
+    font-size:24px;font-weight:900;color:#000;
+  }
+
+  /* しりとり穴 */
+  .preview-shiri{
+    color:var(--fg);font-family:'JetBrains Mono',monospace;
+    font-size:10px;line-height:1.8;text-align:left;padding:20px;
+  }
+  .preview-shiri .me{color:var(--accent)}
+  .preview-shiri .ai{color:var(--accent-2)}
+  .preview-shiri .ar{color:var(--muted)}
+
+  /* ===== ミニマップ ===== */
+  .minimap{
+    position:fixed;right:20px;bottom:20px;
+    width:160px;height:100px;
+    border:1px solid var(--line-2);
+    background:rgba(10,10,12,0.85);
+    backdrop-filter:blur(8px);
+    z-index:40;overflow:hidden;cursor:pointer;
+  }
+  .minimap-label{
+    position:absolute;top:-18px;left:0;
+    font-family:'JetBrains Mono',monospace;
+    font-size:9px;letter-spacing:.2em;color:var(--muted);
+  }
+  .minimap-loop-hint{
+    position:absolute;bottom:2px;right:4px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:8px;letter-spacing:.2em;color:var(--accent);
+    pointer-events:none;
+  }
+  .minimap-viewport{
+    position:absolute;
+    border:1px solid var(--accent);
+    background:rgba(0,255,157,0.08);
+    box-shadow:0 0 8px rgba(0,255,157,0.4);
+  }
+  .minimap-dot{
+    position:absolute;width:4px;height:4px;
+    background:var(--fg-2);border-radius:50%;
+    transform:translate(-50%,-50%);
+  }
+
+  /* ===== モーダル ===== */
+  .modal{
+    position:fixed;inset:0;
+    background:rgba(0,0,0,0.92);
+    backdrop-filter:blur(12px);
+    z-index:100;
+    display:none;
+    overflow-y:auto;
+  }
+  .modal.open{display:block}
+  .modal-inner{
+    max-width:1100px;
+    margin:60px auto;
+    padding:40px 50px 80px;
+    color:var(--fg);
+  }
+  .modal-close{
+    position:fixed;top:20px;right:24px;
+    width:44px;height:44px;
+    border:1px solid var(--line-2);
+    background:rgba(0,0,0,0.6);
+    color:var(--fg);
+    font-family:'JetBrains Mono',monospace;
+    font-size:14px;letter-spacing:.1em;
+    z-index:110;cursor:pointer;
+    transition:all .2s;
+  }
+  .modal-close:hover{
+    border-color:var(--accent);
+    color:var(--accent);
+    background:rgba(0,255,157,0.05);
+  }
+  .modal h2{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:.3em;
+    color:var(--accent);margin-bottom:12px;
+    text-transform:uppercase;
+  }
+  .modal h1{
+    font-size:48px;font-weight:900;letter-spacing:-.02em;
+    margin-bottom:30px;line-height:1.1;
+  }
+  .modal h1 .en{
+    display:block;font-size:14px;color:var(--muted);
+    font-family:'JetBrains Mono',monospace;font-weight:400;
+    letter-spacing:.2em;margin-top:6px;
+  }
+  .modal h3{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:.3em;color:var(--accent);
+    margin:30px 0 12px;text-transform:uppercase;
+    display:flex;align-items:center;gap:10px;
+  }
+  .modal h3::before{content:'';display:inline-block;width:14px;height:1px;background:var(--accent)}
+
+  .modal ul{list-style:none;margin-bottom:20px}
+  .modal li{
+    font-size:13px;line-height:1.6;
+    padding:10px 0;
+    border-bottom:1px dashed var(--line);
+    color:var(--fg-2);
+  }
+  .modal .year{
+    display:inline-block;
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    background:rgba(0,255,157,0.08);color:var(--accent);
+    border:1px solid var(--line-2);
+    padding:2px 8px;margin-right:12px;letter-spacing:.1em;
+  }
+  .modal p{font-size:13px;line-height:1.8;color:var(--fg-2);margin-bottom:14px}
+  .modal .pub{
+    padding:14px 0;border-bottom:1px dashed var(--line);
+  }
+  .modal .pub .num{
+    font-family:'JetBrains Mono',monospace;font-size:10px;
+    color:var(--accent);letter-spacing:.15em;margin-bottom:6px;
+    display:flex;justify-content:space-between;
+  }
+  .modal .pub .num .y{color:var(--muted)}
+  .modal .pub .ttl{font-size:13px;line-height:1.55;margin-bottom:4px}
+  .modal .pub .ttl u{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent)}
+  .modal .pub .meta{font-size:11px;color:var(--muted);font-style:italic}
+  .modal .mailbox{
+    margin-top:14px;padding:14px 16px;
+    background:#000;border:1px solid var(--line-2);
+    font-family:'JetBrains Mono',monospace;font-size:14px;
+    color:var(--accent);word-break:break-all;
+  }
+  .modal .mailbox .at{color:var(--accent-2)}
+
+  /* ===== モーダル内インタラクティブ要素 ===== */
+
+  /* SVDDビジュアライザ */
+  .svdd-wrap{
+    display:grid;grid-template-columns:1fr 280px;gap:30px;
+    margin-top:20px;
+  }
+  @media (max-width:768px){.svdd-wrap{grid-template-columns:1fr}}
+  .svdd-canvas-wrap{
+    background:#fff;border:1px solid var(--line-2);
+    aspect-ratio:1/1;position:relative;
+  }
+  .svdd-canvas{display:block;width:100%;height:100%;cursor:crosshair}
+  .svdd-controls{font-family:'JetBrains Mono',monospace;font-size:11px}
+  .svdd-controls .row{
+    margin-bottom:18px;padding:14px;
+    border:1px solid var(--line);background:rgba(255,255,255,0.02);
+  }
+  .svdd-controls label{
+    display:block;color:var(--accent);
+    margin-bottom:8px;letter-spacing:.15em;
+  }
+  .svdd-controls input[type=range]{
+    width:100%;accent-color:var(--accent);
+  }
+  .svdd-controls .val{color:var(--fg);font-size:14px;margin-top:4px}
+  .svdd-controls .kernel-buttons{display:flex;gap:4px;margin-top:6px}
+  .svdd-controls .kernel-buttons button{
+    flex:1;padding:8px 4px;
+    border:1px solid var(--line-2);
+    color:var(--fg-2);font-size:10px;letter-spacing:.1em;
+    transition:all .2s;
+  }
+  .svdd-controls .kernel-buttons button.active{
+    border-color:var(--accent);color:var(--accent);
+    background:rgba(0,255,157,0.08);
+  }
+  .svdd-controls .actions{display:flex;gap:6px;margin-top:8px}
+  .svdd-controls .actions button{
+    flex:1;padding:8px;border:1px solid var(--line-2);
+    color:var(--fg-2);font-size:10px;letter-spacing:.1em;
+  }
+  .svdd-controls .actions button:hover{border-color:var(--accent);color:var(--accent)}
+  .svdd-info{
+    margin-top:14px;padding:12px;
+    background:#000;border:1px solid var(--line);
+    font-size:10px;color:var(--fg-2);line-height:1.6;
+  }
+
+  /* ターミナル */
+  .term-screen{
+    background:#000;border:1px solid var(--line-2);
+    padding:18px 22px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;line-height:1.7;
+    color:var(--accent);
+    height:480px;overflow-y:auto;
+    margin-top:20px;
+  }
+  .term-screen .pr{color:var(--accent-2)}
+  .term-screen .o{color:var(--fg-2)}
+  .term-screen .err{color:var(--accent-2)}
+  .term-screen .hl{color:var(--accent);font-weight:700}
+  .term-input-wrap{
+    display:flex;align-items:center;gap:8px;
+    background:#000;border:1px solid var(--line-2);
+    border-top:none;padding:12px 22px;
+    font-family:'JetBrains Mono',monospace;font-size:13px;
+    color:var(--accent);
+  }
+  .term-input-wrap span{color:var(--accent-2)}
+  .term-input-wrap input{
+    flex:1;background:transparent;border:none;outline:none;
+    color:var(--accent);font-family:inherit;font-size:inherit;
+  }
+  .cursor{display:inline-block;width:8px;height:14px;background:var(--accent);vertical-align:middle;animation:blink 1s steps(2) infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  /* 異常検知ゲーム */
+  .evade-arena{
+    position:relative;width:100%;height:520px;
+    background:#000;border:1px solid var(--line-2);
+    margin-top:20px;overflow:hidden;cursor:none;
+  }
+  .evade-stat{
+    position:absolute;top:12px;left:14px;
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    color:var(--accent);letter-spacing:.15em;
+    z-index:5;line-height:1.7;
+  }
+  .evade-dot{
+    position:absolute;width:14px;height:14px;
+    background:rgba(255,255,255,0.85);border-radius:50%;
+    transform:translate(-50%,-50%);
+    transition:background .2s;
+  }
+  .evade-player{
+    background:var(--accent);
+    box-shadow:0 0 12px var(--accent);
+  }
+  .evade-detector{
+    position:absolute;width:90px;height:90px;
+    border:2px solid var(--accent-2);
+    border-radius:50%;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    background:radial-gradient(circle, rgba(255,56,96,0.18) 0%, rgba(255,56,96,0.05) 70%, transparent 100%);
+    box-shadow:0 0 20px rgba(255,56,96,0.4), inset 0 0 20px rgba(255,56,96,0.2);
+    will-change:left, top;
+  }
+  .evade-detector::before{
+    content:'';
+    position:absolute;inset:-4px;
+    border:1px dashed var(--accent-2);
+    border-radius:50%;
+    opacity:.6;
+    animation:scanRing 1.6s linear infinite;
+  }
+  @keyframes scanRing{
+    0%{transform:scale(1);opacity:.6}
+    50%{transform:scale(1.15);opacity:.2}
+    100%{transform:scale(1);opacity:.6}
+  }
+  .evade-detector::after{
+    content:'SCAN';
+    position:absolute;top:-18px;left:50%;
+    transform:translateX(-50%);
+    font-family:'JetBrains Mono',monospace;font-size:9px;
+    color:var(--accent-2);letter-spacing:.2em;
+  }
+  .evade-detector.d2::after{content:'TRACK'}
+  .evade-detector.d3::after{content:'HUNT'}
+  .evade-msg{
+    position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    font-family:'JetBrains Mono',monospace;
+    color:var(--accent-2);font-size:24px;
+    letter-spacing:.15em;text-align:center;
+    z-index:10;display:none;
+  }
+  .evade-msg.show{display:block}
+  .evade-msg .sub{
+    display:block;font-size:11px;color:var(--fg-2);
+    margin-top:14px;letter-spacing:.1em;
+  }
+  .evade-actions{margin-top:14px;display:flex;gap:8px}
+  .evade-actions button{
+    padding:10px 18px;border:1px solid var(--line-2);
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    color:var(--fg-2);letter-spacing:.15em;
+  }
+  .evade-actions button:hover{border-color:var(--accent);color:var(--accent)}
+
+  /* お絵描き */
+  .draw-wrap{
+    display:grid;grid-template-columns:1fr 320px;gap:24px;margin-top:20px;
+  }
+  @media (max-width:768px){.draw-wrap{grid-template-columns:1fr}}
+  .draw-canvas-wrap{position:relative}
+  .draw-canvas{
+    width:100%;aspect-ratio:1/1;
+    background:#fff;border:1px solid var(--line-2);
+    cursor:crosshair;display:block;touch-action:none;
+  }
+  .draw-side{font-family:'JetBrains Mono',monospace;font-size:11px}
+  .draw-side .topic-box{
+    background:#000;border:1px solid var(--accent);
+    padding:18px;margin-bottom:14px;
+  }
+  .draw-side .topic-label{
+    color:var(--accent);font-size:10px;letter-spacing:.25em;margin-bottom:10px;
+  }
+  .draw-side .topic{
+    color:var(--fg);font-size:22px;font-weight:700;letter-spacing:.05em;
+  }
+  .draw-side .guess-box{
+    background:rgba(255,255,255,0.02);border:1px solid var(--line);
+    padding:14px;margin-bottom:14px;min-height:100px;
+  }
+  .draw-side .guess-label{
+    color:var(--accent-2);font-size:10px;letter-spacing:.25em;margin-bottom:8px;
+  }
+  .draw-side .guess{font-size:14px;color:var(--fg);line-height:1.6}
+  .draw-side .actions{display:flex;flex-direction:column;gap:6px}
+  .draw-side .actions button{
+    padding:10px;border:1px solid var(--line-2);
+    color:var(--fg-2);font-size:11px;letter-spacing:.15em;
+  }
+  .draw-side .actions button:hover{border-color:var(--accent);color:var(--accent)}
+  .draw-side .actions button.primary{
+    border-color:var(--accent);color:var(--accent);
+    background:rgba(0,255,157,0.06);
+  }
+
+  /* しりとり */
+  .shiri-wrap{
+    display:grid;grid-template-columns:1fr;gap:14px;margin-top:20px;
+    max-width:720px;
+  }
+  .shiri-log{
+    height:400px;overflow-y:auto;
+    background:#000;border:1px solid var(--line-2);
+    padding:18px 22px;
+    font-family:'JetBrains Mono',monospace;font-size:13px;
+    line-height:1.9;
+  }
+  .shiri-log .turn{margin-bottom:14px;padding-bottom:10px;border-bottom:1px dashed var(--line)}
+  .shiri-log .turn:last-child{border:none}
+  .shiri-log .who{
+    font-size:10px;letter-spacing:.2em;
+    margin-bottom:4px;
+  }
+  .shiri-log .who.me{color:var(--accent)}
+  .shiri-log .who.ai{color:var(--accent-2)}
+  .shiri-log .word{font-size:18px;color:var(--fg);font-weight:700}
+  .shiri-log .yomi{font-size:10px;color:var(--muted);margin-left:8px}
+  .shiri-log .desc{font-size:10px;color:var(--fg-2);margin-top:4px;font-style:italic}
+  .shiri-input-wrap{
+    display:flex;gap:8px;align-items:stretch;
+  }
+  .shiri-info{
+    background:rgba(0,255,157,0.04);border:1px solid var(--line-2);
+    padding:10px 14px;font-family:'JetBrains Mono',monospace;
+    font-size:11px;color:var(--fg-2);
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .shiri-info .next{color:var(--accent);font-size:18px;font-weight:700}
+  .shiri-input-wrap input{
+    flex:1;padding:14px 18px;
+    background:#000;border:1px solid var(--line-2);
+    color:var(--fg);font-family:'JetBrains Mono',monospace;font-size:14px;
+    outline:none;
+  }
+  .shiri-input-wrap input:focus{border-color:var(--accent)}
+  .shiri-input-wrap button{
+    padding:0 24px;
+    border:1px solid var(--accent);color:var(--accent);
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;
+    background:rgba(0,255,157,0.06);
+  }
+
+  @media (max-width:768px){
+    .topbar{padding:14px 16px}
+    .brand{font-size:11px}
+    .topbar nav{gap:2px}
+    .topbar nav a{padding:6px 8px;font-size:10px;letter-spacing:.1em}
+    .minimap{width:110px;height:70px;right:12px;bottom:12px}
+    .hint{font-size:9px;bottom:96px}
+    .hud{display:none}
+    .modal h1{font-size:32px}
+    .modal-inner{padding:30px 22px 60px;margin:40px auto}
+    .preview-hero .name{font-size:28px}
+    .term-screen{height:340px;font-size:11px}
+    .evade-arena{height:380px}
+  }
+</style>
 </head>
 <body>
 
-    <!-- header -->
-    <header>
-        <h1 class="headline"><i>Shuta-Tsuchio</i></h1>
-        <ul class="nav-list">
-            <li class="nav-list-item"><a href="index.html">HOME</a></li>
-            <li class="nav-list-item"><a href="publications.html">Publications</a></li>
-            <li class="nav-list-item"><a href="contact.html">Contact</a></li>
-        </ul>
-    </header>
+<header class="topbar">
+  <div class="brand"><span class="dot"></span>SHUTA_TSUCHIO / RESEARCHER</div>
+  <nav>
+    <a href="#" data-jump="hero">[ HOME ]</a>
+    <a href="#" data-jump="about">[ CV ]</a>
+    <a href="#" data-jump="svdd">[ SVDD ]</a>
+    <a href="#" data-jump="contact">[ CONTACT ]</a>
+  </nav>
+</header>
 
-    <div class="container">
-        <hr>
-        <h2>Profile</h2>
-        <p>氏名 : 土尾 崇太</p>
-        <p>NAME : Shuta Tsuchio</p>
-        <p>Email : s2520794[at]u.tsukuba.ac.jp</p>
+<div class="hint"><span>◀︎ DRAG / SCROLL / CLICK A HOLE — ∞ LOOP ▶︎</span></div>
 
-        <hr>
-        <h2>学歴</h2>
-        <ul>
-            <li>2018年4月 富山高等専門学校 本科 電気制御システム工学科 入学</li>
-            <li>2023年3月 富山高等専門学校 本科 電気制御システム工学科 卒業</li>
-            (卒業論文 : 異常検知問題における深層SVDDの学習効率化と汎化能力向上)
-            <li>2023年4月 富山高等専門学校 専攻科 エコデザイン工学専攻 入学</li>
-            <li>2025年3月 富山高等専門学校 専攻科 エコデザイン工学専攻 修了予定</li>
-            (特別研究論文 : 異常検知問題における疑似異常データを用いたSVDDの汎化能力向上方式)
-            <li>2025年4月 筑波大学 理工情報生命学術院 システム情報工学研究群 知能機能システム学位プログラム 入学</li>
-<!--             <li>2027年3月 筑波大学システム情報工学研究科知能機能システム専攻 修了予定</li> -->
-            (修士論文：未定)
-        </ul>
+<div class="hud">
+  POS: <span class="v" id="hudX">0000</span> , <span class="v" id="hudY">0000</span><br>
+  WORLD: <span class="v">∞ × ∞</span><br>
+  STATUS: <span class="v">● ONLINE</span>
+</div>
 
-        <hr>
-        <h2>研究</h2>
-        <p>キーワード : 機械学習, 深層学習, 異常検知, 生成AI</p>
-        <p>研究テーマ :</p>
-        <ul>
-            <li>異常検知問題における深層サポートベクトルデータ記述法の学習効率化</li>
-            <li>GANによる疑似異常データ生成による自己教師あり学習への拡張</li>
-<!--             <li>GANによる疑似異常データを用いたサポートベクトルデータ記述法</li> -->
-<!--             <li>観測者間変動に対応した少量訓練データによる医用画像診断システムの開発</li> -->
-        </ul>
+<div class="minimap" id="minimap">
+  <div class="minimap-label mono">// MAP</div>
+  <div class="minimap-loop-hint">LOOP</div>
+  <div class="minimap-viewport" id="minimapViewport"></div>
+</div>
 
-        <hr>
-        <h2>リサーチアシスタント</h2>
-        <ul>
-            <li>2025年4月〜2027年3月 産業技術総合研究所 人工知能研究センター リサーチアシスタント</li>
-        </ul>
+<div class="stage" id="stage">
+  <div class="world" id="world"></div>
+</div>
 
-        <hr>
-        <h2>受賞等</h2>
-        <ul>
-            <li>2024年　計測自動制御学会 システム・情報部門 学術講演会　木内計測賞</li>
-        </ul>
+<!-- タイル1枚分のテンプレート -->
+<template id="tileTemplate">
+  <div class="tile">
+
+    <!-- ヒーロー（名前） -->
+    <div class="hole" data-block="hero" data-modal="hero" style="left:300px;top:340px;width:560px;height:560px;">
+      <div class="hole-content">
+        <div class="preview-hero">
+          <div class="name">Shuta<br>Tsuchio.</div>
+          <div class="sub">CLICK TO ENTER</div>
+        </div>
+      </div>
+      <div class="hole-label" style="width:560px;">
+        <div class="yr">2025—</div>
+        <div class="ja">土尾 崇太</div>
+        <div class="en">SHUTA TSUCHIO</div>
+        <div class="desc">機械学習・異常検知の研究者。</div>
+      </div>
     </div>
 
-    <!-- footer -->
-    <footer>
-        <p>s2520794[at]u.tsukuba.ac.jp</p>
-        <p>© Shuta Tsuchio</p>
-    </footer>
+    <!-- 経歴 -->
+    <div class="hole" data-block="about" data-modal="about" style="left:1100px;top:400px;width:380px;height:380px;">
+      <div class="hole-content">
+        <div class="preview-cv">
+<span class="y">2018</span> 富山高専 入学<br>
+<span class="y">2023</span> 富山高専 専攻科<br>
+<span class="y">2025</span> 筑波大学院<br>
+<span class="y">2025</span> 産総研 RA<br>
+<br>
+&gt; education / research<br>
+&gt; publications / award
+        </div>
+      </div>
+      <div class="hole-label" style="width:380px;">
+        <div class="yr">PROFILE</div>
+        <div class="ja">経歴 / 研究 / 論文</div>
+        <div class="en">CV / RESEARCH / PUBLICATIONS</div>
+        <div class="desc">学歴・研究テーマ・論文・受賞歴。</div>
+      </div>
+    </div>
+
+    <!-- SVDDビジュアライザ -->
+    <div class="hole" data-block="svdd" data-modal="svdd" style="left:1700px;top:280px;width:340px;height:340px;">
+      <div class="hole-content">
+        <svg class="preview-svdd" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="55" fill="none" stroke="#00ff9d" stroke-width="1.5" opacity="0.7"/>
+          <circle cx="85" cy="92" r="2.5" fill="#fff"/>
+          <circle cx="110" cy="88" r="2.5" fill="#fff"/>
+          <circle cx="95" cy="115" r="2.5" fill="#fff"/>
+          <circle cx="120" cy="108" r="2.5" fill="#fff"/>
+          <circle cx="78" cy="105" r="2.5" fill="#fff"/>
+          <circle cx="103" cy="100" r="2.5" fill="#fff"/>
+          <circle cx="160" cy="50" r="3" fill="#ff3860"/>
+          <circle cx="40" cy="160" r="3" fill="#ff3860"/>
+          <text x="100" y="180" text-anchor="middle" fill="#00ff9d" font-family="monospace" font-size="9" letter-spacing="2">SVDD</text>
+        </svg>
+      </div>
+      <div class="hole-label" style="width:340px;">
+        <div class="yr">PLAY / 01</div>
+        <div class="ja">SVDDビジュアライザ</div>
+        <div class="en">SVDD VISUALIZER</div>
+        <div class="desc">ハイパーパラメータCとカーネルを操作して超球の変化を観察。</div>
+      </div>
+    </div>
+
+    <!-- ターミナル -->
+    <div class="hole" data-block="term" data-modal="term" style="left:2280px;top:480px;width:300px;height:300px;">
+      <div class="hole-content">
+        <div class="preview-term">
+<span class="pr">$</span> whoami<br>
+<span class="o">→ shuta_tsuchio</span><br>
+<span class="pr">$</span> ls papers/<br>
+<span class="o">→ svdd.pdf gan_ad.pdf</span><br>
+<span class="pr">$</span> help<span class="cursor"></span>
+        </div>
+      </div>
+      <div class="hole-label" style="width:300px;">
+        <div class="yr">PLAY / 02</div>
+        <div class="ja">ターミナル</div>
+        <div class="en">TERMINAL</div>
+        <div class="desc">擬似シェルで隠しコマンドを探そう。</div>
+      </div>
+    </div>
+
+    <!-- 異常検知される側 -->
+    <div class="hole" data-block="evade" data-modal="evade" style="left:2800px;top:280px;width:360px;height:360px;">
+      <div class="hole-content">
+        <div class="preview-evade">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span class="target"></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+      <div class="hole-label" style="width:360px;">
+        <div class="yr">PLAY / 03</div>
+        <div class="ja">EVADE THE DETECTOR</div>
+        <div class="en">EVADE THE DETECTOR</div>
+        <div class="desc">99人の正常な点に紛れ込め。AIに見つかるな。</div>
+      </div>
+    </div>
+
+    <!-- ニューラルお絵描き -->
+    <div class="hole" data-block="draw" data-modal="draw" style="left:300px;top:1300px;width:380px;height:380px;">
+      <div class="hole-content">
+        <div class="preview-draw"></div>
+      </div>
+      <div class="hole-label" style="width:380px;">
+        <div class="yr">PLAY / 04</div>
+        <div class="ja">ニューラルお絵描き</div>
+        <div class="en">NEURAL SKETCH</div>
+        <div class="desc">何でもいいから絵を描いて、AIに当てさせよう。</div>
+      </div>
+    </div>
+
+    <!-- しりとり -->
+    <div class="hole" data-block="shiri" data-modal="shiri" style="left:900px;top:1380px;width:340px;height:340px;">
+      <div class="hole-content">
+        <div class="preview-shiri">
+<span class="me">YOU :</span> ねこ<br>
+<span class="ai">AI  :</span> 「コ」<br>
+<span class="ar">→</span> コンボリューション<br>
+<span class="me">YOU :</span> 何でも<br>
+<span class="ai">AI  :</span> ML/AI関連で<br>
+<span class="ar">→</span> 返答します
+        </div>
+      </div>
+      <div class="hole-label" style="width:340px;">
+        <div class="yr">PLAY / 05</div>
+        <div class="ja">研究者しりとり</div>
+        <div class="en">RESEARCHER SHIRITORI</div>
+        <div class="desc">AIは統計・機械学習・AI分野の語で返してきます。</div>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="hole" data-block="contact" data-modal="contact" style="left:2200px;top:1380px;width:340px;height:340px;">
+      <div class="hole-content">
+        <div style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--accent);padding:30px;line-height:1.8;">
+          @<br>
+          <span style="font-size:11px;color:var(--muted);letter-spacing:.3em;">CONTACT</span>
+        </div>
+      </div>
+      <div class="hole-label" style="width:340px;">
+        <div class="yr">CONTACT</div>
+        <div class="ja">連絡先</div>
+        <div class="en">EMAIL</div>
+        <div class="desc">研究・共同研究のご相談はメールにて。</div>
+      </div>
+    </div>
+
+    <!-- 装飾用の小さな空の穴（数個） -->
+    <div class="hole" style="left:2900px;top:1300px;width:120px;height:120px;cursor:default;"></div>
+    <div class="hole" style="left:600px;top:2200px;width:160px;height:160px;cursor:default;"></div>
+    <div class="hole" style="left:1700px;top:2300px;width:140px;height:140px;cursor:default;"></div>
+    <div class="hole" style="left:2600px;top:2200px;width:200px;height:200px;cursor:default;"></div>
+    <div class="hole" style="left:3300px;top:1800px;width:130px;height:130px;cursor:default;"></div>
+    <div class="hole" style="left:3500px;top:600px;width:180px;height:180px;cursor:default;"></div>
+    <div class="hole" style="left:3700px;top:2500px;width:150px;height:150px;cursor:default;"></div>
+
+  </div>
+</template>
+
+<!-- ===== モーダル ===== -->
+<div class="modal" id="modal">
+  <button class="modal-close" id="modalClose">ESC</button>
+  <div class="modal-inner" id="modalInner"></div>
+</div>
+
+<!-- ===== モーダル中身テンプレート ===== -->
+<template id="modal-hero">
+  <h2>// HOME</h2>
+  <h1>Shuta Tsuchio<span class="en">土尾 崇太 / 2002—</span></h1>
+  <p>AI・機械学習の研究をしています．このサイトには，研究にまつわるインタラクティブな試作・遊びがいくつか置いてあります．穴を覗き，気になるものをクリックしてみてください．</p>
+  <p style="color:var(--muted);font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.15em;">
+    I conduct research in AI and machine learning. This site features several interactive prototypes and playful experiments related to my research. Take a peek through the hole and click on whatever catches your eye.
+  </p>
+  <h3>Navigation</h3>
+  <p>ナビゲーション : <span class="mono" style="color:var(--accent);">[ CV ]</span> 経歴・研究・論文 / <span class="mono" style="color:var(--accent);">[ SVDD ]</span> 研究の試作 / <span class="mono" style="color:var(--accent);">[ CONTACT ]</span> メール</p>
+</template>
+
+<template id="modal-about">
+  <h2>// PROFILE / CV</h2>
+  <h1>Profile<span class="en">経歴・研究・論文・受賞</span></h1>
+
+  <h3>Education / 学歴</h3>
+  <ul>
+    <li><span class="year">2018</span>富山高等専門学校 本科 電気制御システム工学科 入学</li>
+    <li><span class="year">2023</span>富山高等専門学校 本科 卒業（卒業論文：異常検知問題における深層SVDDの学習効率化と汎化能力向上）</li>
+    <li><span class="year">2023</span>富山高等専門学校 専攻科 エコデザイン工学専攻 入学</li>
+    <li><span class="year">2025</span>富山高専 専攻科 修了（特別研究：異常検知における疑似異常データを用いたSVDDの汎化能力向上方式)</li>
+    <li><span class="year">2025</span>筑波大学 理工情報生命学術院 システム情報工学研究群 知能機能システム学位プログラム 入学</li>
+  </ul>
+
+  <h3>Research Assistant / リサーチアシスタント</h3>
+  <ul>
+    <li><span class="year">2025–2027</span>産業技術総合研究所 人工知能研究センター 契約職員</li>
+  </ul>
+
+  <h3>Research / 研究</h3>
+  <p><strong style="color:var(--accent);">Keywords:</strong> 機械学習, 深層学習, 異常検知, 画像認識, 病理画像</p>
+  <ul>
+    <li>異常検知問題におけるDeepSVDDの学習効率化</li>
+    <li>GANによる疑似異常データ生成による自己教師あり学習への拡張</li>
+    <li>高精度な病理画像分類AIの開発</li>
+  </ul>
+
+  <h3>Publications / 論文</h3>
+  <div class="pub">
+    <div class="num"><span>[01] CONFERENCE_JP</span><span class="y">2022</span></div>
+    <div class="ttl"><u>土尾崇太</u>，北村拓也．"深層サポートベクトルデータ記述法（DSVDD）におけるファインチューニングの効率化と異常検知への適用"</div>
+    <div class="meta">第25回 情報論的学習理論ワークショップ</div>
+  </div>
+  <div class="pub">
+    <div class="num"><span>[02] CONFERENCE_JP</span><span class="y">2023</span></div>
+    <div class="ttl"><u>S. Tsuchio</u>, T. Kitamura. "Efficient Learning through Data Selection for Deep Support Vector Data Description in Anomaly Detection"</div>
+    <div class="meta">SICE Symposium on Intelligent Systems, vol.50, pp.146–150</div>
+  </div>
+  <div class="pub">
+    <div class="num"><span>[03] TECH_REPORT</span><span class="y">2023</span></div>
+    <div class="ttl"><u>S. Tsuchio</u>, T. Kitamura. "Anomaly detection by deep support data descriptions with pseudo anomaly data"</div>
+    <div class="meta">IEICE Technical Report, vol.123, no.311, pp.25–30</div>
+  </div>
+  <div class="pub">
+    <div class="num"><span>[04] CONFERENCE_JP</span><span class="y">2024</span></div>
+    <div class="ttl"><u>土尾崇太</u>，北村拓也．"異常検知問題におけるGANによるCut-Pasteの改良"</div>
+    <div class="meta">計測自動制御学会 システム・情報部門 学術講演会</div>
+  </div>
+  <div class="pub">
+    <div class="num"><span>[05] TECH_REPORT</span><span class="y">2025</span></div>
+    <div class="ttl">M. Bourouis, <u>S. Tsuchio</u>, T. Kitamura. "Pseudo-anomaly data generation method based on SVDD for anomaly detection"</div>
+    <div class="meta">IEICE IE, vol.49</div>
+  </div>
+    <div class="pub">
+    <div class="num"><span>[06] CONFERENCE_JP</span><span class="y">2024</span></div>
+    <div class="ttl"><u>土尾崇太</u>，渡邉聖人．Wonjik Kim，上原和樹，野里博和，坂無英徳，"複数専門家の判断基準を選択的に統合する選択的知識蒸留における誤診断情報混入を用いた病理診断AIの汎化能力向上方式"</div>
+    <div class="meta">情報処理学会　第88回全国大会</div>
+  </div>
+  <h3>Award / 受賞</h3>
+  <ul>
+    <li><span class="year">2024</span>計測自動制御学会 システム・情報部門 学術講演会 <strong style="color:var(--accent);">木内計測賞</strong></li>
+    <li><span class="year">2026</span>情報処理学会　第88回全国大会 <strong style="color:var(--accent);">学生奨励賞</strong></li>
+  </ul>
+
+</template>
+
+<template id="modal-svdd">
+  <h2>// PLAY / 01</h2>
+  <h1>SVDD Visualizer<span class="en">SVDDの可視化 — 超球がどう変化するか観察しよう</span></h1>
+  <p>白いキャンバスをクリックして点（正常データ）を置いてください．SVDDが学習した超球（赤い領域）が表示されます．<strong style="color:var(--accent);">ハイパーパラメータC</strong>（外れ値許容）と<strong style="color:var(--accent);">カーネル</strong>（線形・多項式・RBF）を切り替えて，決定境界の変化を観察できます．</p>
+
+  <div class="svdd-wrap">
+    <div class="svdd-canvas-wrap">
+      <canvas class="svdd-canvas" id="svddCanvas" width="600" height="600"></canvas>
+    </div>
+    <div class="svdd-controls">
+      <div class="row">
+        <label>KERNEL / カーネル</label>
+        <div class="kernel-buttons">
+          <button data-kernel="linear">LINEAR</button>
+          <button data-kernel="poly">POLY</button>
+          <button data-kernel="rbf" class="active">RBF</button>
+        </div>
+      </div>
+      <div class="row">
+        <label>C  /  外れ値許容パラメータ</label>
+        <input type="range" id="svddC" min="0.05" max="1" step="0.01" value="0.4">
+        <div class="val" id="svddCVal">C = 0.40</div>
+      </div>
+      <div class="row" id="svddGammaRow">
+        <label>γ  /  カーネル幅 (RBF/POLY)</label>
+        <input type="range" id="svddGamma" min="0.001" max="0.05" step="0.001" value="0.01">
+        <div class="val" id="svddGammaVal">γ = 0.010</div>
+      </div>
+      <div class="row">
+        <label>POINTS / 点数</label>
+        <div class="val" id="svddCount">N = 0</div>
+        <div class="actions">
+          <button id="svddSample">SAMPLE</button>
+          <button id="svddClear">CLEAR</button>
+        </div>
+      </div>
+      <div class="svdd-info">
+        ▸ クリックで点追加<br>
+        ▸ 赤い等高線 = 決定境界<br>
+        ▸ Cが小さいほど境界が緩く，外れ値を許容<br>
+        ▸ RBFはγが小さいほど滑らか
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="modal-term">
+  <h2>// PLAY / 02</h2>
+  <h1>Terminal<span class="en">擬似シェル — type 'help' for commands</span></h1>
+  <div class="term-screen" id="termScreen"></div>
+  <div class="term-input-wrap">
+    <span>$</span>
+    <input id="termInput" autocomplete="off" spellcheck="false" placeholder="type a command...">
+  </div>
+</template>
+
+<template id="modal-evade">
+  <h2>// PLAY / 03</h2>
+  <h1>Evade the Detector<span class="en">99人の正常な点に紛れ込め — INSTANT DEATH MODE</span></h1>
+  <p>あなたは緑の点．99個の白い点（正常）に紛れています．<strong style="color:var(--accent-2);">3つのAI検知器（赤い円）</strong>があなたを追い続けます．検知器は周囲の点と<strong>あなたの動きの異質さ</strong>を学習し，的確に追尾してきます．</p>
+  <p style="color:var(--accent-2);font-weight:700;letter-spacing:.1em;">▸ 一瞬でも検知器の中に入ったら即ゲームオーバー</p>
+  <div class="evade-arena" id="evadeArena">
+    <div class="evade-stat" id="evadeStat">TIME: 0.00s &nbsp;|&nbsp; STATUS: HIDDEN</div>
+    <div class="evade-detector" id="evadeDetector1"></div>
+    <div class="evade-detector" id="evadeDetector2"></div>
+    <div class="evade-detector" id="evadeDetector3"></div>
+    <div class="evade-msg" id="evadeMsg"></div>
+  </div>
+  <div class="evade-actions">
+    <button id="evadeRestart">RESTART</button>
+  </div>
+</template>
+
+<template id="modal-draw">
+  <h2>// PLAY / 04</h2>
+  <h1>Neural Sketch<span class="en">何かを描いて，AIに当てさせよう（精度に期待しないでください）</span></h1>
+  <p>左の白いキャンバスに何でも好きなものを描いてください（指でもマウスでも）．「GUESS」ボタンを押すと，AIがあなたの絵を見て，それが何かを推測します．お題は自由 — 動物，物，抽象的なもの，なんでもOKです．</p>
+
+  <div class="draw-wrap">
+    <div class="draw-canvas-wrap">
+      <canvas class="draw-canvas" id="drawCanvas" width="600" height="600"></canvas>
+    </div>
+    <div class="draw-side">
+      <div class="topic-box">
+        <div class="topic-label">▸ TOPIC / お題</div>
+        <div class="topic" id="drawTopic">FREESTYLE</div>
+      </div>
+      <div class="guess-box">
+        <div class="guess-label">▸ AI'S GUESS / AIの推測</div>
+        <div class="guess" id="drawGuess">何か描いてGUESSを押してください．</div>
+      </div>
+      <div class="actions">
+        <button id="drawGuessBtn" class="primary">GUESS / 推測する</button>
+        <button id="drawClear">CLEAR / クリア</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="modal-shiri">
+  <h2>// PLAY / 05</h2>
+  <h1>Researcher Shiritori<span class="en">研究者しりとり — AIは統計・ML・AI分野で返します</span></h1>
+  <p>あなたは何でも好きな日本語の単語でしりとりができます．AIは <strong style="color:var(--accent);">統計・機械学習・AI分野</strong> の用語だけで返答します（例：勾配降下法，過学習，サポートベクトルなど）．AIが返せなくなったらあなたの勝ち．「ん」で終わるのもダメ，ひらがな/カタカナどちらでもOK．</p>
+  <p style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;">▸ 辞書 : 約200語 / 出典 : Google Developers ML Glossary, ITmedia AI用語辞典, zero to one G検定用語集, Qiita 機械学習用語一覧 など</p>
+
+  <div class="shiri-wrap">
+      <span>NEXT START : <span class="next" id="shiriNext">—</span></span>
+      <span id="shiriStatus">START !</span>
+    </div>
+    <div class="shiri-log" id="shiriLog"></div>
+    <div class="shiri-input-wrap">
+        <input id="shiriInput" autocomplete="off" placeholder="例: ねこ">
+        <button id="shiriSend">SEND</button>
+    </div>
+</div>
+</template>
+<div class="shiri-info">
+
+<template id="modal-contact">
+  <h2>// CONTACT</h2>
+  <h1>Contact<span class="en">連絡先 — 研究の相談はメールにて</span></h1>
+  <p>論文・研究内容について，共同研究のご相談，その他お問い合わせはメールにてお気軽にどうぞ．</p>
+  <div class="mailbox">s2520794<span class="at">[at]</span>u.tsukuba.ac.jp</div>
+  <p style="margin-top:30px;color:var(--muted);font-size:11px;font-family:'JetBrains Mono',monospace;letter-spacing:.15em;">
+    Feel free to reach out via email for research inquiries or collaborations.
+  </p>
+</template>
+
+<script>
+/* ===========================================================================
+   無限キャンバス + 穴あきレイアウト
+   =========================================================================== */
+(() => {
+  const stage = document.getElementById('stage');
+  const world = document.getElementById('world');
+  const minimap = document.getElementById('minimap');
+  const mvp = document.getElementById('minimapViewport');
+  const hudX = document.getElementById('hudX');
+  const hudY = document.getElementById('hudY');
+  const tpl = document.getElementById('tileTemplate');
+
+  const TW = 4400, TH = 3200;
+
+  // 3x3に複製
+  const offs = [];
+  for (let i = -1; i <= 1; i++) for (let j = -1; j <= 1; j++) offs.push([i, j]);
+  offs.forEach(([gx, gy]) => {
+    const node = tpl.content.firstElementChild.cloneNode(true);
+    node.style.left = (gx * TW) + 'px';
+    node.style.top = (gy * TH) + 'px';
+    if (!(gx === 0 && gy === 0)) {
+      node.querySelectorAll('[data-block]').forEach(el => el.removeAttribute('data-block'));
+    }
+    world.appendChild(node);
+  });
+
+  let tx = 0, ty = 0;
+  let dragging = false, startX = 0, startY = 0, baseX = 0, baseY = 0;
+  let velX = 0, velY = 0, lastX = 0, lastY = 0, lastTime = 0;
+  let momentumId = null;
+  let dragMoved = 0; // クリックvsドラッグ判定用
+
+  function mod(n, m) { return ((n % m) + m) % m; }
+
+  function wrap() {
+    const vw = window.innerWidth, vh = window.innerHeight;
+    const cx = -tx + vw / 2;
+    const cy = -ty + vh / 2;
+    if (cx < 0) tx -= TW;
+    else if (cx >= TW) tx += TW;
+    if (cy < 0) ty -= TH;
+    else if (cy >= TH) ty += TH;
+  }
+
+  function apply() {
+    wrap();
+    world.style.transform = `translate(${tx}px, ${ty}px)`;
+    updateMinimap();
+    const vw = window.innerWidth, vh = window.innerHeight;
+    hudX.textContent = String(Math.round(mod(-tx + vw / 2, TW))).padStart(4, '0');
+    hudY.textContent = String(Math.round(mod(-ty + vh / 2, TH))).padStart(4, '0');
+  }
+
+  function updateMinimap() {
+    const mw = minimap.clientWidth, mh = minimap.clientHeight;
+    const sx = mw / TW, sy = mh / TH;
+    const vw = window.innerWidth, vh = window.innerHeight;
+    const vx = mod(-tx, TW), vy = mod(-ty, TH);
+    mvp.style.left = (vx * sx) + 'px';
+    mvp.style.top = (vy * sy) + 'px';
+    mvp.style.width = (vw * sx) + 'px';
+    mvp.style.height = (vh * sy) + 'px';
+  }
+
+  function buildMinimapDots() {
+    const mw = 160, mh = 100;
+    let center = null;
+    for (const t of world.children) {
+      if (parseFloat(t.style.left) === 0 && parseFloat(t.style.top) === 0) { center = t; break; }
+    }
+    if (!center) return;
+    const holes = center.querySelectorAll('.hole[data-block]');
+    holes.forEach((el) => {
+      const x = parseFloat(el.style.left) || 0;
+      const y = parseFloat(el.style.top) || 0;
+      const w = el.offsetWidth || 200;
+      const h = el.offsetHeight || 200;
+      const dot = document.createElement('div');
+      dot.className = 'minimap-dot';
+      dot.style.background = 'var(--accent)';
+      dot.style.left = (((x + w/2) / TW) * mw) + 'px';
+      dot.style.top = (((y + h/2) / TH) * mh) + 'px';
+      minimap.appendChild(dot);
+    });
+  }
+
+  function center() {
+    const hero = document.querySelector('[data-block="hero"]');
+    if (!hero) return;
+    const hx = parseFloat(hero.style.left) || 0;
+    const hy = parseFloat(hero.style.top) || 0;
+    const hw = hero.offsetWidth || 600;
+    const hh = hero.offsetHeight || 400;
+    tx = -(hx + hw / 2) + window.innerWidth / 2;
+    ty = -(hy + hh / 2) + window.innerHeight / 2 + 80;
+    apply();
+  }
+
+  function jumpTo(blockName) {
+    const el = document.querySelector(`[data-block="${blockName}"]`);
+    if (!el) return;
+    const x = parseFloat(el.style.left) || 0;
+    const y = parseFloat(el.style.top) || 0;
+    const w = el.offsetWidth || 200, h = el.offsetHeight || 200;
+    const vw = window.innerWidth, vh = window.innerHeight;
+    const targetX = -(x + w / 2) + vw / 2;
+    const targetY = -(y + h / 2) + vh / 2;
+    let dx = targetX - tx, dy = targetY - ty;
+    dx = ((dx + TW / 2) % TW + TW) % TW - TW / 2;
+    dy = ((dy + TH / 2) % TH + TH) % TH - TH / 2;
+    world.style.transition = 'transform .9s cubic-bezier(.7,.05,.25,1)';
+    tx += dx; ty += dy;
+    world.style.transform = `translate(${tx}px, ${ty}px)`;
+    updateMinimap();
+    setTimeout(() => { world.style.transition = ''; apply(); }, 950);
+  }
+
+  function pt(e) {
+    if (e.touches && e.touches[0]) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    return { x: e.clientX, y: e.clientY };
+  }
+
+  function onDown(e) {
+    if (momentumId) cancelAnimationFrame(momentumId);
+    dragging = true;
+    dragMoved = 0;
+    stage.classList.add('grabbing');
+    const p = pt(e);
+    startX = p.x; startY = p.y;
+    baseX = tx; baseY = ty;
+    lastX = p.x; lastY = p.y; lastTime = performance.now();
+    velX = velY = 0;
+  }
+  function onMove(e) {
+    if (!dragging) return;
+    const p = pt(e);
+    const dx = p.x - startX, dy = p.y - startY;
+    dragMoved = Math.max(dragMoved, Math.hypot(dx, dy));
+    tx = baseX + dx;
+    ty = baseY + dy;
+    const now = performance.now();
+    const dt = Math.max(1, now - lastTime);
+    velX = (p.x - lastX) / dt;
+    velY = (p.y - lastY) / dt;
+    lastX = p.x; lastY = p.y; lastTime = now;
+    apply();
+    e.preventDefault();
+  }
+  function onUp() {
+    if (!dragging) return;
+    dragging = false;
+    stage.classList.remove('grabbing');
+    if (dragMoved > 5) momentum();
+  }
+  function momentum() {
+    velX *= 16; velY *= 16;
+    function step() {
+      velX *= 0.93; velY *= 0.93;
+      tx += velX; ty += velY;
+      apply();
+      if (Math.abs(velX) > 0.2 || Math.abs(velY) > 0.2) momentumId = requestAnimationFrame(step);
+    }
+    step();
+  }
+
+  stage.addEventListener('mousedown', onDown);
+  window.addEventListener('mousemove', onMove);
+  window.addEventListener('mouseup', onUp);
+  stage.addEventListener('touchstart', onDown, {passive:false});
+  stage.addEventListener('touchmove', onMove, {passive:false});
+  stage.addEventListener('touchend', onUp);
+  stage.addEventListener('wheel', (e) => {
+    tx -= e.deltaX; ty -= e.deltaY; apply(); e.preventDefault();
+  }, {passive:false});
+
+  // 穴クリック→モーダル
+  document.addEventListener('click', (e) => {
+    const hole = e.target.closest('.hole');
+    if (!hole || dragMoved > 5) return;
+    const modalKey = hole.getAttribute('data-modal');
+    if (!modalKey) return;
+    openModal(modalKey);
+  });
+
+  // ナビゲーション
+  document.querySelectorAll('[data-jump]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      jumpTo(a.dataset.jump);
+    });
+  });
+
+  // ミニマップクリック
+  minimap.addEventListener('click', (e) => {
+    const r = minimap.getBoundingClientRect();
+    const fx = (e.clientX - r.left) / r.width;
+    const fy = (e.clientY - r.top) / r.height;
+    const tgtX = fx * TW, tgtY = fy * TH;
+    const vw = window.innerWidth, vh = window.innerHeight;
+    let dx = (-tgtX + vw / 2) - tx;
+    let dy = (-tgtY + vh / 2) - ty;
+    dx = ((dx + TW / 2) % TW + TW) % TW - TW / 2;
+    dy = ((dy + TH / 2) % TH + TH) % TH - TH / 2;
+    world.style.transition = 'transform .6s cubic-bezier(.7,.05,.25,1)';
+    tx += dx; ty += dy;
+    world.style.transform = `translate(${tx}px, ${ty}px)`;
+    updateMinimap();
+    setTimeout(() => { world.style.transition = ''; apply(); }, 650);
+  });
+
+  window.addEventListener('resize', apply);
+  buildMinimapDots();
+  center();
+})();
+
+/* ===========================================================================
+   モーダル制御
+   =========================================================================== */
+const Modal = (() => {
+  const modal = document.getElementById('modal');
+  const inner = document.getElementById('modalInner');
+  const closeBtn = document.getElementById('modalClose');
+
+  let cleanupFn = null;
+
+  function open(key) {
+    const tpl = document.getElementById('modal-' + key);
+    if (!tpl) return;
+    inner.innerHTML = '';
+    inner.appendChild(tpl.content.cloneNode(true));
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    // モーダル別の初期化
+    if (cleanupFn) { try { cleanupFn(); } catch(e){} }
+    cleanupFn = null;
+    if (key === 'svdd') cleanupFn = SVDD.init();
+    else if (key === 'term') cleanupFn = Terminal.init();
+    else if (key === 'evade') cleanupFn = Evade.init();
+    else if (key === 'draw') cleanupFn = Draw.init();
+    else if (key === 'shiri') cleanupFn = Shiritori.init();
+  }
+  function close() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    if (cleanupFn) { try { cleanupFn(); } catch(e){} cleanupFn = null; }
+    inner.innerHTML = '';
+  }
+
+  closeBtn.addEventListener('click', close);
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+
+  return { open, close };
+})();
+function openModal(key) { Modal.open(key); }
+
+/* ===========================================================================
+   SVDD ビジュアライザ
+   =========================================================================== */
+const SVDD = (() => {
+  let canvas, ctx, points = [], kernel = 'rbf', C = 0.4, gamma = 0.01;
+  let resizeObs = null;
+
+  function init() {
+    canvas = document.getElementById('svddCanvas');
+    ctx = canvas.getContext('2d');
+    points = [];
+    kernel = 'rbf'; C = 0.4; gamma = 0.01;
+
+    canvas.addEventListener('click', onClick);
+
+    document.querySelectorAll('.kernel-buttons button').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.kernel-buttons button').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        kernel = b.dataset.kernel;
+        document.getElementById('svddGammaRow').style.display = (kernel === 'linear') ? 'none' : 'block';
+        draw();
+      });
+    });
+    document.querySelector('.kernel-buttons button[data-kernel="rbf"]').classList.add('active');
+
+    const cSlider = document.getElementById('svddC');
+    const cVal = document.getElementById('svddCVal');
+    cSlider.addEventListener('input', () => {
+      C = parseFloat(cSlider.value);
+      cVal.textContent = `C = ${C.toFixed(2)}`;
+      draw();
+    });
+
+    const gSlider = document.getElementById('svddGamma');
+    const gVal = document.getElementById('svddGammaVal');
+    gSlider.addEventListener('input', () => {
+      gamma = parseFloat(gSlider.value);
+      gVal.textContent = `γ = ${gamma.toFixed(3)}`;
+      draw();
+    });
+
+    document.getElementById('svddSample').addEventListener('click', sample);
+    document.getElementById('svddClear').addEventListener('click', clear);
+
+    sample();
+
+    return () => {
+      canvas.removeEventListener('click', onClick);
+    };
+  }
+
+  function onClick(e) {
+    const r = canvas.getBoundingClientRect();
+    const x = (e.clientX - r.left) * (canvas.width / r.width);
+    const y = (e.clientY - r.top) * (canvas.height / r.height);
+    points.push([x, y]);
+    document.getElementById('svddCount').textContent = `N = ${points.length}`;
+    draw();
+  }
+
+  function clear() {
+    points = [];
+    document.getElementById('svddCount').textContent = `N = 0`;
+    draw();
+  }
+
+  function sample() {
+    points = [];
+    // ガウス分布から30点 + 外れ値2点
+    const cx = canvas.width / 2, cy = canvas.height / 2;
+    for (let i = 0; i < 35; i++) {
+      const ang = Math.random() * Math.PI * 2;
+      const r = Math.abs(gauss()) * 90 + Math.random() * 30;
+      points.push([cx + Math.cos(ang) * r, cy + Math.sin(ang) * r]);
+    }
+    // 外れ値
+    points.push([80, 80]);
+    points.push([canvas.width - 80, canvas.height - 80]);
+    document.getElementById('svddCount').textContent = `N = ${points.length}`;
+    draw();
+  }
+  function gauss() {
+    let u = 0, v = 0;
+    while (u === 0) u = Math.random();
+    while (v === 0) v = Math.random();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  }
+
+  // SVDDの近似：簡易版で「中心 + 半径」を計算（外れ値の割合 = 1-C を除外）
+  // RBF/POLY時はカーネル空間ではなく、原空間でのスコア関数として近似表現
+  function computeCenterRadius() {
+    if (points.length === 0) return null;
+    // 中心 = 平均
+    let mx = 0, my = 0;
+    for (const [x, y] of points) { mx += x; my += y; }
+    mx /= points.length; my /= points.length;
+
+    // 各点の中心からの距離
+    const dists = points.map(([x, y]) => Math.hypot(x - mx, y - my));
+    const sorted = [...dists].sort((a, b) => a - b);
+    // C: 外れ値率1-C を許容 → カバー率 C
+    const idx = Math.min(sorted.length - 1, Math.floor((sorted.length - 1) * C));
+    const radius = sorted[idx];
+    return { cx: mx, cy: my, radius };
+  }
+
+  function draw() {
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // グリッド
+    ctx.strokeStyle = '#eee';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= canvas.width; i += 40) {
+      ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(canvas.width, i); ctx.stroke();
+    }
+
+    if (points.length < 2) {
+      drawPoints(); drawCorners(); return;
+    }
+
+    const cr = computeCenterRadius();
+
+    if (kernel === 'linear') {
+      // 線形：単純な円
+      ctx.fillStyle = 'rgba(255, 56, 96, 0.08)';
+      ctx.strokeStyle = 'rgba(255, 56, 96, 0.9)';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(cr.cx, cr.cy, cr.radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    } else if (kernel === 'poly') {
+      // 多項式：歪んだ楕円風
+      drawPolyBoundary(cr);
+    } else {
+      // RBF：等高線（密度ベース）
+      drawRBFBoundary(cr);
+    }
+
+    drawPoints();
+    drawCorners();
+  }
+
+  function drawCorners() {
+    // 左上にラベル
+    ctx.fillStyle = '#888';
+    ctx.font = '10px JetBrains Mono, monospace';
+    ctx.fillText(`KERNEL: ${kernel.toUpperCase()}  C: ${C.toFixed(2)}` + (kernel !== 'linear' ? `  γ: ${gamma.toFixed(3)}` : ''), 10, 14);
+  }
+
+  function drawPolyBoundary(cr) {
+    // 多項式：原点に依存する楕円形
+    // 共分散行列を主成分分解する代わりに簡易版
+    let sxx = 0, syy = 0, sxy = 0;
+    for (const [x, y] of points) {
+      const dx = x - cr.cx, dy = y - cr.cy;
+      sxx += dx * dx; syy += dy * dy; sxy += dx * dy;
+    }
+    sxx /= points.length; syy /= points.length; sxy /= points.length;
+    // 固有値分解
+    const tr = sxx + syy, det = sxx * syy - sxy * sxy;
+    const disc = Math.sqrt(Math.max(0, tr*tr/4 - det));
+    const l1 = tr/2 + disc, l2 = tr/2 - disc;
+    const theta = 0.5 * Math.atan2(2 * sxy, sxx - syy);
+
+    // C と γ で大きさを調整
+    const scale = Math.sqrt(2 * Math.log(1 / Math.max(0.01, 1 - C)));
+    const factor = 1 + (gamma - 0.01) * 30; // gamma で多項式の歪み
+    const a = Math.sqrt(Math.max(1, l1)) * scale * factor;
+    const b = Math.sqrt(Math.max(1, l2)) * scale;
+
+    ctx.save();
+    ctx.translate(cr.cx, cr.cy);
+    ctx.rotate(theta);
+    ctx.fillStyle = 'rgba(255, 56, 96, 0.08)';
+    ctx.strokeStyle = 'rgba(255, 56, 96, 0.9)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, a, b, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawRBFBoundary(cr) {
+    // ガウス密度の等高線
+    const W = canvas.width, H = canvas.height;
+    const step = 8;
+    const grid = [];
+    let maxV = 0;
+    for (let y = 0; y < H; y += step) {
+      const row = [];
+      for (let x = 0; x < W; x += step) {
+        let v = 0;
+        for (const [px, py] of points) {
+          const d2 = (x - px) ** 2 + (y - py) ** 2;
+          v += Math.exp(-gamma * d2);
+        }
+        row.push(v);
+        if (v > maxV) maxV = v;
+      }
+      grid.push(row);
+    }
+
+    // 閾値：C に応じて
+    const threshold = maxV * (1 - C) * 0.8;
+
+    // ピクセル単位で塗る（粗いが軽量）
+    const img = ctx.createImageData(W, H);
+    for (let y = 0; y < H; y += step) {
+      for (let x = 0; x < W; x += step) {
+        const v = grid[Math.floor(y / step)][Math.floor(x / step)];
+        const inside = v >= threshold;
+        if (inside) {
+          for (let dy = 0; dy < step && y + dy < H; dy++) {
+            for (let dx = 0; dx < step && x + dx < W; dx++) {
+              const idx = ((y + dy) * W + (x + dx)) * 4;
+              img.data[idx] = 255;
+              img.data[idx+1] = 56;
+              img.data[idx+2] = 96;
+              img.data[idx+3] = 30;
+            }
+          }
+        }
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+
+    // 境界線の描画（マーチングスクエア風）
+    ctx.strokeStyle = 'rgba(255,56,96,0.9)';
+    ctx.lineWidth = 2;
+    const cols = grid[0].length, rows = grid.length;
+    for (let r = 0; r < rows - 1; r++) {
+      for (let c = 0; c < cols - 1; c++) {
+        const v00 = grid[r][c], v10 = grid[r][c+1];
+        const v01 = grid[r+1][c], v11 = grid[r+1][c+1];
+        const idx = (v00 >= threshold ? 1 : 0)
+                  | (v10 >= threshold ? 2 : 0)
+                  | (v11 >= threshold ? 4 : 0)
+                  | (v01 >= threshold ? 8 : 0);
+        if (idx === 0 || idx === 15) continue;
+        const x0 = c * step, y0 = r * step;
+        // 簡易：エッジ中点を結ぶ
+        const segs = [];
+        function lerp(va, vb, a, b) {
+          const t = (threshold - va) / (vb - va);
+          return [a[0] + (b[0]-a[0])*t, a[1] + (b[1]-a[1])*t];
+        }
+        const TL = [x0, y0], TR = [x0+step, y0], BR = [x0+step, y0+step], BL = [x0, y0+step];
+        const T = lerp(v00, v10, TL, TR);
+        const R = lerp(v10, v11, TR, BR);
+        const B = lerp(v01, v11, BL, BR);
+        const L = lerp(v00, v01, TL, BL);
+        const tbl = {
+          1:[L,T], 2:[T,R], 4:[B,R], 8:[L,B],
+          3:[L,R], 6:[T,B], 12:[L,R], 9:[T,B],
+          5:[L,T,B,R], 10:[T,R,L,B],
+          7:[L,B], 11:[B,R], 13:[T,R], 14:[L,T]
+        };
+        const seg = tbl[idx];
+        if (seg) {
+          ctx.beginPath();
+          for (let i = 0; i < seg.length; i += 2) {
+            ctx.moveTo(seg[i][0], seg[i][1]);
+            ctx.lineTo(seg[i+1][0], seg[i+1][1]);
+          }
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function drawPoints() {
+    ctx.fillStyle = '#000';
+    for (const [x, y] of points) {
+      ctx.beginPath();
+      ctx.arc(x, y, 3, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  return { init };
+})();
+
+/* ===========================================================================
+   ターミナル
+   =========================================================================== */
+const Terminal = (() => {
+  let screen, input, history = [], hidx = 0;
+
+  const banner = `
+  ████████╗███████╗██╗   ██╗ ██████╗██╗  ██╗██╗ ██████╗
+  ╚══██╔══╝██╔════╝██║   ██║██╔════╝██║  ██║██║██╔═══██╗
+     ██║   ███████╗██║   ██║██║     ███████║██║██║   ██║
+     ██║   ╚════██║██║   ██║██║     ██╔══██║██║██║   ██║
+     ██║   ███████║╚██████╔╝╚██████╗██║  ██║██║╚██████╔╝
+     ╚═╝   ╚══════╝ ╚═════╝  ╚═════╝╚═╝  ╚═╝╚═╝ ╚═════╝
+
+  Welcome to tsuchio-shell v0.1.0
+  Type 'help' for available commands.
+`;
+
+  const fs = {
+    'README.md': "Hi, I'm Shuta Tsuchio.\nResearcher in ML / Anomaly Detection.\nTry: ls, cat papers/01.txt, sudo, fortune",
+    'papers/': null,
+    'papers/01.txt': "[01] DSVDD ファインチューニングの効率化 (2022)",
+    'papers/02.txt': "[02] Efficient Learning through Data Selection (2023)",
+    'papers/03.txt': "[03] Anomaly detection with pseudo anomaly data (2023)",
+    'papers/04.txt': "[04] GANによるCut-Pasteの改良 (2024)",
+    'papers/05.txt': "[05] Pseudo-anomaly generation method (2025)",
+    'about.txt': "Name: Shuta Tsuchio (土尾 崇太)\nUniv: University of Tsukuba\nLab: AIST AI Research Center (RA)",
+    'contact.txt': "s2520794[at]u.tsukuba.ac.jp",
+  };
+
+  const cmds = {
+    help() {
+      return `Available commands:
+  <span class="hl">help</span>          show this message
+  <span class="hl">ls</span> [path]     list files
+  <span class="hl">cat</span> &lt;file&gt;   show file contents
+  <span class="hl">whoami</span>        identify yourself
+  <span class="hl">date</span>          show current date
+  <span class="hl">echo</span> &lt;text&gt;   print text
+  <span class="hl">clear</span>         clear screen
+  <span class="hl">pwd</span>           show current path
+  <span class="hl">fortune</span>       random research quote
+  <span class="hl">sudo</span>          ?
+  <span class="hl">matrix</span>        ?
+  <span class="hl">exit</span>          close terminal
+`;
+    },
+    ls(arg) {
+      const path = (arg || '').replace(/\/$/, '');
+      if (!path) {
+        const top = Object.keys(fs).filter(k => !k.includes('/') || k.endsWith('/'));
+        return top.map(f => f.endsWith('/') ? `<span class="hl">${f}</span>` : f).join('  ');
+      }
+      const inside = Object.keys(fs).filter(k => k.startsWith(path + '/') && k !== path + '/');
+      if (inside.length === 0) return `ls: ${path}: No such directory`;
+      return inside.map(k => k.replace(path + '/', '')).join('  ');
+    },
+    cat(arg) {
+      if (!arg) return 'cat: missing argument';
+      if (fs[arg] !== undefined && fs[arg] !== null) return fs[arg];
+      return `cat: ${arg}: No such file`;
+    },
+    whoami() { return 'shuta_tsuchio :: visitor of his own portfolio'; },
+    date() { return new Date().toString(); },
+    echo(...args) { return args.join(' '); },
+    pwd() { return '/home/shuta'; },
+    fortune() {
+      const q = [
+        "「正常」の定義こそ、最も難しい問題である。",
+        "An outlier is just data that hasn't been understood yet.",
+        "ニューラルネットは万能ではない。だが、面白い。",
+        "GAN: Generative Adversarial Networks. Generator vs Discriminator. Like cat and mouse.",
+        "「異常検知」とは、世界の正常さを定義することの裏返しである。"
+      ];
+      return q[Math.floor(Math.random() * q.length)];
+    },
+    sudo() { return '<span class="err">sudo: Permission denied. (You are a visitor.)</span>\nTry asking nicely instead.'; },
+    matrix() {
+      // 簡易マトリクス効果
+      const lines = [];
+      for (let i = 0; i < 12; i++) {
+        let l = '';
+        for (let j = 0; j < 60; j++) {
+          l += Math.random() > 0.5 ? (Math.random() > 0.5 ? '0' : '1') : ' ';
+        }
+        lines.push(`<span class="hl">${l}</span>`);
+      }
+      return lines.join('\n') + '\n\n  >>> Wake up, Neo... <<<';
+    },
+    clear() { screen.innerHTML = ''; return null; },
+    exit() { Modal.close(); return null; },
+  };
+
+  function init() {
+    screen = document.getElementById('termScreen');
+    input = document.getElementById('termInput');
+    history = []; hidx = 0;
+
+    print(banner);
+
+    input.focus();
+    input.addEventListener('keydown', onKey);
+
+    return () => { input.removeEventListener('keydown', onKey); };
+  }
+
+  function print(s) {
+    const div = document.createElement('div');
+    div.innerHTML = s.replace(/\n/g, '<br>');
+    screen.appendChild(div);
+    screen.scrollTop = screen.scrollHeight;
+  }
+
+  function onKey(e) {
+    if (e.key === 'Enter') {
+      const v = input.value.trim();
+      if (v) {
+        history.push(v); hidx = history.length;
+        print(`<span class="pr">$</span> ${v}`);
+        const [c, ...args] = v.split(/\s+/);
+        const fn = cmds[c];
+        if (fn) {
+          const out = fn(...args);
+          if (out !== null && out !== undefined) print(`<span class="o">${out}</span>`);
+        } else {
+          print(`<span class="err">${c}: command not found</span> — try 'help'`);
+        }
+      }
+      input.value = '';
+    } else if (e.key === 'ArrowUp') {
+      if (hidx > 0) { hidx--; input.value = history[hidx]; }
+      e.preventDefault();
+    } else if (e.key === 'ArrowDown') {
+      if (hidx < history.length - 1) { hidx++; input.value = history[hidx]; }
+      else { hidx = history.length; input.value = ''; }
+      e.preventDefault();
+    }
+  }
+
+  return { init };
+})();
+
+/* ===========================================================================
+   Evade the Detector
+   =========================================================================== */
+const Evade = (() => {
+  // 3つの検知器 + INSTANT DEATH
+  let arena, msg, stat, dots = [], player, raf = null, lastT = 0;
+  let mouseX = 0, mouseY = 0;
+  let lastMouseX = 0, lastMouseY = 0, mouseSpeed = 0, smoothMouseSpeed = 0;
+  let detectors = [];
+  let gameTime = 0, gameOver = false;
+  let bestTime = 0;
+  // 検知器の半径（DOM上の見た目90px = 半径45。当たり判定はこれと一致）
+  const DET_RADIUS = 45;
+
+  function init() {
+    arena = document.getElementById('evadeArena');
+    msg = document.getElementById('evadeMsg');
+    stat = document.getElementById('evadeStat');
+    document.getElementById('evadeRestart').addEventListener('click', restart);
+
+    arena.addEventListener('mousemove', onMouse);
+    arena.addEventListener('touchmove', onTouch, {passive:false});
+
+    restart();
+
+    return () => {
+      arena.removeEventListener('mousemove', onMouse);
+      arena.removeEventListener('touchmove', onTouch);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }
+
+  function onMouse(e) {
+    const r = arena.getBoundingClientRect();
+    mouseX = e.clientX - r.left;
+    mouseY = e.clientY - r.top;
+  }
+  function onTouch(e) {
+    const r = arena.getBoundingClientRect();
+    mouseX = e.touches[0].clientX - r.left;
+    mouseY = e.touches[0].clientY - r.top;
+    e.preventDefault();
+  }
+
+  function restart() {
+    arena.querySelectorAll('.evade-dot').forEach(d => d.remove());
+    msg.classList.remove('show');
+
+    const w = arena.clientWidth, h = arena.clientHeight;
+    dots = [];
+    for (let i = 0; i < 99; i++) {
+      const d = document.createElement('div');
+      d.className = 'evade-dot';
+      const x = Math.random() * w, y = Math.random() * h;
+      d.style.left = x + 'px'; d.style.top = y + 'px';
+      arena.appendChild(d);
+      // ダミー点も少し速く動かす（プレイヤーが目立たないように）
+      dots.push({ el: d, x, y, vx: (Math.random()-0.5)*0.6, vy: (Math.random()-0.5)*0.6 });
+    }
+
+    player = document.createElement('div');
+    player.className = 'evade-dot evade-player';
+    arena.appendChild(player);
+    mouseX = w/2; mouseY = h/2;
+    lastMouseX = mouseX; lastMouseY = mouseY;
+    smoothMouseSpeed = 0;
+    player.style.left = mouseX + 'px'; player.style.top = mouseY + 'px';
+
+    // 3つの検知器を初期化（できるだけ離れた位置から）
+    detectors = [
+      { id: 'evadeDetector1', cls: '',   x: w * 0.15, y: h * 0.20, tx: w*0.15, ty: h*0.20, retarget: 0, role: 'scan',  lerp: 0.020 },
+      { id: 'evadeDetector2', cls: 'd2', x: w * 0.85, y: h * 0.50, tx: w*0.85, ty: h*0.50, retarget: 700, role: 'track', lerp: 0.030 },
+      { id: 'evadeDetector3', cls: 'd3', x: w * 0.50, y: h * 0.85, tx: w*0.50, ty: h*0.85, retarget: 1400, role: 'hunt',  lerp: 0.045 },
+    ];
+    for (const d of detectors) {
+      d.el = document.getElementById(d.id);
+      if (d.el) {
+        d.el.classList.remove('d2', 'd3');
+        if (d.cls) d.el.classList.add(d.cls);
+        d.el.style.left = d.x + 'px';
+        d.el.style.top = d.y + 'px';
+      }
+    }
+
+    gameTime = 0; gameOver = false;
+    lastT = performance.now();
+    if (raf) cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(loop);
+  }
+
+  function loop(t) {
+    const dt = Math.min(50, t - lastT);
+    lastT = t;
+    if (!gameOver) gameTime += dt / 1000;
+
+    const w = arena.clientWidth, h = arena.clientHeight;
+
+    // 点群
+    for (const d of dots) {
+      d.x += d.vx; d.y += d.vy;
+      if (d.x < 0 || d.x > w) d.vx *= -1;
+      if (d.y < 0 || d.y > h) d.vy *= -1;
+      d.el.style.left = d.x + 'px'; d.el.style.top = d.y + 'px';
+    }
+
+    // プレイヤー
+    player.style.left = mouseX + 'px'; player.style.top = mouseY + 'px';
+    const rawSpeed = Math.hypot(mouseX - lastMouseX, mouseY - lastMouseY);
+    smoothMouseSpeed = smoothMouseSpeed * 0.85 + rawSpeed * 0.15;
+    mouseSpeed = rawSpeed;
+    lastMouseX = mouseX; lastMouseY = mouseY;
+
+    // 各検知器のAI
+    let anyInside = false;
+    for (let i = 0; i < detectors.length; i++) {
+      const d = detectors[i];
+      d.retarget -= dt;
+
+      if (d.retarget <= 0) {
+        // 役割ごとに目標を決定
+        if (d.role === 'scan') {
+          // SCAN: 画面をランダムに広く徘徊
+          d.tx = Math.random() * w;
+          d.ty = Math.random() * h;
+          d.retarget = 1100 + Math.random() * 800;
+        } else if (d.role === 'track') {
+          // TRACK: プレイヤーの予測位置（速度ベクトル先）を狙う
+          // ただしプレイヤーが遅いときは見失う
+          if (smoothMouseSpeed > 0.8) {
+            const aheadX = mouseX + (mouseX - lastMouseX) * 18;
+            const aheadY = mouseY + (mouseY - lastMouseY) * 18;
+            d.tx = aheadX + (Math.random()-0.5) * 80;
+            d.ty = aheadY + (Math.random()-0.5) * 80;
+          } else {
+            // 視界を失って漂流
+            d.tx = d.x + (Math.random()-0.5) * 200;
+            d.ty = d.y + (Math.random()-0.5) * 200;
+          }
+          d.retarget = 700 + Math.random() * 500;
+        } else if (d.role === 'hunt') {
+          // HUNT: 「異質さ」検出 — プレイヤーと周辺点群の速度差を見て差が大きいと寄ってくる
+          // 単純化：プレイヤーの動きが大きいほど直接狙う
+          const aggression = Math.min(1, smoothMouseSpeed / 4);
+          if (aggression > 0.3) {
+            d.tx = mouseX + (Math.random()-0.5) * 40 * (1 - aggression);
+            d.ty = mouseY + (Math.random()-0.5) * 40 * (1 - aggression);
+          } else {
+            // 静かにしてると周辺をうろつく（プレイヤーの近く中心）
+            d.tx = mouseX + (Math.random()-0.5) * 250;
+            d.ty = mouseY + (Math.random()-0.5) * 250;
+          }
+          d.retarget = 500 + Math.random() * 400;
+        }
+      }
+
+      // 検知器の追従（lerp）
+      d.x += (d.tx - d.x) * d.lerp;
+      d.y += (d.ty - d.y) * d.lerp;
+      if (d.el) {
+        d.el.style.left = d.x + 'px';
+        d.el.style.top = d.y + 'px';
+      }
+
+      // 当たり判定：一瞬でも入ったら即終了
+      const inside = Math.hypot(mouseX - d.x, mouseY - d.y) < DET_RADIUS;
+      if (inside) anyInside = true;
+    }
+
+    // 最も近い検知器までの距離を表示
+    let nearest = Infinity;
+    for (const d of detectors) {
+      const dist = Math.hypot(mouseX - d.x, mouseY - d.y) - DET_RADIUS;
+      if (dist < nearest) nearest = dist;
+    }
+    nearest = Math.max(0, nearest);
+
+    if (!gameOver) {
+      if (anyInside) {
+        gameEnd();
+      } else {
+        // 危険度の色付け
+        let color = 'var(--accent)';
+        let label = 'HIDDEN';
+        if (nearest < 30) { color = 'var(--accent-2)'; label = 'CRITICAL'; }
+        else if (nearest < 80) { color = '#ffaa00'; label = 'WARNING'; }
+        stat.style.color = color;
+        stat.innerHTML = `TIME: <span style="color:var(--accent)">${gameTime.toFixed(2)}s</span>` +
+          ` &nbsp;|&nbsp; NEAREST: <span style="color:${color}">${nearest.toFixed(0)}px</span>` +
+          ` &nbsp;|&nbsp; STATUS: <span style="color:${color}">${label}</span>` +
+          (bestTime > 0 ? ` &nbsp;|&nbsp; BEST: <span style="color:var(--muted)">${bestTime.toFixed(2)}s</span>` : '');
+      }
+    }
+
+    raf = requestAnimationFrame(loop);
+  }
+
+  function gameEnd() {
+    gameOver = true;
+    if (gameTime > bestTime) bestTime = gameTime;
+    const newRecord = gameTime === bestTime && gameTime > 0;
+    msg.innerHTML = `CAUGHT BY DETECTOR<span class="sub">SURVIVED ${gameTime.toFixed(2)}s${newRecord ? '   ▸ NEW RECORD' : ''}</span>`;
+    msg.classList.add('show');
+  }
+
+  return { init };
+})();
+
+/* ===========================================================================
+   Neural Sketch（特徴量ベースの簡易推測）
+   =========================================================================== */
+const Draw = (() => {
+  let canvas, ctx, drawing = false, lastX = 0, lastY = 0, hasInk = false;
+
+  function init() {
+    canvas = document.getElementById('drawCanvas');
+    ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.lineWidth = 8; ctx.lineCap = 'round'; ctx.strokeStyle = '#000';
+    hasInk = false;
+
+    canvas.addEventListener('mousedown', start);
+    canvas.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', end);
+    canvas.addEventListener('touchstart', startT, {passive:false});
+    canvas.addEventListener('touchmove', moveT, {passive:false});
+    canvas.addEventListener('touchend', end);
+
+    document.getElementById('drawClear').addEventListener('click', clear);
+    document.getElementById('drawGuessBtn').addEventListener('click', guess);
+
+    return () => {
+      canvas.removeEventListener('mousedown', start);
+      canvas.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', end);
+      canvas.removeEventListener('touchstart', startT);
+      canvas.removeEventListener('touchmove', moveT);
+      canvas.removeEventListener('touchend', end);
+    };
+  }
+
+  function getPos(e) {
+    const r = canvas.getBoundingClientRect();
+    const sx = canvas.width / r.width, sy = canvas.height / r.height;
+    return [(e.clientX - r.left) * sx, (e.clientY - r.top) * sy];
+  }
+  function start(e) { drawing = true; [lastX, lastY] = getPos(e); }
+  function move(e) {
+    if (!drawing) return;
+    const [x, y] = getPos(e);
+    ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(x, y); ctx.stroke();
+    lastX = x; lastY = y; hasInk = true;
+  }
+  function startT(e) { drawing = true; const t = e.touches[0]; const r = canvas.getBoundingClientRect(); lastX = (t.clientX-r.left)*(canvas.width/r.width); lastY = (t.clientY-r.top)*(canvas.height/r.height); e.preventDefault(); }
+  function moveT(e) {
+    if (!drawing) return;
+    const t = e.touches[0]; const r = canvas.getBoundingClientRect();
+    const x = (t.clientX-r.left)*(canvas.width/r.width), y = (t.clientY-r.top)*(canvas.height/r.height);
+    ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(x, y); ctx.stroke();
+    lastX = x; lastY = y; hasInk = true; e.preventDefault();
+  }
+  function end() { drawing = false; }
+  function clear() {
+    ctx.fillStyle = '#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
+    hasInk = false;
+    document.getElementById('drawGuess').textContent = '何か描いてGUESSを押してください。';
+  }
+
+  function guess() {
+    if (!hasInk) {
+      document.getElementById('drawGuess').textContent = '...白紙ですね？空白の哲学的表現でしょうか。';
+      return;
+    }
+    // 特徴量抽出
+    const W = canvas.width, H = canvas.height;
+    const img = ctx.getImageData(0, 0, W, H).data;
+    let inkCount = 0, sx = 0, sy = 0, minX = W, minY = H, maxX = 0, maxY = 0;
+    for (let y = 0; y < H; y += 4) {
+      for (let x = 0; x < W; x += 4) {
+        const i = (y * W + x) * 4;
+        const v = (img[i] + img[i+1] + img[i+2]) / 3;
+        if (v < 100) {
+          inkCount++;
+          sx += x; sy += y;
+          if (x < minX) minX = x; if (x > maxX) maxX = x;
+          if (y < minY) minY = y; if (y > maxY) maxY = y;
+        }
+      }
+    }
+    if (inkCount < 10) {
+      document.getElementById('drawGuess').textContent = '...小さすぎてよく見えません。もっと大きく描いてください。';
+      return;
+    }
+    const cx = sx / inkCount, cy = sy / inkCount;
+    const bw = maxX - minX, bh = maxY - minY;
+    const aspect = bw / bh;
+    const fillRatio = inkCount / (bw * bh / 16);
+    const coverage = inkCount / (W * H / 16);
+
+    // 円形度の近似：中心からの距離分散
+    let distSum = 0, distMax = 0;
+    for (let y = 0; y < H; y += 4) {
+      for (let x = 0; x < W; x += 4) {
+        const i = (y * W + x) * 4;
+        const v = (img[i] + img[i+1] + img[i+2]) / 3;
+        if (v < 100) {
+          const d = Math.hypot(x - cx, y - cy);
+          distSum += d;
+          if (d > distMax) distMax = d;
+        }
+      }
+    }
+    const distMean = distSum / inkCount;
+    const circularity = distMean / distMax; // 円なら大きい、線分なら小さい
+
+    // 推測ロジック
+    const guesses = [];
+    if (coverage > 0.5) guesses.push("塗り絵？", "ベタ塗りの何か", "黒い四角");
+    if (aspect > 2.5) guesses.push("横長の何か（バナナ？魚？棒？）", "横線", "電車の窓");
+    if (aspect < 0.4) guesses.push("縦長の何か（ペン？タワー？人？）", "縦線", "鉛筆");
+    if (circularity > 0.7 && fillRatio < 1.5) guesses.push("円", "丸", "顔", "ボール", "太陽");
+    if (circularity > 0.7 && fillRatio > 1.5) guesses.push("塗りつぶされた円", "黒丸", "月");
+    if (circularity < 0.4) guesses.push("線", "棒", "矢印", "なにか細長いもの");
+    if (Math.abs(aspect - 1) < 0.2 && fillRatio < 1.5) guesses.push("四角形", "ボックス", "家", "窓");
+    if (inkCount > 1000) guesses.push("複雑な絵", "落書き", "宇宙", "脳の構造", "ニューラルネットワーク");
+    if (inkCount < 100) guesses.push("点", "シンプルな何か", "句読点");
+
+    // 抽象的な推測も追加
+    const abstracts = [
+      "...心の中の検知器が反応しています。",
+      "これは『正常』ですか？それとも『異常』ですか？",
+      "雲が見えそうです。",
+      "私は球状にしか考えられないので、ご了承ください。",
+      "もしかして、カバですか？",
+      "あなたは絵描きにおける外れ値かもしれません。",
+    ];
+
+    if (guesses.length === 0) guesses.push("解読不能...");
+
+    const main = guesses[Math.floor(Math.random() * guesses.length)];
+    const sub = abstracts[Math.floor(Math.random() * abstracts.length)];
+
+    const conf = Math.floor(20 + Math.random() * 60);
+    document.getElementById('drawGuess').innerHTML = `
+      <strong style="color:var(--accent);">${main}</strong>
+      <div style="margin-top:8px;font-size:11px;color:var(--muted);">CONFIDENCE: ${conf}%</div>
+      <div style="margin-top:10px;font-style:italic;font-size:11px;color:var(--fg-2);">${sub}</div>
+      <div style="margin-top:10px;font-size:10px;color:var(--muted);font-family:monospace;">
+        ▸ aspect: ${aspect.toFixed(2)}<br>
+        ▸ circularity: ${circularity.toFixed(2)}<br>
+        ▸ ink coverage: ${(coverage*100).toFixed(1)}%
+      </div>
+    `;
+  }
+
+  return { init };
+})();
+
+/* ===========================================================================
+   研究者しりとり
+   =========================================================================== */
+const Shiritori = (() => {
+  // 出典：Google Developers ML Glossary、ITmedia AI・機械学習用語辞典、
+  // zero to one G検定対応用語集、Qiita 機械学習の用語一覧、セイコンサルティング 300語集
+  // 各用語は [表示語, 読み（ひらがな）, 短い説明] の3項。
+  // しりとりは「読み」ベースで判定。「ん」終わりは実行時にフィルタ。
+  const dict = {
+    'あ': [
+      ['アルゴリズム', 'あるごりずむ', '計算手順'],
+      ['アンサンブル学習', 'あんさんぶるがくしゅう', '複数モデルの統合'],
+      ['アダム', 'あだむ', 'Adam最適化手法'],
+      ['アンダーフィッティング', 'あんだーふぃってぃんぐ', '学習不足'],
+      ['アクセラレータ', 'あくせられーた', '計算ハードウェア'],
+    ],
+    'い': [
+      ['異常検知', 'いじょうけんち', '本研究の中心テーマ'],
+      ['一般化', 'いっぱんか', '未知データへの対応力'],
+      ['一様分布', 'いちようぶんぷ', 'uniform distribution'],
+      ['因果推論', 'いんがすいろん', 'causal inference'],
+      ['移動平均', 'いどうへいきん', '時系列の平滑化'],
+    ],
+    'う': [
+      ['ウェイト', 'うぇいと', 'モデルの重み'],
+      ['ウォームアップ', 'うぉーむあっぷ', '学習率の暖機'],
+      ['ウィンドウ関数', 'うぃんどうかんすう', 'window function'],
+      ['上振れ', 'うわぶれ', '統計の偏り'],
+    ],
+    'え': [
+      ['エポック', 'えぽっく', '学習の1周期'],
+      ['エンコーダ', 'えんこーだ', '符号化器'],
+      ['エントロピー', 'えんとろぴー', '情報量'],
+      ['エンベディング', 'えんべでぃんぐ', '埋め込み表現'],
+      ['エージェント', 'えーじぇんと', '強化学習の主体'],
+      ['エラー', 'えらー', '誤差'],
+    ],
+    'お': [
+      ['オーバーフィッティング', 'おーばーふぃってぃんぐ', '過学習'],
+      ['オートエンコーダ', 'おーとえんこーだ', '自己符号化器'],
+      ['オフライン学習', 'おふらいんがくしゅう', 'バッチ学習'],
+      ['オンライン学習', 'おんらいんがくしゅう', '逐次学習'],
+      ['重み', 'おもみ', 'パラメータ'],
+      ['オッズ比', 'おっずひ', '統計の指標'],
+    ],
+    'か': [
+      ['カーネル', 'かーねる', 'SVMの核'],
+      ['過学習', 'かがくしゅう', 'overfitting'],
+      ['学習率', 'がくしゅうりつ', 'learning rate'],
+      ['カルマンフィルタ', 'かるまんふぃるた', '状態推定'],
+      ['活性化関数', 'かっせいかかんすう', 'ReLUなど'],
+      ['ガウス分布', 'がうすぶんぷ', '正規分布'],
+    ],
+    'き': [
+      ['機械学習', 'きかいがくしゅう', '分野そのもの'],
+      ['距離学習', 'きょりがくしゅう', 'metric learning'],
+      ['教師あり学習', 'きょうしありがくしゅう', 'supervised'],
+      ['教師なし学習', 'きょうしなしがくしゅう', 'unsupervised'],
+      ['寄与率', 'きよりつ', 'PCAの指標'],
+      ['帰無仮説', 'きむかせつ', 'null hypothesis'],
+    ],
+    'ぎ': [
+      ['行列分解', 'ぎょうれつぶんかい', 'matrix factorization'],
+      ['逆伝播', 'ぎゃくでんぱ', 'backpropagation'],
+    ],
+    'く': [
+      ['クラスタリング', 'くらすたりんぐ', '群分け'],
+      ['クラス分類', 'くらすぶんるい', 'classification'],
+      ['クロスエントロピー', 'くろすえんとろぴー', '損失関数'],
+      ['組み合わせ最適化', 'くみあわせさいてきか', 'combinatorial opt.'],
+      ['区間推定', 'くかんすいてい', 'interval estimation'],
+    ],
+    'ぐ': [
+      ['グラフ理論', 'ぐらふりろん', 'graph theory'],
+      ['グリッドサーチ', 'ぐりっどさーち', 'hyperparameter search'],
+      ['群論', 'ぐんろん', 'group theory'],
+      ['グラム行列', 'ぐらむぎょうれつ', 'Gram matrix'],
+    ],
+    'け': [
+      ['決定境界', 'けっていきょうかい', '分類の境界線'],
+      ['決定木', 'けっていぎ', 'decision tree'],
+      ['検定', 'けんてい', '統計的仮説検定'],
+      ['結合確率', 'けつごうかくりつ', 'joint probability'],
+      ['形態素解析', 'けいたいそかいせき', 'morphological analysis'],
+    ],
+    'こ': [
+      ['勾配降下法', 'こうばいこうかほう', 'gradient descent'],
+      ['勾配消失', 'こうばいしょうしつ', 'vanishing gradient'],
+      ['交差検証', 'こうさけんしょう', 'cross-validation'],
+      ['コサイン類似度', 'こさいんるいじど', 'cosine similarity'],
+    ],
+    'ご': [
+      ['誤差逆伝播', 'ごさぎゃくでんぱ', 'backprop'],
+      ['誤分類', 'ごぶんるい', 'misclassification'],
+    ],
+    'さ': [
+      ['サポートベクトル', 'さぽーとべくとる', 'SVMの主役'],
+      ['再現率', 'さいげんりつ', 'recall'],
+      ['再構成誤差', 'さいこうせいごさ', '異常検知の指標'],
+      ['サンプリング', 'さんぷりんぐ', '標本抽出'],
+      ['最尤推定', 'さいゆうすいてい', 'MLE'],
+      ['最適化', 'さいてきか', 'optimization'],
+    ],
+    'し': [
+      ['シグモイド関数', 'しぐもいどかんすう', '活性化関数の一種'],
+      ['シャノンエントロピー', 'しゃのんえんとろぴー', '情報量'],
+      ['識別モデル', 'しきべつもでる', 'discriminative model'],
+      ['主成分分析', 'しゅせいぶんぶんせき', 'PCA'],
+      ['深層学習', 'しんそうがくしゅう', 'deep learning'],
+    ],
+    'じ': [
+      ['事後確率', 'じごかくりつ', 'posterior'],
+      ['事前確率', 'じぜんかくりつ', 'prior'],
+    ],
+    'す': [
+      ['推論', 'すいろん', 'inference'],
+      ['スケーリング', 'すけーりんぐ', '特徴量の標準化'],
+      ['スパース', 'すぱーす', '疎表現'],
+      ['スコア関数', 'すこあかんすう', 'score function'],
+      ['ステップ関数', 'すてっぷかんすう', '活性化関数の一種'],
+      ['推定量', 'すいていりょう', 'estimator'],
+    ],
+    'ず': [
+      ['頭部姿勢推定', 'ずぶしせいすいてい', 'head pose estimation'],
+    ],
+    'せ': [
+      ['正規化', 'せいきか', 'normalization'],
+      ['線形回帰', 'せんけいかいき', 'linear regression'],
+      ['線形分離', 'せんけいぶんり', 'linearly separable'],
+      ['説明変数', 'せつめいへんすう', '独立変数'],
+      ['潜在変数', 'せんざいへんすう', 'latent variable'],
+      ['正則化', 'せいそくか', 'regularization'],
+      ['正解率', 'せいかいりつ', 'accuracy'],
+      ['生成モデル', 'せいせいもでる', 'generative model'],
+    ],
+    'そ': [
+      ['ソフトマックス', 'そふとまっくす', '多クラス分類'],
+      ['相関係数', 'そうかんけいすう', 'correlation'],
+      ['損失関数', 'そんしつかんすう', 'loss function'],
+      ['疎行列', 'そぎょうれつ', 'sparse matrix'],
+    ],
+    'た': [
+      ['畳み込み', 'たたみこみ', 'convolution'],
+      ['多変量解析', 'たへんりょうかいせき', 'multivariate analysis'],
+      ['対数尤度', 'たいすうゆうど', 'log likelihood'],
+      ['ターゲット', 'たーげっと', '目的変数'],
+      ['多項分布', 'たこうぶんぷ', 'multinomial distribution'],
+    ],
+    'だ': [
+      ['ダミー変数', 'だみーへんすう', 'dummy variable'],
+      ['第一種過誤', 'だいいっしゅかご', 'Type I error'],
+    ],
+    'ち': [
+      ['チューニング', 'ちゅーにんぐ', 'パラメータ調整'],
+      ['中央値', 'ちゅうおうち', 'median'],
+      ['チェビシェフの不等式', 'ちぇびしぇふのふとうしき', '統計の基本'],
+      ['逐次推定', 'ちくじすいてい', 'sequential estimation'],
+    ],
+    'つ': [
+      ['通時的解析', 'つうじてきかいせき', 'diachronic analysis'],
+      ['通常の最小二乗法', 'つうじょうのさいしょうにじょうほう', 'OLS'],
+    ],
+    'て': [
+      ['敵対的生成', 'てきたいてきせいせい', 'GAN'],
+      ['敵対的攻撃', 'てきたいてきこうげき', 'adversarial attack'],
+      ['転移学習', 'てんいがくしゅう', 'transfer learning'],
+      ['テンソル', 'てんそる', 'tensor'],
+    ],
+    'で': [
+      ['データ拡張', 'でーたかくちょう', 'data augmentation'],
+      ['データセット', 'でーたせっと', 'training data'],
+    ],
+    'と': [
+      ['特徴量', 'とくちょうりょう', 'feature'],
+      ['特徴抽出', 'とくちょうちゅうしゅつ', 'feature extraction'],
+      ['統計的検定', 'とうけいてきけんてい', 'hypothesis testing'],
+      ['トランスフォーマー', 'とらんすふぉーまー', 'Transformer'],
+      ['トレーニング', 'とれーにんぐ', '学習'],
+    ],
+    'ど': [
+      ['ドロップアウト', 'どろっぷあうと', '過学習抑制'],
+    ],
+    'な': [
+      ['内積', 'ないせき', 'inner product'],
+      ['ナイーブベイズ', 'ないーぶべいず', '単純ベイズ分類器'],
+      ['内挿', 'ないそう', 'interpolation'],
+    ],
+    'に': [
+      ['二乗誤差', 'にじょうごさ', 'MSE'],
+      ['二値分類', 'にちぶんるい', 'binary classification'],
+      ['認識', 'にんしき', 'recognition'],
+      ['ニューラル', 'にゅーらる', 'NN関連'],
+    ],
+    'ぬ': [
+      ['ぬり潰し', 'ぬりつぶし', 'fill'],
+    ],
+    'ね': [
+      ['ネガティブサンプリング', 'ねがてぃぶさんぷりんぐ', 'negative sampling'],
+      ['ネットワーク構造', 'ねっとわーくこうぞう', 'NN構造'],
+    ],
+    'の': [
+      ['ノイズ', 'のいず', 'noise'],
+      ['ノルム', 'のるむ', 'norm'],
+      ['濃度', 'のうど', 'cardinality'],
+    ],
+    'は': [
+      ['汎化', 'はんか', '未知データへの対応'],
+      ['ハイパーパラメータ', 'はいぱーぱらめーた', 'hyperparameter'],
+      ['発火', 'はっか', 'ニューロンの活性'],
+      ['判別分析', 'はんべつぶんせき', 'discriminant analysis'],
+      ['汎化誤差', 'はんかごさ', 'generalization error'],
+    ],
+    'ば': [
+      ['バッチ正規化', 'ばっちせいきか', 'batch normalization'],
+    ],
+    'ぱ': [
+      ['パラメータ', 'ぱらめーた', 'parameter'],
+      ['パディング', 'ぱでぃんぐ', 'padding'],
+    ],
+    'ひ': [
+      ['表現学習', 'ひょうげんがくしゅう', 'representation learning'],
+      ['標準化', 'ひょうじゅんか', 'standardization'],
+      ['ヒストグラム', 'ひすとぐらむ', 'histogram'],
+      ['ヒンジ損失', 'ひんじそんしつ', 'hinge loss'],
+      ['標本平均', 'ひょうほんへいきん', 'sample mean'],
+    ],
+    'ぴ': [
+      ['ピアソン相関', 'ぴあそんそうかん', 'Pearson correlation'],
+      ['ピーク検出', 'ぴーくけんしゅつ', 'peak detection'],
+    ],
+    'ふ': [
+      ['ファインチューニング', 'ふぁいんちゅーにんぐ', 'fine-tuning'],
+      ['不偏推定量', 'ふへんすいていりょう', 'unbiased estimator'],
+      ['負例', 'ふれい', 'negative example'],
+      ['フィッシャー情報量', 'ふぃっしゃーじょうほうりょう', 'Fisher information'],
+    ],
+    'ぶ': [
+      ['ブースティング', 'ぶーすてぃんぐ', 'boosting'],
+    ],
+    'ぷ': [
+      ['プーリング', 'ぷーりんぐ', 'pooling'],
+      ['プーリング層', 'ぷーりんぐそう', 'pooling layer'],
+      ['プロンプト', 'ぷろんぷと', 'prompt'],
+    ],
+    'へ': [
+      ['平均二乗誤差', 'へいきんにじょうごさ', 'MSE'],
+      ['偏微分', 'へんびぶん', 'partial derivative'],
+    ],
+    'べ': [
+      ['ベイズ推定', 'べいずすいてい', 'Bayesian inference'],
+      ['ベクトル', 'べくとる', 'vector'],
+      ['ベルヌーイ分布', 'べるぬーいぶんぷ', 'Bernoulli distribution'],
+    ],
+    'ほ': [
+      ['ホールドアウト法', 'ほーるどあうとほう', 'hold-out'],
+    ],
+    'ぼ': [
+      ['母集団', 'ぼしゅうだん', 'population'],
+      ['ボックスプロット', 'ぼっくすぷろっと', '箱ひげ図'],
+      ['母分散', 'ぼぶんさん', 'population variance'],
+    ],
+    'ま': [
+      ['マルコフ連鎖', 'まるこふれんさ', 'Markov chain'],
+      ['マハラノビス距離', 'まはらのびすきょり', '距離尺度'],
+      ['マルチタスク学習', 'まるちたすくがくしゅう', 'multi-task learning'],
+      ['前処理', 'まえしょり', 'preprocessing'],
+    ],
+    'み': [
+      ['ミニバッチ', 'みにばっち', 'mini-batch'],
+      ['密度推定', 'みつどすいてい', 'density estimation'],
+      ['見せかけの相関', 'みせかけのそうかん', 'spurious correlation'],
+    ],
+    'む': [
+      ['無向グラフ', 'むこうぐらふ', 'undirected graph'],
+      ['無作為抽出', 'むさくいちゅうしゅつ', 'random sampling'],
+    ],
+    'め': [
+      ['メトリック', 'めとりっく', '評価指標'],
+      ['メタ学習', 'めたがくしゅう', 'meta learning'],
+      ['メモリ', 'めもり', 'memory'],
+    ],
+    'も': [
+      ['モデル', 'もでる', 'モデルそのもの'],
+      ['モーメンタム', 'もーめんたむ', '慣性項'],
+      ['モンテカルロ法', 'もんてかるろほう', 'Monte Carlo'],
+      ['目的関数', 'もくてきかんすう', 'objective function'],
+    ],
+    'や': [
+      ['焼きなまし法', 'やきなましほう', 'simulated annealing'],
+      ['ヤコビ行列', 'やこびぎょうれつ', 'Jacobian matrix'],
+    ],
+    'ゆ': [
+      ['ユークリッド距離', 'ゆーくりっどきょり', '基本距離'],
+      ['尤度', 'ゆうど', 'likelihood'],
+      ['ゆらぎ', 'ゆらぎ', 'fluctuation'],
+    ],
+    'よ': [
+      ['予測', 'よそく', 'prediction'],
+      ['抑制', 'よくせい', 'suppression'],
+      ['要因分析', 'よういんぶんせき', 'factor analysis'],
+    ],
+    'ら': [
+      ['ランダムフォレスト', 'らんだむふぉれすと', 'Random Forest'],
+      ['ラッソ回帰', 'らっそかいき', 'L1正則化'],
+      ['ラベル', 'らべる', 'label'],
+      ['ラグランジュ乗数', 'らぐらんじゅじょうすう', 'Lagrange multiplier'],
+    ],
+    'り': [
+      ['リッジ回帰', 'りっじかいき', 'L2正則化'],
+      ['離散化', 'りさんか', 'discretization'],
+      ['リカレント', 'りかれんと', 'RNN'],
+      ['リーキーレル', 'りーきーれる', 'Leaky ReLU'],
+      ['粒子フィルタ', 'りゅうしふぃるた', 'particle filter'],
+    ],
+    'る': [
+      ['ループ', 'るーぷ', '学習の反復'],
+    ],
+    'れ': [
+      ['レイヤー', 'れいやー', '層'],
+      ['レル', 'れる', 'ReLU活性化'],
+      ['連続値', 'れんぞくち', 'continuous value'],
+      ['例外検出', 'れいがいけんしゅつ', 'outlier detection'],
+    ],
+    'ろ': [
+      ['ロジスティック回帰', 'ろじすてぃっくかいき', '分類の基本'],
+      ['ロス関数', 'ろすかんすう', 'loss function'],
+      ['ロバスト統計', 'ろばすととうけい', 'robust statistics'],
+      ['ロングテール', 'ろんぐてーる', 'long tail'],
+    ],
+    'わ': [
+      ['ワッサースタイン距離', 'わっさーすたいんきょり', 'Wasserstein distance'],
+      ['和集合', 'わしゅうごう', 'union'],
+    ],
+  };
+
+  // 全エントリをフラットなindexに展開（読みの最初の文字をキーに、「ん」終わりを除外）
+  const indexByHead = {};
+  for (const arr of Object.values(dict)) {
+    for (const entry of arr) {
+      const yomi = entry[1];
+      const head = yomi[0];
+      const tail = lastChar(yomi);
+      if (tail === 'ん') continue;
+      if (!indexByHead[head]) indexByHead[head] = [];
+      indexByHead[head].push(entry);
+    }
+  }
+
+  // カナ→ひらがな、長音処理（先頭でも末尾でも使う）
+  function toHiragana(s) {
+    return s.replace(/[\u30a1-\u30f6]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60))
+            .replace(/ー/g, '');
+  }
+  // 末尾文字を取り出し（小書き→対応する大書きに正規化、長音は前の音に）
+  function lastChar(s) {
+    s = toHiragana(s);
+    // 末尾の小書き仮名を大書きに
+    s = s.replace(/[ぁぃぅぇぉゃゅょっ]$/, m => ({
+      'ぁ':'あ','ぃ':'い','ぅ':'う','ぇ':'え','ぉ':'お','ゃ':'や','ゅ':'ゆ','ょ':'よ','っ':'つ'
+    })[m] || m);
+    return s.slice(-1);
+  }
+  function firstChar(s) {
+    s = toHiragana(s);
+    return s.slice(0, 1);
+  }
+
+  let used = new Set();
+  let nextStart = null;
+  let log, input, sendBtn, nextEl, statEl;
+
+  function init() {
+    log = document.getElementById('shiriLog');
+    input = document.getElementById('shiriInput');
+    sendBtn = document.getElementById('shiriSend');
+    nextEl = document.getElementById('shiriNext');
+    statEl = document.getElementById('shiriStatus');
+
+    used = new Set();
+    nextStart = null;
+    input.disabled = false; sendBtn.disabled = false;
+    statEl.style.color = 'var(--accent)';
+
+    addLog('ai', 'しりとり', 'しりとり', 'スタート！「り」から始まる言葉をどうぞ。あなたは何でも入力OK。AIは機械学習・統計の用語で返します。');
+    nextStart = 'り';
+    nextEl.textContent = 'り';
+    used.add('しりとり');
+
+    sendBtn.addEventListener('click', send);
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+    input.focus();
+
+    return () => {
+      sendBtn.removeEventListener('click', send);
+    };
+  }
+
+  function send() {
+    const v = input.value.trim();
+    if (!v) return;
+    const hira = toHiragana(v);
+    const fc = firstChar(v);
+
+    if (lastChar(v) === 'ん') {
+      addLog('me', v, hira, '');
+      addLog('ai', 'AIの勝ち', '', '「ん」で終わったので私の勝ちです！');
+      input.value = '';
+      input.disabled = true; sendBtn.disabled = true;
+      statEl.textContent = 'AI WIN';
+      statEl.style.color = 'var(--accent-2)';
+      return;
+    }
+
+    if (nextStart && fc !== nextStart) {
+      addLog('ai', '違反', '', `「${nextStart}」から始まる言葉を入力してください。`);
+      return;
+    }
+    if (used.has(v) || used.has(hira)) {
+      addLog('ai', '使用済み', '', 'その単語はもう使われています。');
+      return;
+    }
+
+    addLog('me', v, hira, '');
+    used.add(v); used.add(hira);
+    input.value = '';
+
+    setTimeout(() => aiTurn(lastChar(v)), 600);
+  }
+
+  function aiTurn(ch) {
+    const list = indexByHead[ch];
+    if (!list || list.length === 0) {
+      addLog('ai', '降参', '', `「${ch}」から始まるML/AI/統計の用語が思い当たりません… あなたの勝ちです！`);
+      input.disabled = true; sendBtn.disabled = true;
+      statEl.textContent = 'YOU WIN';
+      statEl.style.color = 'var(--accent)';
+      return;
+    }
+    const candidates = list.filter(([w]) => !used.has(w));
+    if (candidates.length === 0) {
+      addLog('ai', '降参', '', `「${ch}」で始まる用語は手持ちが尽きました。あなたの勝ち！`);
+      input.disabled = true; sendBtn.disabled = true;
+      statEl.textContent = 'YOU WIN';
+      statEl.style.color = 'var(--accent)';
+      return;
+    }
+    const [word, yomi, desc] = candidates[Math.floor(Math.random() * candidates.length)];
+    used.add(word);
+    addLog('ai', word, yomi, desc);
+    nextStart = lastChar(yomi);
+    nextEl.textContent = nextStart;
+  }
+
+  function addLog(who, word, yomi, desc) {
+    const turn = document.createElement('div');
+    turn.className = 'turn';
+    turn.innerHTML = `
+      <div class="who ${who}">${who === 'me' ? '▸ YOU' : '▸ AI'}</div>
+      <div><span class="word">${word}</span><span class="yomi">${yomi || ''}</span></div>
+      ${desc ? `<div class="desc">${desc}</div>` : ''}
+    `;
+    log.appendChild(turn);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  return { init };
+})();
+</script>
 
 </body>
 </html>
