@@ -254,6 +254,22 @@
     padding:40px 50px 80px;
     color:var(--fg);
   }
+  @media(max-width:480px){
+    .modal-inner{margin:0 auto;padding:16px 12px 80px}
+    .modal-close{top:8px;right:10px;width:34px;height:34px;font-size:11px}
+    .modal h1{font-size:18px;margin-bottom:12px}
+    .modal h3{margin:14px 0 6px;font-size:10px}
+    .modal p{font-size:11px;margin-bottom:8px}
+    .viz-canvas-wrap,.tsne-canvas-wrap,.svdd-canvas-wrap{max-height:50vw}
+    .viz-controls .row{padding:7px;margin-bottom:8px}
+    .viz-controls label{font-size:9px}
+    .viz-controls .btn-group button{font-size:7px;padding:5px 1px}
+    .viz-info{font-size:8.5px;padding:7px}
+    .touch-class-toggle{display:flex !important}
+    .hole-label .ja{font-size:14px}
+    .hole-label .en{font-size:10px}
+    .hole-label .desc{font-size:10px}
+  }
   .modal-close{
     position:fixed;top:20px;right:24px;
     width:44px;height:44px;
@@ -345,6 +361,7 @@
   .viz-canvas-wrap{
     background:#0a0a0c;border:1px solid var(--line-2);
     aspect-ratio:1/1;position:relative;
+    max-height:min(600px,80vw);
   }
   .viz-canvas{display:block;width:100%;height:100%;}
   .viz-controls{font-family:'JetBrains Mono',monospace;font-size:11px}
@@ -389,6 +406,7 @@
   .svdd-canvas-wrap{
     background:#fff;border:1px solid var(--line-2);
     aspect-ratio:1/1;position:relative;
+    max-height:min(600px,80vw);
   }
   .svdd-canvas{display:block;width:100%;height:100%;cursor:crosshair}
   .svdd-controls{font-family:'JetBrains Mono',monospace;font-size:11px}
@@ -436,6 +454,7 @@
   .tsne-canvas-wrap{
     background:#0a0a0c;border:1px solid var(--line-2);
     aspect-ratio:1/1;position:relative;
+    max-height:min(600px,80vw);
   }
   .tsne-canvas{display:block;width:100%;height:100%;}
   .tsne-controls{font-family:'JetBrains Mono',monospace;font-size:11px}
@@ -486,19 +505,117 @@
     background:var(--accent);transition:width .1s;
   }
 
+  /* ===== モバイル対応 ===== */
   @media (max-width:768px){
-    .topbar{padding:14px 16px}
-    .brand{font-size:11px}
-    .topbar nav{gap:2px}
-    .topbar nav a{padding:6px 8px;font-size:10px;letter-spacing:.1em}
-    .minimap{width:110px;height:70px;right:12px;bottom:12px}
-    .hint{font-size:9px;bottom:96px}
+    /* トップバー: ブランドのみ表示、ナビはハンバーガーで */
+    .topbar{padding:12px 14px;align-items:center}
+    .brand{font-size:10px;letter-spacing:.1em}
+    .topbar nav{display:none} /* ハンバーガーメニューで代替 */
+    .hamburger{display:flex !important}
+
+    /* ミニマップ: 非表示（画面が狭いため） */
+    .minimap{display:none}
+
+    /* ヒント */
+    .hint{font-size:9px;bottom:16px;letter-spacing:.15em}
+
+    /* HUD非表示 */
     .hud{display:none}
-    .modal h1{font-size:32px}
-    .modal-inner{padding:30px 22px 60px;margin:40px auto}
-    .preview-hero .name{font-size:28px}
+
+    /* モーダル全般 */
+    .modal-inner{padding:20px 14px 60px;margin:0 auto}
+    .modal h1{font-size:22px;margin-bottom:16px}
+    .modal h1 .en{font-size:11px}
+    .modal h2{font-size:10px}
+    .modal h3{margin:18px 0 8px}
+    .modal p{font-size:12px;line-height:1.7;margin-bottom:10px}
+    .modal-close{top:10px;right:12px;width:38px;height:38px;font-size:12px}
+
+    /* ビジュアライザ共通: キャンバス上、コントロール下に縦積み */
+    .viz-wrap{grid-template-columns:1fr;gap:14px}
+    .viz-canvas-wrap{aspect-ratio:1/1;max-height:55vw}
+    .viz-controls .row{padding:9px;margin-bottom:10px}
+    .viz-controls label{font-size:10px;margin-bottom:5px}
+    .viz-controls .val{font-size:12px}
+    .viz-controls .btn-group button{padding:6px 2px;font-size:8px}
+    .viz-controls .actions button{padding:7px;font-size:9px}
+    .viz-info{font-size:9px;padding:8px;line-height:1.55}
+
+    /* SVDD */
+    .svdd-wrap{grid-template-columns:1fr}
+    .svdd-canvas-wrap{max-height:55vw}
+    .svdd-controls .row{padding:9px;margin-bottom:10px}
+    .svdd-controls label{font-size:10px}
+    .svdd-controls .val{font-size:12px}
+    .svdd-controls .kernel-buttons button{padding:7px 2px;font-size:9px}
+    .svdd-controls .actions button{padding:7px;font-size:9px}
+    .svdd-info{font-size:9px}
+
+    /* t-SNE */
     .tsne-wrap{grid-template-columns:1fr}
+    .tsne-canvas-wrap{max-height:55vw}
+    .tsne-controls .row{padding:9px;margin-bottom:10px}
+
+    /* ヒーロー穴プレビュー */
+    .preview-hero .name{font-size:28px}
+
+    /* CV */
+    .modal ul li{font-size:12px;padding:7px 0}
+    .modal .pub .ttl{font-size:12px}
+
+    /* タッチ操作のためのクラスモード切替ボタン */
+    .touch-class-toggle{display:flex !important}
   }
+
+  /* ===== ハンバーガーメニュー ===== */
+  .hamburger{
+    display:none;
+    flex-direction:column;gap:5px;
+    background:none;border:none;cursor:pointer;
+    padding:4px;z-index:70;
+  }
+  .hamburger span{
+    display:block;width:20px;height:1.5px;
+    background:var(--fg-2);transition:all .3s;
+  }
+  .hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+  .hamburger.open span:nth-child(2){opacity:0}
+  .hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+  .mobile-nav{
+    display:none;
+    position:fixed;top:0;left:0;right:0;bottom:0;
+    background:rgba(10,10,12,0.97);
+    backdrop-filter:blur(16px);
+    z-index:65;
+    flex-direction:column;
+    align-items:center;justify-content:center;
+    gap:0;
+  }
+  .mobile-nav.open{display:flex}
+  .mobile-nav a{
+    font-family:'JetBrains Mono',monospace;
+    font-size:14px;letter-spacing:.25em;
+    color:var(--fg-2);padding:16px 24px;
+    border-bottom:1px solid var(--line);
+    width:100%;text-align:center;
+    transition:color .2s;
+  }
+  .mobile-nav a:active{color:var(--accent)}
+
+  /* タッチ用クラス切替トグル（SVM, k-NN） */
+  .touch-class-toggle{
+    display:none;
+    gap:4px;margin-bottom:8px;
+  }
+  .touch-class-toggle button{
+    flex:1;padding:10px;
+    border:2px solid var(--line-2);
+    font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;
+    color:var(--fg-2);transition:all .2s;
+  }
+  .touch-class-toggle button.active-blue{border-color:#4488ff;color:#4488ff;background:rgba(68,136,255,0.1)}
+  .touch-class-toggle button.active-red{border-color:#ff3860;color:#ff3860;background:rgba(255,56,96,0.1)}
 </style>
 </head>
 <body>
@@ -517,7 +634,24 @@
     <a href="#" data-jump="kde">[ KDE ]</a>
     <a href="#" data-jump="contact">[ CONTACT ]</a>
   </nav>
+  <button class="hamburger" id="hamburger" aria-label="menu">
+    <span></span><span></span><span></span>
+  </button>
 </header>
+
+<!-- モバイルナビゲーション -->
+<nav class="mobile-nav" id="mobileNav">
+  <a href="#" data-mobile-jump="hero">[ HOME ]</a>
+  <a href="#" data-mobile-jump="about">[ CV ]</a>
+  <a href="#" data-mobile-jump="svdd">[ SVDD ]</a>
+  <a href="#" data-mobile-jump="tsne">[ t-SNE ]</a>
+  <a href="#" data-mobile-jump="svm">[ SVM ]</a>
+  <a href="#" data-mobile-jump="knn">[ k-NN ]</a>
+  <a href="#" data-mobile-jump="kmeans">[ k-means ]</a>
+  <a href="#" data-mobile-jump="gd">[ GD ]</a>
+  <a href="#" data-mobile-jump="kde">[ KDE ]</a>
+  <a href="#" data-mobile-jump="contact">[ CONTACT ]</a>
+</nav>
 
 <div class="hint"><span>◀︎ DRAG / SCROLL / CLICK A HOLE — ∞ LOOP ▶︎</span></div>
 
@@ -971,7 +1105,11 @@
 <template id="modal-svm">
   <h2>// PLAY / 03</h2>
   <h1>SVM Visualizer<span class="en">サポートベクターマシン — マージン最大化を観察しよう</span></h1>
-  <p>キャンバスをクリックして2クラスの点（青・赤）を置いてください．SVMが学習した<strong style="color:var(--accent);">決定境界とマージン</strong>が表示されます．<strong style="color:var(--accent);">C</strong>（マージン-誤分類トレードオフ）と<strong style="color:var(--accent);">カーネル</strong>（Linear/RBF/Poly）を変えて境界の変化を観察してください．右クリックで赤クラスを配置できます．</p>
+  <p>キャンバスをクリックして2クラスの点を置いてください．<strong style="color:var(--accent);">C</strong>（マージン-誤分類トレードオフ）と<strong style="color:var(--accent);">カーネル</strong>（Linear/RBF/Poly）を変えて境界の変化を観察してください．PC: 左クリック=青 / 右クリック=赤，スマホ: 下のボタンで切替．</p>
+  <div class="touch-class-toggle" id="svmClassToggle">
+    <button id="svmToggleBlue" class="active-blue">● 青クラス</button>
+    <button id="svmToggleRed">● 赤クラス</button>
+  </div>
   <div class="viz-wrap">
     <div class="viz-canvas-wrap">
       <canvas class="viz-canvas" id="svmCanvas" width="600" height="600"></canvas>
@@ -1018,7 +1156,11 @@
 <template id="modal-knn">
   <h2>// PLAY / 04</h2>
   <h1>k-NN Visualizer<span class="en">k近傍法 — kを変えると境界がこんなに変わる</span></h1>
-  <p>キャンバスをクリックして点（左クリック=青，右クリック=赤）を配置してください．<strong style="color:var(--accent);">k</strong>（参照する近傍数）を変えると決定境界が滑らか↔細かくなります．kが小さいと過学習，大きいと過少適合を体験できます．</p>
+  <p>キャンバスをクリックして点を配置してください．<strong style="color:var(--accent);">k</strong>（参照する近傍数）を変えると決定境界が滑らか↔細かくなります．PC: 左クリック=青 / 右クリック=赤，スマホ: 下のボタンで切替．</p>
+  <div class="touch-class-toggle" id="knnClassToggle">
+    <button id="knnToggleBlue" class="active-blue">● 青クラス</button>
+    <button id="knnToggleRed">● 赤クラス</button>
+  </div>
   <div class="viz-wrap">
     <div class="viz-canvas-wrap">
       <canvas class="viz-canvas" id="knnCanvas" width="600" height="600"></canvas>
@@ -1408,6 +1550,24 @@
   window.addEventListener('resize', apply);
   buildMinimapDots();
   center();
+
+  // ===== ハンバーガーメニュー =====
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobileNav');
+  if(hamburger && mobileNav){
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileNav.classList.toggle('open');
+    });
+    document.querySelectorAll('[data-mobile-jump]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        hamburger.classList.remove('open');
+        mobileNav.classList.remove('open');
+        jumpTo(a.dataset.mobileJump);
+      });
+    });
+  }
 })();
 
 /* ===========================================================================
@@ -1468,6 +1628,16 @@ const SVDD = (() => {
     kernel = 'rbf'; C = 0.4; gamma = 0.01;
 
     canvas.addEventListener('click', onClick);
+    canvas.addEventListener('touchstart', e=>{
+      e.preventDefault();
+      const r=canvas.getBoundingClientRect();
+      const t=e.touches[0];
+      const x=(t.clientX-r.left)*(canvas.width/r.width);
+      const y=(t.clientY-r.top)*(canvas.height/r.height);
+      points.push([x,y]);
+      document.getElementById('svddCount').textContent=`N = ${points.length}`;
+      draw();
+    },{passive:false});
 
     document.querySelectorAll('.kernel-buttons button').forEach(b => {
       b.addEventListener('click', () => {
@@ -2103,13 +2273,31 @@ const SVM_Viz = (() => {
   let bluePoints=[], redPoints=[];
   let kernel='linear', C=1.0, gamma=0.5;
 
+  let touchClass = 'blue'; // タッチ時のデフォルトクラス
+
   function init(){
     canvas=document.getElementById('svmCanvas');
     ctx=canvas.getContext('2d');
     bluePoints=[]; redPoints=[];
+    touchClass='blue';
 
     canvas.addEventListener('click', onLeft);
     canvas.addEventListener('contextmenu', onRight);
+    canvas.addEventListener('touchstart', onTouch, {passive:false});
+
+    // タッチ用クラス切替ボタン
+    const toggleBlue=document.getElementById('svmToggleBlue');
+    const toggleRed=document.getElementById('svmToggleRed');
+    if(toggleBlue && toggleRed){
+      toggleBlue.addEventListener('click',()=>{
+        touchClass='blue';
+        toggleBlue.className='active-blue'; toggleRed.className='';
+      });
+      toggleRed.addEventListener('click',()=>{
+        touchClass='red';
+        toggleBlue.className=''; toggleRed.className='active-red';
+      });
+    }
 
     document.querySelectorAll('[data-svm-kernel]').forEach(b=>{
       b.addEventListener('click',()=>{
@@ -2130,11 +2318,21 @@ const SVM_Viz = (() => {
     document.getElementById('svmClear').addEventListener('click',()=>{bluePoints=[];redPoints=[];updateCount();draw();});
 
     sample();
-    return ()=>{canvas.removeEventListener('click',onLeft);canvas.removeEventListener('contextmenu',onRight);};
+    return ()=>{canvas.removeEventListener('click',onLeft);canvas.removeEventListener('contextmenu',onRight);canvas.removeEventListener('touchstart',onTouch);};
   }
 
   function onLeft(e){e.preventDefault();const [x,y]=pos(e);bluePoints.push([x,y]);updateCount();draw();}
   function onRight(e){e.preventDefault();const [x,y]=pos(e);redPoints.push([x,y]);updateCount();draw();}
+  function onTouch(e){
+    e.preventDefault();
+    const r=canvas.getBoundingClientRect();
+    const t=e.touches[0];
+    const x=(t.clientX-r.left)*(canvas.width/r.width);
+    const y=(t.clientY-r.top)*(canvas.height/r.height);
+    if(touchClass==='blue') bluePoints.push([x,y]);
+    else redPoints.push([x,y]);
+    updateCount(); draw();
+  }
   function pos(e){const r=canvas.getBoundingClientRect();return[(e.clientX-r.left)*(canvas.width/r.width),(e.clientY-r.top)*(canvas.height/r.height)];}
   function updateCount(){document.getElementById('svmCount').textContent=`Blue=${bluePoints.length} Red=${redPoints.length}`;}
 
@@ -2336,15 +2534,25 @@ const KNN_Viz = (() => {
   let canvas, ctx;
   let bluePoints=[], redPoints=[];
   let k=3, distMetric='euclidean';
+  let touchClass='blue';
 
   function init(){
     canvas=document.getElementById('knnCanvas');
     ctx=canvas.getContext('2d');
     bluePoints=[]; redPoints=[];
+    touchClass='blue';
 
     canvas.addEventListener('click', onLeft);
     canvas.addEventListener('contextmenu', onRight);
     canvas.addEventListener('mousemove', onHover);
+    canvas.addEventListener('touchstart', onTouch, {passive:false});
+
+    const toggleBlue=document.getElementById('knnToggleBlue');
+    const toggleRed=document.getElementById('knnToggleRed');
+    if(toggleBlue && toggleRed){
+      toggleBlue.addEventListener('click',()=>{touchClass='blue';toggleBlue.className='active-blue';toggleRed.className='';});
+      toggleRed.addEventListener('click',()=>{touchClass='red';toggleBlue.className='';toggleRed.className='active-red';});
+    }
 
     document.getElementById('knnK').addEventListener('input',e=>{
       k=parseInt(e.target.value);
@@ -2365,6 +2573,7 @@ const KNN_Viz = (() => {
       canvas.removeEventListener('click',onLeft);
       canvas.removeEventListener('contextmenu',onRight);
       canvas.removeEventListener('mousemove',onHover);
+      canvas.removeEventListener('touchstart',onTouch);
     };
   }
 
@@ -2373,6 +2582,16 @@ const KNN_Viz = (() => {
   function pos(e){const r=canvas.getBoundingClientRect();return[(e.clientX-r.left)*(canvas.width/r.width),(e.clientY-r.top)*(canvas.height/r.height)];}
   function updateCount(){document.getElementById('knnCount').textContent=`Blue=${bluePoints.length} Red=${redPoints.length}`;}
 
+  function onTouch(e){
+    e.preventDefault();
+    const r=canvas.getBoundingClientRect();
+    const t=e.touches[0];
+    const x=(t.clientX-r.left)*(canvas.width/r.width);
+    const y=(t.clientY-r.top)*(canvas.height/r.height);
+    if(touchClass==='blue') bluePoints.push([x,y]);
+    else redPoints.push([x,y]);
+    updateCount(); draw();
+  }
   let hoverX=-1,hoverY=-1;
   function onHover(e){const[x,y]=pos(e);hoverX=x;hoverY=y;draw();}
 
@@ -2724,10 +2943,15 @@ const GD_Viz = (() => {
     const lrSl=document.getElementById('gdLR');
     lrSl.addEventListener('input',()=>{lr=parseFloat(lrSl.value);document.getElementById('gdLRVal').textContent=`LR = ${lr.toFixed(3)}`;reset();});
 
-    canvas.addEventListener('click',e=>{
-      const[px,py]=canvasToWorld(pos(e));
+    function handleGDPointer(e2){const[px,py]=canvasToWorld(pos(e2));resetWithStart(px,py);}
+    canvas.addEventListener('click',handleGDPointer);
+    canvas.addEventListener('touchstart',e=>{
+      e.preventDefault();
+      const r=canvas.getBoundingClientRect();
+      const fake={clientX:e.touches[0].clientX,clientY:e.touches[0].clientY};
+      const[px,py]=canvasToWorld([(fake.clientX-r.left)*(canvas.width/r.width),(fake.clientY-r.top)*(canvas.height/r.height)]);
       resetWithStart(px,py);
-    });
+    },{passive:false});
 
     document.getElementById('gdRun').addEventListener('click',toggleRun);
     document.getElementById('gdReset').addEventListener('click',reset);
@@ -2857,14 +3081,17 @@ const KDE_Viz = (() => {
     ctx=canvas.getContext('2d');
     points=[];
 
+    function addPoint(x,y){points.push([x,y]);document.getElementById('kdeCount').textContent=`N = ${points.length}`;draw();}
     canvas.addEventListener('click',e=>{
       const r=canvas.getBoundingClientRect();
-      const x=(e.clientX-r.left)*(canvas.width/r.width);
-      const y=(e.clientY-r.top)*(canvas.height/r.height);
-      points.push([x,y]);
-      document.getElementById('kdeCount').textContent=`N = ${points.length}`;
-      draw();
+      addPoint((e.clientX-r.left)*(canvas.width/r.width),(e.clientY-r.top)*(canvas.height/r.height));
     });
+    canvas.addEventListener('touchstart',e=>{
+      e.preventDefault();
+      const r=canvas.getBoundingClientRect();
+      const t=e.touches[0];
+      addPoint((t.clientX-r.left)*(canvas.width/r.width),(t.clientY-r.top)*(canvas.height/r.height));
+    },{passive:false});
 
     const bwSl=document.getElementById('kdeBW');
     bwSl.addEventListener('input',()=>{bw=parseFloat(bwSl.value);document.getElementById('kdeBWVal').textContent=`h = ${bw.toFixed(3)}`;draw();});
