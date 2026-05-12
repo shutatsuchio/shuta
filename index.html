@@ -205,57 +205,7 @@
   /* SVDD穴：散布図と円 */
   .preview-svdd svg{width:80%;height:80%}
 
-  /* ターミナル穴 */
-  .preview-term{
-    background:#000;width:80%;height:70%;
-    border:1px solid var(--line-2);
-    font-family:'JetBrains Mono',monospace;
-    font-size:9px;line-height:1.6;
-    color:var(--accent);text-align:left;
-    padding:10px 12px;
-  }
-  .preview-term .pr{color:var(--accent-2)}
-  .preview-term .o{color:var(--fg-2)}
-
   /* 異常検知ゲーム穴 */
-  .preview-evade{
-    width:90%;height:90%;
-    display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(6,1fr);
-    gap:3px;padding:10px;
-  }
-  .preview-evade span{
-    background:rgba(255,255,255,0.15);border-radius:50%;
-  }
-  .preview-evade span.target{
-    background:var(--accent-2);box-shadow:0 0 8px var(--accent-2);
-  }
-
-  /* お絵描き穴 */
-  .preview-draw{
-    width:80%;height:80%;background:#fff;
-    position:relative;
-  }
-  .preview-draw::before{
-    content:'';position:absolute;
-    width:60%;height:60%;
-    top:20%;left:20%;
-    border:8px solid #000;border-radius:50%;
-  }
-  .preview-draw::after{
-    content:'?';position:absolute;
-    bottom:6px;right:10px;
-    font-size:24px;font-weight:900;color:#000;
-  }
-
-  /* しりとり穴 */
-  .preview-shiri{
-    color:var(--fg);font-family:'JetBrains Mono',monospace;
-    font-size:10px;line-height:1.8;text-align:left;padding:20px;
-  }
-  .preview-shiri .me{color:var(--accent)}
-  .preview-shiri .ai{color:var(--accent-2)}
-  .preview-shiri .ar{color:var(--muted)}
-
   /* ===== ミニマップ ===== */
   .minimap{
     position:fixed;right:20px;bottom:20px;
@@ -385,6 +335,56 @@
     display:grid;grid-template-columns:1fr 280px;gap:30px;
     margin-top:20px;
   }
+
+  /* ===== 共通ビジュアライザCSS ===== */
+  .viz-wrap{
+    display:grid;grid-template-columns:1fr 260px;gap:28px;
+    margin-top:20px;
+  }
+  @media(max-width:768px){.viz-wrap{grid-template-columns:1fr}}
+  .viz-canvas-wrap{
+    background:#0a0a0c;border:1px solid var(--line-2);
+    aspect-ratio:1/1;position:relative;
+  }
+  .viz-canvas{display:block;width:100%;height:100%;}
+  .viz-controls{font-family:'JetBrains Mono',monospace;font-size:11px}
+  .viz-controls .row{
+    margin-bottom:16px;padding:12px;
+    border:1px solid var(--line);background:rgba(255,255,255,0.02);
+  }
+  .viz-controls label{
+    display:block;color:var(--accent);
+    margin-bottom:7px;letter-spacing:.14em;
+  }
+  .viz-controls input[type=range]{width:100%;accent-color:var(--accent);}
+  .viz-controls .val{color:var(--fg);font-size:13px;margin-top:4px}
+  .viz-controls .btn-group{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap;}
+  .viz-controls .btn-group button{
+    flex:1;padding:7px 4px;min-width:50px;
+    border:1px solid var(--line-2);
+    color:var(--fg-2);font-size:9px;letter-spacing:.08em;transition:all .2s;
+  }
+  .viz-controls .btn-group button.active{
+    border-color:var(--accent);color:var(--accent);
+    background:rgba(0,255,157,0.08);
+  }
+  .viz-controls .actions{display:flex;gap:6px;margin-top:6px}
+  .viz-controls .actions button{
+    flex:1;padding:8px;border:1px solid var(--line-2);
+    color:var(--fg-2);font-size:10px;letter-spacing:.1em;
+  }
+  .viz-controls .actions button:hover{border-color:var(--accent);color:var(--accent)}
+  .viz-controls .actions button.running{
+    border-color:var(--accent-2);color:var(--accent-2);
+  }
+  .viz-info{
+    margin-top:12px;padding:10px;
+    background:#000;border:1px solid var(--line);
+    font-size:10px;color:var(--fg-2);line-height:1.65;
+  }
+  .viz-progress{margin-top:6px;height:2px;background:var(--line);position:relative;overflow:hidden;}
+  .viz-progress-bar{position:absolute;left:0;top:0;height:100%;background:var(--accent);transition:width .1s;}
+
   @media (max-width:768px){.svdd-wrap{grid-template-columns:1fr}}
   .svdd-canvas-wrap{
     background:#fff;border:1px solid var(--line-2);
@@ -427,196 +427,63 @@
     font-size:10px;color:var(--fg-2);line-height:1.6;
   }
 
-  /* ターミナル */
-  .term-screen{
-    background:#000;border:1px solid var(--line-2);
-    padding:18px 22px;
-    font-family:'JetBrains Mono',monospace;
-    font-size:13px;line-height:1.7;
-    color:var(--accent);
-    height:480px;overflow-y:auto;
+  /* t-SNE ビジュアライザ CSS */
+  .tsne-wrap{
+    display:grid;grid-template-columns:1fr 280px;gap:30px;
     margin-top:20px;
   }
-  .term-screen .pr{color:var(--accent-2)}
-  .term-screen .o{color:var(--fg-2)}
-  .term-screen .err{color:var(--accent-2)}
-  .term-screen .hl{color:var(--accent);font-weight:700}
-  .term-input-wrap{
-    display:flex;align-items:center;gap:8px;
-    background:#000;border:1px solid var(--line-2);
-    border-top:none;padding:12px 22px;
-    font-family:'JetBrains Mono',monospace;font-size:13px;
-    color:var(--accent);
+  @media (max-width:768px){.tsne-wrap{grid-template-columns:1fr}}
+  .tsne-canvas-wrap{
+    background:#0a0a0c;border:1px solid var(--line-2);
+    aspect-ratio:1/1;position:relative;
   }
-  .term-input-wrap span{color:var(--accent-2)}
-  .term-input-wrap input{
-    flex:1;background:transparent;border:none;outline:none;
-    color:var(--accent);font-family:inherit;font-size:inherit;
+  .tsne-canvas{display:block;width:100%;height:100%;}
+  .tsne-controls{font-family:'JetBrains Mono',monospace;font-size:11px}
+  .tsne-controls .row{
+    margin-bottom:18px;padding:14px;
+    border:1px solid var(--line);background:rgba(255,255,255,0.02);
   }
-  .cursor{display:inline-block;width:8px;height:14px;background:var(--accent);vertical-align:middle;animation:blink 1s steps(2) infinite}
-  @keyframes blink{50%{opacity:0}}
-
-  /* 異常検知ゲーム */
-  .evade-arena{
-    position:relative;width:100%;height:520px;
-    background:#000;border:1px solid var(--line-2);
-    margin-top:20px;overflow:hidden;cursor:none;
+  .tsne-controls label{
+    display:block;color:var(--accent);
+    margin-bottom:8px;letter-spacing:.15em;
   }
-  .evade-stat{
-    position:absolute;top:12px;left:14px;
-    font-family:'JetBrains Mono',monospace;font-size:11px;
-    color:var(--accent);letter-spacing:.15em;
-    z-index:5;line-height:1.7;
+  .tsne-controls input[type=range]{
+    width:100%;accent-color:var(--accent);
   }
-  .evade-dot{
-    position:absolute;width:14px;height:14px;
-    background:rgba(255,255,255,0.85);border-radius:50%;
-    transform:translate(-50%,-50%);
-    transition:background .2s;
+  .tsne-controls .val{color:var(--fg);font-size:14px;margin-top:4px}
+  .tsne-controls .dataset-buttons{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap;}
+  .tsne-controls .dataset-buttons button{
+    flex:1;padding:8px 4px;min-width:60px;
+    border:1px solid var(--line-2);
+    color:var(--fg-2);font-size:9px;letter-spacing:.08em;
+    transition:all .2s;
   }
-  .evade-player{
-    background:var(--accent);
-    box-shadow:0 0 12px var(--accent);
-  }
-  .evade-detector{
-    position:absolute;width:90px;height:90px;
-    border:2px solid var(--accent-2);
-    border-radius:50%;
-    transform:translate(-50%,-50%);
-    pointer-events:none;
-    background:radial-gradient(circle, rgba(255,56,96,0.18) 0%, rgba(255,56,96,0.05) 70%, transparent 100%);
-    box-shadow:0 0 20px rgba(255,56,96,0.4), inset 0 0 20px rgba(255,56,96,0.2);
-    will-change:left, top;
-  }
-  .evade-detector::before{
-    content:'';
-    position:absolute;inset:-4px;
-    border:1px dashed var(--accent-2);
-    border-radius:50%;
-    opacity:.6;
-    animation:scanRing 1.6s linear infinite;
-  }
-  @keyframes scanRing{
-    0%{transform:scale(1);opacity:.6}
-    50%{transform:scale(1.15);opacity:.2}
-    100%{transform:scale(1);opacity:.6}
-  }
-  .evade-detector::after{
-    content:'SCAN';
-    position:absolute;top:-18px;left:50%;
-    transform:translateX(-50%);
-    font-family:'JetBrains Mono',monospace;font-size:9px;
-    color:var(--accent-2);letter-spacing:.2em;
-  }
-  .evade-detector.d2::after{content:'TRACK'}
-  .evade-detector.d3::after{content:'HUNT'}
-  .evade-msg{
-    position:absolute;top:50%;left:50%;
-    transform:translate(-50%,-50%);
-    font-family:'JetBrains Mono',monospace;
-    color:var(--accent-2);font-size:24px;
-    letter-spacing:.15em;text-align:center;
-    z-index:10;display:none;
-  }
-  .evade-msg.show{display:block}
-  .evade-msg .sub{
-    display:block;font-size:11px;color:var(--fg-2);
-    margin-top:14px;letter-spacing:.1em;
-  }
-  .evade-actions{margin-top:14px;display:flex;gap:8px}
-  .evade-actions button{
-    padding:10px 18px;border:1px solid var(--line-2);
-    font-family:'JetBrains Mono',monospace;font-size:11px;
-    color:var(--fg-2);letter-spacing:.15em;
-  }
-  .evade-actions button:hover{border-color:var(--accent);color:var(--accent)}
-
-  /* お絵描き */
-  .draw-wrap{
-    display:grid;grid-template-columns:1fr 320px;gap:24px;margin-top:20px;
-  }
-  @media (max-width:768px){.draw-wrap{grid-template-columns:1fr}}
-  .draw-canvas-wrap{position:relative}
-  .draw-canvas{
-    width:100%;aspect-ratio:1/1;
-    background:#fff;border:1px solid var(--line-2);
-    cursor:crosshair;display:block;touch-action:none;
-  }
-  .draw-side{font-family:'JetBrains Mono',monospace;font-size:11px}
-  .draw-side .topic-box{
-    background:#000;border:1px solid var(--accent);
-    padding:18px;margin-bottom:14px;
-  }
-  .draw-side .topic-label{
-    color:var(--accent);font-size:10px;letter-spacing:.25em;margin-bottom:10px;
-  }
-  .draw-side .topic{
-    color:var(--fg);font-size:22px;font-weight:700;letter-spacing:.05em;
-  }
-  .draw-side .guess-box{
-    background:rgba(255,255,255,0.02);border:1px solid var(--line);
-    padding:14px;margin-bottom:14px;min-height:100px;
-  }
-  .draw-side .guess-label{
-    color:var(--accent-2);font-size:10px;letter-spacing:.25em;margin-bottom:8px;
-  }
-  .draw-side .guess{font-size:14px;color:var(--fg);line-height:1.6}
-  .draw-side .actions{display:flex;flex-direction:column;gap:6px}
-  .draw-side .actions button{
-    padding:10px;border:1px solid var(--line-2);
-    color:var(--fg-2);font-size:11px;letter-spacing:.15em;
-  }
-  .draw-side .actions button:hover{border-color:var(--accent);color:var(--accent)}
-  .draw-side .actions button.primary{
+  .tsne-controls .dataset-buttons button.active{
     border-color:var(--accent);color:var(--accent);
-    background:rgba(0,255,157,0.06);
+    background:rgba(0,255,157,0.08);
   }
-
-  /* しりとり */
-  .shiri-wrap{
-    display:grid;grid-template-columns:1fr;gap:14px;margin-top:20px;
-    max-width:720px;
+  .tsne-controls .actions{display:flex;gap:6px;margin-top:8px}
+  .tsne-controls .actions button{
+    flex:1;padding:8px;border:1px solid var(--line-2);
+    color:var(--fg-2);font-size:10px;letter-spacing:.1em;
   }
-  .shiri-log{
-    height:400px;overflow-y:auto;
-    background:#000;border:1px solid var(--line-2);
-    padding:18px 22px;
-    font-family:'JetBrains Mono',monospace;font-size:13px;
-    line-height:1.9;
+  .tsne-controls .actions button:hover{border-color:var(--accent);color:var(--accent)}
+  .tsne-controls .actions button.running{
+    border-color:var(--accent-2);color:var(--accent-2);
+    animation:pulse 1.2s ease-in-out infinite;
   }
-  .shiri-log .turn{margin-bottom:14px;padding-bottom:10px;border-bottom:1px dashed var(--line)}
-  .shiri-log .turn:last-child{border:none}
-  .shiri-log .who{
-    font-size:10px;letter-spacing:.2em;
-    margin-bottom:4px;
+  .tsne-info{
+    margin-top:14px;padding:12px;
+    background:#000;border:1px solid var(--line);
+    font-size:10px;color:var(--fg-2);line-height:1.6;
   }
-  .shiri-log .who.me{color:var(--accent)}
-  .shiri-log .who.ai{color:var(--accent-2)}
-  .shiri-log .word{font-size:18px;color:var(--fg);font-weight:700}
-  .shiri-log .yomi{font-size:10px;color:var(--muted);margin-left:8px}
-  .shiri-log .desc{font-size:10px;color:var(--fg-2);margin-top:4px;font-style:italic}
-  .shiri-input-wrap{
-    display:flex;gap:8px;align-items:stretch;
+  .tsne-progress{
+    margin-top:8px;height:2px;background:var(--line);
+    position:relative;overflow:hidden;
   }
-  .shiri-info{
-    background:rgba(0,255,157,0.04);border:1px solid var(--line-2);
-    padding:10px 14px;font-family:'JetBrains Mono',monospace;
-    font-size:11px;color:var(--fg-2);
-    display:flex;justify-content:space-between;align-items:center;
-  }
-  .shiri-info .next{color:var(--accent);font-size:18px;font-weight:700}
-  .shiri-input-wrap input{
-    flex:1;padding:14px 18px;
-    background:#000;border:1px solid var(--line-2);
-    color:var(--fg);font-family:'JetBrains Mono',monospace;font-size:14px;
-    outline:none;
-  }
-  .shiri-input-wrap input:focus{border-color:var(--accent)}
-  .shiri-input-wrap button{
-    padding:0 24px;
-    border:1px solid var(--accent);color:var(--accent);
-    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;
-    background:rgba(0,255,157,0.06);
+  .tsne-progress-bar{
+    position:absolute;left:0;top:0;height:100%;
+    background:var(--accent);transition:width .1s;
   }
 
   @media (max-width:768px){
@@ -630,8 +497,7 @@
     .modal h1{font-size:32px}
     .modal-inner{padding:30px 22px 60px;margin:40px auto}
     .preview-hero .name{font-size:28px}
-    .term-screen{height:340px;font-size:11px}
-    .evade-arena{height:380px}
+    .tsne-wrap{grid-template-columns:1fr}
   }
 </style>
 </head>
@@ -643,6 +509,12 @@
     <a href="#" data-jump="hero">[ HOME ]</a>
     <a href="#" data-jump="about">[ CV ]</a>
     <a href="#" data-jump="svdd">[ SVDD ]</a>
+    <a href="#" data-jump="tsne">[ t-SNE ]</a>
+    <a href="#" data-jump="svm">[ SVM ]</a>
+    <a href="#" data-jump="knn">[ k-NN ]</a>
+    <a href="#" data-jump="kmeans">[ k-means ]</a>
+    <a href="#" data-jump="gd">[ GD ]</a>
+    <a href="#" data-jump="kde">[ KDE ]</a>
     <a href="#" data-jump="contact">[ CONTACT ]</a>
   </nav>
 </header>
@@ -691,7 +563,7 @@
         <div class="preview-cv">
 <span class="y">2018</span> 富山高専 入学<br>
 <span class="y">2023</span> 富山高専 専攻科<br>
-<span class="y">2025</span> 筑波大学 大学院<br>
+<span class="y">2025</span> 筑波大学院<br>
 <span class="y">2025</span> 産総研 RA<br>
 <br>
 &gt; education / research<br>
@@ -730,75 +602,163 @@
       </div>
     </div>
 
-    <!-- ターミナル -->
-    <div class="hole" data-block="term" data-modal="term" style="left:2280px;top:480px;width:300px;height:300px;">
+    <!-- t-SNE ビジュアライザ -->
+    <div class="hole" data-block="tsne" data-modal="tsne" style="left:2280px;top:420px;width:340px;height:340px;">
       <div class="hole-content">
-        <div class="preview-term">
-<span class="pr">$</span> whoami<br>
-<span class="o">→ shuta_tsuchio</span><br>
-<span class="pr">$</span> ls papers/<br>
-<span class="o">→ svdd.pdf gan_ad.pdf</span><br>
-<span class="pr">$</span> help<span class="cursor"></span>
-        </div>
-      </div>
-      <div class="hole-label" style="width:300px;">
-        <div class="yr">PLAY / 02</div>
-        <div class="ja">ターミナル</div>
-        <div class="en">TERMINAL</div>
-        <div class="desc">擬似シェルで隠しコマンドを探そう。</div>
-      </div>
-    </div>
-
-    <!-- 異常検知される側 -->
-    <div class="hole" data-block="evade" data-modal="evade" style="left:2800px;top:280px;width:360px;height:360px;">
-      <div class="hole-content">
-        <div class="preview-evade">
-          <span></span><span></span><span></span><span></span><span></span><span></span>
-          <span></span><span></span><span></span><span></span><span></span><span></span>
-          <span></span><span></span><span class="target"></span><span></span><span></span><span></span>
-          <span></span><span></span><span></span><span></span><span></span><span></span>
-          <span></span><span></span><span></span><span></span><span></span><span></span>
-          <span></span><span></span><span></span><span></span><span></span><span></span>
-        </div>
-      </div>
-      <div class="hole-label" style="width:360px;">
-        <div class="yr">PLAY / 03</div>
-        <div class="ja">EVADE THE DETECTOR</div>
-        <div class="en">EVADE THE DETECTOR</div>
-        <div class="desc">99人の正常な点に紛れ込め。AIに見つかるな。</div>
-      </div>
-    </div>
-
-    <!-- ニューラルお絵描き -->
-    <div class="hole" data-block="draw" data-modal="draw" style="left:300px;top:1300px;width:380px;height:380px;">
-      <div class="hole-content">
-        <div class="preview-draw"></div>
-      </div>
-      <div class="hole-label" style="width:380px;">
-        <div class="yr">PLAY / 04</div>
-        <div class="ja">ニューラルお絵描き</div>
-        <div class="en">NEURAL SKETCH</div>
-        <div class="desc">何でもいいから絵を描いて、AIに当てさせよう。</div>
-      </div>
-    </div>
-
-    <!-- しりとり -->
-    <div class="hole" data-block="shiri" data-modal="shiri" style="left:900px;top:1380px;width:340px;height:340px;">
-      <div class="hole-content">
-        <div class="preview-shiri">
-<span class="me">YOU :</span> ねこ<br>
-<span class="ai">AI  :</span> 「コ」<br>
-<span class="ar">→</span> コンボリューション<br>
-<span class="me">YOU :</span> 何でも<br>
-<span class="ai">AI  :</span> ML/AI関連で<br>
-<span class="ar">→</span> 返答します
-        </div>
+        <svg viewBox="0 0 200 200" style="width:80%;height:80%">
+          <circle cx="65" cy="70" r="3" fill="#00ff9d" opacity="0.9"/>
+          <circle cx="75" cy="60" r="3" fill="#00ff9d" opacity="0.9"/>
+          <circle cx="55" cy="80" r="3" fill="#00ff9d" opacity="0.9"/>
+          <circle cx="80" cy="75" r="3" fill="#00ff9d" opacity="0.9"/>
+          <circle cx="60" cy="65" r="3" fill="#00ff9d" opacity="0.9"/>
+          <circle cx="130" cy="130" r="3" fill="#ff3860" opacity="0.9"/>
+          <circle cx="140" cy="120" r="3" fill="#ff3860" opacity="0.9"/>
+          <circle cx="120" cy="140" r="3" fill="#ff3860" opacity="0.9"/>
+          <circle cx="145" cy="135" r="3" fill="#ff3860" opacity="0.9"/>
+          <circle cx="125" cy="125" r="3" fill="#ff3860" opacity="0.9"/>
+          <circle cx="100" cy="45" r="3" fill="#ffaa00" opacity="0.9"/>
+          <circle cx="110" cy="35" r="3" fill="#ffaa00" opacity="0.9"/>
+          <circle cx="90" cy="40" r="3" fill="#ffaa00" opacity="0.9"/>
+          <circle cx="105" cy="55" r="3" fill="#ffaa00" opacity="0.9"/>
+          <text x="100" y="185" text-anchor="middle" fill="#00ff9d" font-family="monospace" font-size="9" letter-spacing="2">t-SNE</text>
+        </svg>
       </div>
       <div class="hole-label" style="width:340px;">
+        <div class="yr">PLAY / 02</div>
+        <div class="ja">t-SNEビジュアライザ</div>
+        <div class="en">t-SNE VISUALIZER</div>
+        <div class="desc">ハイパーパラメータで高次元データのクラスタ構造が変化する。</div>
+      </div>
+    </div>
+
+
+    <!-- SVM ビジュアライザ -->
+    <div class="hole" data-block="svm" data-modal="svm" style="left:3000px;top:280px;width:320px;height:320px;">
+      <div class="hole-content">
+        <svg viewBox="0 0 200 200" style="width:80%;height:80%">
+          <line x1="100" y1="20" x2="100" y2="180" stroke="#00ff9d" stroke-width="2" opacity="0.8"/>
+          <line x1="80" y1="20" x2="80" y2="180" stroke="#00ff9d" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.4"/>
+          <line x1="120" y1="20" x2="120" y2="180" stroke="#00ff9d" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.4"/>
+          <circle cx="60" cy="70" r="4" fill="#4488ff" opacity="0.9"/>
+          <circle cx="55" cy="100" r="4" fill="#4488ff" opacity="0.9"/>
+          <circle cx="65" cy="130" r="4" fill="#4488ff" opacity="0.9"/>
+          <circle cx="140" cy="60" r="4" fill="#ff3860" opacity="0.9"/>
+          <circle cx="145" cy="95" r="4" fill="#ff3860" opacity="0.9"/>
+          <circle cx="135" cy="125" r="4" fill="#ff3860" opacity="0.9"/>
+          <circle cx="90" cy="90" r="5" fill="none" stroke="#00ff9d" stroke-width="1.5"/>
+          <circle cx="110" cy="110" r="5" fill="none" stroke="#00ff9d" stroke-width="1.5"/>
+          <text x="100" y="192" text-anchor="middle" fill="#00ff9d" font-family="monospace" font-size="9" letter-spacing="2">SVM</text>
+        </svg>
+      </div>
+      <div class="hole-label" style="width:320px;">
+        <div class="yr">PLAY / 03</div>
+        <div class="ja">SVMビジュアライザ</div>
+        <div class="en">SVM VISUALIZER</div>
+        <div class="desc">C・カーネル・γでマージン最大化境界の変化を観察。</div>
+      </div>
+    </div>
+
+    <!-- k-NN ビジュアライザ -->
+    <div class="hole" data-block="knn" data-modal="knn" style="left:300px;top:1200px;width:320px;height:320px;">
+      <div class="hole-content">
+        <svg viewBox="0 0 200 200" style="width:80%;height:80%">
+          <circle cx="70" cy="80" r="3.5" fill="#4488ff" opacity="0.85"/>
+          <circle cx="80" cy="100" r="3.5" fill="#4488ff" opacity="0.85"/>
+          <circle cx="60" cy="110" r="3.5" fill="#4488ff" opacity="0.85"/>
+          <circle cx="130" cy="70" r="3.5" fill="#ff3860" opacity="0.85"/>
+          <circle cx="140" cy="100" r="3.5" fill="#ff3860" opacity="0.85"/>
+          <circle cx="120" cy="115" r="3.5" fill="#ff3860" opacity="0.85"/>
+          <circle cx="100" cy="90" r="6" fill="#ffaa00" stroke="#fff" stroke-width="1.5"/>
+          <circle cx="100" cy="90" r="30" fill="none" stroke="#00ff9d" stroke-width="1" stroke-dasharray="3,3" opacity="0.6"/>
+          <line x1="100" y1="90" x2="80" y2="100" stroke="#00ff9d" stroke-width="0.8" opacity="0.7"/>
+          <line x1="100" y1="90" x2="70" y2="80" stroke="#00ff9d" stroke-width="0.8" opacity="0.7"/>
+          <line x1="100" y1="90" x2="130" y2="70" stroke="#ff3860" stroke-width="0.8" opacity="0.7"/>
+          <text x="100" y="192" text-anchor="middle" fill="#00ff9d" font-family="monospace" font-size="9" letter-spacing="2">k-NN</text>
+        </svg>
+      </div>
+      <div class="hole-label" style="width:320px;">
+        <div class="yr">PLAY / 04</div>
+        <div class="ja">k-NNビジュアライザ</div>
+        <div class="en">k-NN VISUALIZER</div>
+        <div class="desc">k近傍数を変えるだけで決定境界が劇的に変化する。</div>
+      </div>
+    </div>
+
+    <!-- k-means ビジュアライザ -->
+    <div class="hole" data-block="kmeans" data-modal="kmeans" style="left:800px;top:1200px;width:320px;height:320px;">
+      <div class="hole-content">
+        <svg viewBox="0 0 200 200" style="width:80%;height:80%">
+          <circle cx="65" cy="75" r="3" fill="#00ff9d" opacity="0.7"/>
+          <circle cx="75" cy="90" r="3" fill="#00ff9d" opacity="0.7"/>
+          <circle cx="55" cy="85" r="3" fill="#00ff9d" opacity="0.7"/>
+          <circle cx="130" cy="65" r="3" fill="#ff3860" opacity="0.7"/>
+          <circle cx="140" cy="80" r="3" fill="#ff3860" opacity="0.7"/>
+          <circle cx="125" cy="80" r="3" fill="#ff3860" opacity="0.7"/>
+          <circle cx="90" cy="145" r="3" fill="#ffaa00" opacity="0.7"/>
+          <circle cx="105" cy="135" r="3" fill="#ffaa00" opacity="0.7"/>
+          <circle cx="100" cy="150" r="3" fill="#ffaa00" opacity="0.7"/>
+          <circle cx="65" cy="83" r="7" fill="none" stroke="#00ff9d" stroke-width="2"/>
+          <circle cx="132" cy="75" r="7" fill="none" stroke="#ff3860" stroke-width="2"/>
+          <circle cx="98" cy="143" r="7" fill="none" stroke="#ffaa00" stroke-width="2"/>
+          <text x="100" y="192" text-anchor="middle" fill="#00ff9d" font-family="monospace" font-size="9" letter-spacing="2">k-MEANS</text>
+        </svg>
+      </div>
+      <div class="hole-label" style="width:320px;">
         <div class="yr">PLAY / 05</div>
-        <div class="ja">研究者しりとり</div>
-        <div class="en">RESEARCHER SHIRITORI</div>
-        <div class="desc">AIは統計・機械学習・AI分野の語で返してきます。</div>
+        <div class="ja">k-meansビジュアライザ</div>
+        <div class="en">k-MEANS VISUALIZER</div>
+        <div class="desc">EMステップのアニメーション。クラスタ数・初期化方法を比較。</div>
+      </div>
+    </div>
+
+    <!-- 勾配降下法 ビジュアライザ -->
+    <div class="hole" data-block="gd" data-modal="gd" style="left:1300px;top:1200px;width:320px;height:320px;">
+      <div class="hole-content">
+        <svg viewBox="0 0 200 200" style="width:80%;height:80%">
+          <defs>
+            <radialGradient id="bgGrad" cx="55%" cy="60%" r="60%">
+              <stop offset="0%" stop-color="#ff3860" stop-opacity="0.3"/>
+              <stop offset="50%" stop-color="#ffaa00" stop-opacity="0.15"/>
+              <stop offset="100%" stop-color="#00ff9d" stop-opacity="0.05"/>
+            </radialGradient>
+          </defs>
+          <rect width="200" height="200" fill="url(#bgGrad)"/>
+          <ellipse cx="110" cy="120" rx="60" ry="40" fill="none" stroke="#ff3860" stroke-width="0.8" opacity="0.5"/>
+          <ellipse cx="110" cy="120" rx="40" ry="27" fill="none" stroke="#ffaa00" stroke-width="0.8" opacity="0.6"/>
+          <ellipse cx="110" cy="120" rx="20" ry="13" fill="none" stroke="#00ff9d" stroke-width="1" opacity="0.8"/>
+          <polyline points="60,60 78,80 90,98 100,110 107,117" stroke="#4488ff" stroke-width="2" fill="none" opacity="0.9"/>
+          <circle cx="107" cy="117" r="4" fill="#4488ff"/>
+          <circle cx="110" cy="120" r="4" fill="#00ff9d" opacity="0.9"/>
+          <text x="100" y="192" text-anchor="middle" fill="#00ff9d" font-family="monospace" font-size="9" letter-spacing="2">GRAD DESC</text>
+        </svg>
+      </div>
+      <div class="hole-label" style="width:320px;">
+        <div class="yr">PLAY / 06</div>
+        <div class="ja">勾配降下法ビジュアライザ</div>
+        <div class="en">GRADIENT DESCENT</div>
+        <div class="desc">損失関数の地形を降る経路。SGD/Adam/Momentumを比較。</div>
+      </div>
+    </div>
+
+    <!-- KDE ビジュアライザ -->
+    <div class="hole" data-block="kde" data-modal="kde" style="left:1800px;top:1200px;width:320px;height:320px;">
+      <div class="hole-content">
+        <svg viewBox="0 0 200 200" style="width:80%;height:80%">
+          <polyline points="20,160 40,155 60,130 80,80 100,55 120,70 140,120 160,148 180,158" stroke="#00ff9d" stroke-width="2" fill="none" opacity="0.9"/>
+          <polyline points="20,160 40,158 60,148 80,120 100,90 120,95 140,130 160,152 180,159" stroke="#ff3860" stroke-width="1.5" fill="none" opacity="0.7" stroke-dasharray="4,3"/>
+          <circle cx="60" cy="170" r="3" fill="#fff" opacity="0.7"/>
+          <circle cx="100" cy="170" r="3" fill="#fff" opacity="0.7"/>
+          <circle cx="80" cy="170" r="3" fill="#fff" opacity="0.7"/>
+          <circle cx="120" cy="170" r="3" fill="#fff" opacity="0.7"/>
+          <circle cx="140" cy="170" r="3" fill="#fff" opacity="0.7"/>
+          <text x="100" y="192" text-anchor="middle" fill="#00ff9d" font-family="monospace" font-size="9" letter-spacing="2">KDE</text>
+        </svg>
+      </div>
+      <div class="hole-label" style="width:320px;">
+        <div class="yr">PLAY / 07</div>
+        <div class="ja">KDEビジュアライザ</div>
+        <div class="en">KERNEL DENSITY ESTIMATION</div>
+        <div class="desc">バンド幅hで過学習・過少適合を直感的に体験。</div>
       </div>
     </div>
 
@@ -959,77 +919,269 @@
   </div>
 </template>
 
-<template id="modal-term">
+<template id="modal-tsne">
   <h2>// PLAY / 02</h2>
-  <h1>Terminal<span class="en">擬似シェル — type 'help' for commands</span></h1>
-  <div class="term-screen" id="termScreen"></div>
-  <div class="term-input-wrap">
-    <span>$</span>
-    <input id="termInput" autocomplete="off" spellcheck="false" placeholder="type a command...">
-  </div>
-</template>
+  <h1>t-SNE Visualizer<span class="en">高次元データを2Dに圧縮 — クラスタ構造を観察しよう</span></h1>
+  <p>t-SNE（t-distributed Stochastic Neighbor Embedding）は高次元データを2次元に非線形圧縮する手法です．<strong style="color:var(--accent);">Perplexity</strong>（局所的近傍の数）と<strong style="color:var(--accent);">Learning Rate</strong>を変えて，クラスタ構造の変化を観察してください．</p>
 
-<template id="modal-evade">
-  <h2>// PLAY / 03</h2>
-  <h1>Evade the Detector<span class="en">99人の正常な点に紛れ込め — INSTANT DEATH MODE</span></h1>
-  <p>あなたは緑の点．99個の白い点（正常）に紛れています．<strong style="color:var(--accent-2);">3つのAI検知器（赤い円）</strong>があなたを追い続けます．検知器は周囲の点と<strong>あなたの動きの異質さ</strong>を学習し，的確に追尾してきます．</p>
-  <p style="color:var(--accent-2);font-weight:700;letter-spacing:.1em;">▸ 一瞬でも検知器の中に入ったら即ゲームオーバー</p>
-  <div class="evade-arena" id="evadeArena">
-    <div class="evade-stat" id="evadeStat">TIME: 0.00s &nbsp;|&nbsp; STATUS: HIDDEN</div>
-    <div class="evade-detector" id="evadeDetector1"></div>
-    <div class="evade-detector" id="evadeDetector2"></div>
-    <div class="evade-detector" id="evadeDetector3"></div>
-    <div class="evade-msg" id="evadeMsg"></div>
-  </div>
-  <div class="evade-actions">
-    <button id="evadeRestart">RESTART</button>
-  </div>
-</template>
-
-<template id="modal-draw">
-  <h2>// PLAY / 04</h2>
-  <h1>Neural Sketch<span class="en">何かを描いて，AIに当てさせよう（精度に期待しないでください）</span></h1>
-  <p>左の白いキャンバスに何でも好きなものを描いてください（指でもマウスでも）．「GUESS」ボタンを押すと，AIがあなたの絵を見て，それが何かを推測します．お題は自由 — 動物，物，抽象的なもの，なんでもOKです．</p>
-
-  <div class="draw-wrap">
-    <div class="draw-canvas-wrap">
-      <canvas class="draw-canvas" id="drawCanvas" width="600" height="600"></canvas>
+  <div class="tsne-wrap">
+    <div class="tsne-canvas-wrap">
+      <canvas class="tsne-canvas" id="tsneCanvas" width="600" height="600"></canvas>
     </div>
-    <div class="draw-side">
-      <div class="topic-box">
-        <div class="topic-label">▸ TOPIC / お題</div>
-        <div class="topic" id="drawTopic">FREESTYLE</div>
+    <div class="tsne-controls">
+      <div class="row">
+        <label>DATASET / データセット</label>
+        <div class="dataset-buttons">
+          <button data-dataset="clusters" class="active">CLUSTERS</button>
+          <button data-dataset="spiral">SPIRAL</button>
+          <button data-dataset="circles">CIRCLES</button>
+          <button data-dataset="mnist">MNIST-like</button>
+        </div>
       </div>
-      <div class="guess-box">
-        <div class="guess-label">▸ AI'S GUESS / AIの推測</div>
-        <div class="guess" id="drawGuess">何か描いてGUESSを押してください．</div>
+      <div class="row">
+        <label>PERPLEXITY / 局所近傍数</label>
+        <input type="range" id="tsnePerp" min="2" max="80" step="1" value="30">
+        <div class="val" id="tsnePerpVal">Perplexity = 30</div>
+      </div>
+      <div class="row">
+        <label>LEARNING RATE / 学習率</label>
+        <input type="range" id="tsneLR" min="10" max="1000" step="10" value="200">
+        <div class="val" id="tsneLRVal">LR = 200</div>
+      </div>
+      <div class="row">
+        <label>ITERATIONS / 最大反復</label>
+        <input type="range" id="tsneIter" min="50" max="500" step="50" value="200">
+        <div class="val" id="tsneIterVal">Iter = 200</div>
       </div>
       <div class="actions">
-        <button id="drawGuessBtn" class="primary">GUESS / 推測する</button>
-        <button id="drawClear">CLEAR / クリア</button>
+        <button id="tsneRun">▶ RUN</button>
+        <button id="tsneReset">RESET</button>
+      </div>
+      <div class="tsne-progress"><div class="tsne-progress-bar" id="tsneBar" style="width:0%"></div></div>
+      <div class="tsne-info" id="tsneInfo">
+        ▸ RUNで最適化開始<br>
+        ▸ Perplexityが大きい → グローバル構造重視<br>
+        ▸ Perplexityが小さい → ローカル構造重視<br>
+        ▸ LRが大きすぎると発散，小さすぎると収束しない
       </div>
     </div>
   </div>
 </template>
 
-<template id="modal-shiri">
-  <h2>// PLAY / 05</h2>
-  <h1>Researcher Shiritori<span class="en">研究者しりとり — AIは統計・ML・AI分野で返します</span></h1>
-  <p>あなたは何でも好きな日本語の単語でしりとりができます．AIは <strong style="color:var(--accent);">統計・機械学習・AI分野</strong> の用語だけで返答します（例：勾配降下法，過学習，サポートベクトルなど）．AIが返せなくなったらあなたの勝ち．「ん」で終わるのもダメ，ひらがな/カタカナどちらでもOK．</p>
-  <p style="font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;">▸ 辞書 : 約200語 / 出典 : Google Developers ML Glossary, ITmedia AI用語辞典, zero to one G検定用語集, Qiita 機械学習用語一覧 など</p>
-
-  <div class="shiri-wrap">
-      <span>NEXT START : <span class="next" id="shiriNext">—</span></span>
-      <span id="shiriStatus">START !</span>
+<template id="modal-svm">
+  <h2>// PLAY / 03</h2>
+  <h1>SVM Visualizer<span class="en">サポートベクターマシン — マージン最大化を観察しよう</span></h1>
+  <p>キャンバスをクリックして2クラスの点（青・赤）を置いてください．SVMが学習した<strong style="color:var(--accent);">決定境界とマージン</strong>が表示されます．<strong style="color:var(--accent);">C</strong>（マージン-誤分類トレードオフ）と<strong style="color:var(--accent);">カーネル</strong>（Linear/RBF/Poly）を変えて境界の変化を観察してください．右クリックで赤クラスを配置できます．</p>
+  <div class="viz-wrap">
+    <div class="viz-canvas-wrap">
+      <canvas class="viz-canvas" id="svmCanvas" width="600" height="600"></canvas>
     </div>
-    <div class="shiri-log" id="shiriLog"></div>
-    <div class="shiri-input-wrap">
-        <input id="shiriInput" autocomplete="off" placeholder="例: ねこ">
-        <button id="shiriSend">SEND</button>
+    <div class="viz-controls">
+      <div class="row">
+        <label>KERNEL / カーネル</label>
+        <div class="btn-group">
+          <button data-svm-kernel="linear" class="active">LINEAR</button>
+          <button data-svm-kernel="rbf">RBF</button>
+          <button data-svm-kernel="poly">POLY</button>
+        </div>
+      </div>
+      <div class="row">
+        <label>C / 誤分類ペナルティ</label>
+        <input type="range" id="svmC" min="0.01" max="100" step="0.01" value="1">
+        <div class="val" id="svmCVal">C = 1.00</div>
+      </div>
+      <div class="row" id="svmGammaRow">
+        <label>γ / カーネル幅 (RBF/POLY)</label>
+        <input type="range" id="svmGamma" min="0.001" max="2" step="0.001" value="0.5">
+        <div class="val" id="svmGammaVal">γ = 0.500</div>
+      </div>
+      <div class="row">
+        <label>POINTS / 点数</label>
+        <div class="val" id="svmCount">Blue=0 Red=0</div>
+        <div class="actions">
+          <button id="svmSample">SAMPLE</button>
+          <button id="svmClear">CLEAR</button>
+        </div>
+      </div>
+      <div class="viz-info" id="svmInfo">
+        ▸ 左クリック: 青クラス追加<br>
+        ▸ 右クリック: 赤クラス追加<br>
+        ▸ 緑線 = 決定境界<br>
+        ▸ 破線 = マージン境界<br>
+        ▸ Cが大きい → 誤分類を減らす<br>
+        ▸ Cが小さい → マージン優先
+      </div>
     </div>
-</div>
+  </div>
 </template>
-<div class="shiri-info">
+
+<template id="modal-knn">
+  <h2>// PLAY / 04</h2>
+  <h1>k-NN Visualizer<span class="en">k近傍法 — kを変えると境界がこんなに変わる</span></h1>
+  <p>キャンバスをクリックして点（左クリック=青，右クリック=赤）を配置してください．<strong style="color:var(--accent);">k</strong>（参照する近傍数）を変えると決定境界が滑らか↔細かくなります．kが小さいと過学習，大きいと過少適合を体験できます．</p>
+  <div class="viz-wrap">
+    <div class="viz-canvas-wrap">
+      <canvas class="viz-canvas" id="knnCanvas" width="600" height="600"></canvas>
+    </div>
+    <div class="viz-controls">
+      <div class="row">
+        <label>k / 近傍数</label>
+        <input type="range" id="knnK" min="1" max="25" step="1" value="3">
+        <div class="val" id="knnKVal">k = 3</div>
+      </div>
+      <div class="row">
+        <label>DISTANCE / 距離指標</label>
+        <div class="btn-group">
+          <button data-knn-dist="euclidean" class="active">EUCLID</button>
+          <button data-knn-dist="manhattan">MANHATTAN</button>
+        </div>
+      </div>
+      <div class="row">
+        <label>POINTS / 点数</label>
+        <div class="val" id="knnCount">Blue=0 Red=0</div>
+        <div class="actions">
+          <button id="knnSample">SAMPLE</button>
+          <button id="knnClear">CLEAR</button>
+        </div>
+      </div>
+      <div class="viz-info" id="knnInfo">
+        ▸ 左クリック: 青クラス追加<br>
+        ▸ 右クリック: 赤クラス追加<br>
+        ▸ k=1 → 完全過学習（訓練誤差0）<br>
+        ▸ k大 → 滑らか・過少適合<br>
+        ▸ 最適kはバリデーションで決定
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="modal-kmeans">
+  <h2>// PLAY / 05</h2>
+  <h1>k-means Visualizer<span class="en">k-meansクラスタリング — EMステップのアニメーション</span></h1>
+  <p>k-meansのEステップ（割り当て）とMステップ（重心更新）をステップごとに観察できます．<strong style="color:var(--accent);">k</strong>（クラスタ数）と<strong style="color:var(--accent);">初期化方法</strong>（ランダム / k-means++）を変えて収束の違いを比較してください．</p>
+  <div class="viz-wrap">
+    <div class="viz-canvas-wrap">
+      <canvas class="viz-canvas" id="kmeansCanvas" width="600" height="600"></canvas>
+    </div>
+    <div class="viz-controls">
+      <div class="row">
+        <label>k / クラスタ数</label>
+        <input type="range" id="kmeansK" min="2" max="8" step="1" value="3">
+        <div class="val" id="kmeansKVal">k = 3</div>
+      </div>
+      <div class="row">
+        <label>INIT / 初期化</label>
+        <div class="btn-group">
+          <button data-kmeans-init="random" class="active">RANDOM</button>
+          <button data-kmeans-init="kmeanspp">k-means++</button>
+        </div>
+      </div>
+      <div class="row">
+        <label>DATASET / データセット</label>
+        <div class="btn-group">
+          <button data-kmeans-data="blobs" class="active">BLOBS</button>
+          <button data-kmeans-data="uniform">UNIFORM</button>
+          <button data-kmeans-data="circles">CIRCLES</button>
+        </div>
+      </div>
+      <div class="actions" style="margin-top:8px">
+        <button id="kmeansStep">▶ STEP</button>
+        <button id="kmeansAuto">AUTO</button>
+        <button id="kmeansReset">RESET</button>
+      </div>
+      <div class="viz-progress"><div class="viz-progress-bar" id="kmeansBar" style="width:0%"></div></div>
+      <div class="viz-info" id="kmeansInfo">▸ STEPで1ステップずつ確認<br>▸ AUTOで自動収束まで実行<br>▸ k-means++は初期重心が賢い</div>
+    </div>
+  </div>
+</template>
+
+<template id="modal-gd">
+  <h2>// PLAY / 06</h2>
+  <h1>Gradient Descent<span class="en">勾配降下法 — 損失地形を転がり落ちる経路を観察</span></h1>
+  <p>2次元の損失関数（等高線マップ）の上で，各最適化手法がどのように最小値へ向かうかをアニメーション表示します．<strong style="color:var(--accent);">学習率</strong>・<strong style="color:var(--accent);">関数形状</strong>・<strong style="color:var(--accent);">最適化手法</strong>（SGD / Momentum / Adam）を比べてください．</p>
+  <div class="viz-wrap">
+    <div class="viz-canvas-wrap">
+      <canvas class="viz-canvas" id="gdCanvas" width="600" height="600"></canvas>
+    </div>
+    <div class="viz-controls">
+      <div class="row">
+        <label>OPTIMIZER / 最適化手法</label>
+        <div class="btn-group">
+          <button data-gd-opt="sgd" class="active">SGD</button>
+          <button data-gd-opt="momentum">MOMENTUM</button>
+          <button data-gd-opt="adam">ADAM</button>
+          <button data-gd-opt="all">ALL</button>
+        </div>
+      </div>
+      <div class="row">
+        <label>LEARNING RATE / 学習率</label>
+        <input type="range" id="gdLR" min="0.001" max="0.5" step="0.001" value="0.05">
+        <div class="val" id="gdLRVal">LR = 0.050</div>
+      </div>
+      <div class="row">
+        <label>LANDSCAPE / 損失関数形状</label>
+        <div class="btn-group">
+          <button data-gd-land="bowl" class="active">BOWL</button>
+          <button data-gd-land="banana">BANANA</button>
+          <button data-gd-land="saddle">SADDLE</button>
+          <button data-gd-land="multi">MULTI-MIN</button>
+        </div>
+      </div>
+      <div class="actions" style="margin-top:8px">
+        <button id="gdRun">▶ RUN</button>
+        <button id="gdReset">RESET</button>
+      </div>
+      <div class="viz-progress"><div class="viz-progress-bar" id="gdBar" style="width:0%"></div></div>
+      <div class="viz-info" id="gdInfo">▸ キャンバスクリックで開始点を変更<br>▸ BANANAは勾配が歪で難しい<br>▸ Adamは適応的な学習率で安定</div>
+    </div>
+  </div>
+</template>
+
+<template id="modal-kde">
+  <h2>// PLAY / 07</h2>
+  <h1>KDE Visualizer<span class="en">カーネル密度推定 — バンド幅で過学習を体験しよう</span></h1>
+  <p>点を配置するとカーネル密度推定（KDE）が密度分布を推定します．<strong style="color:var(--accent);">バンド幅 h</strong> が小さすぎると過学習（各点に尖ったピーク），大きすぎると過少適合（全体が平滑化）になります．<strong style="color:var(--accent);">カーネル関数</strong>（Gaussian / Epanechnikov / Tophat）の違いも観察できます．</p>
+  <div class="viz-wrap">
+    <div class="viz-canvas-wrap">
+      <canvas class="viz-canvas" id="kdeCanvas" width="600" height="600"></canvas>
+    </div>
+    <div class="viz-controls">
+      <div class="row">
+        <label>BANDWIDTH h / バンド幅</label>
+        <input type="range" id="kdeBW" min="0.01" max="0.5" step="0.005" value="0.1">
+        <div class="val" id="kdeBWVal">h = 0.100</div>
+      </div>
+      <div class="row">
+        <label>KERNEL / カーネル関数</label>
+        <div class="btn-group">
+          <button data-kde-kernel="gaussian" class="active">GAUSSIAN</button>
+          <button data-kde-kernel="epanechnikov">EPANECH.</button>
+          <button data-kde-kernel="tophat">TOPHAT</button>
+        </div>
+      </div>
+      <div class="row">
+        <label>VIEW / 表示モード</label>
+        <div class="btn-group">
+          <button data-kde-view="1d" class="active">1D</button>
+          <button data-kde-view="2d">2D HEATMAP</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="val" id="kdeCount">N = 0</div>
+        <div class="actions">
+          <button id="kdeSample">SAMPLE</button>
+          <button id="kdeClear">CLEAR</button>
+        </div>
+      </div>
+      <div class="viz-info" id="kdeInfo">
+        ▸ クリックで点追加<br>
+        ▸ h小 → 過学習（ノイズに敏感）<br>
+        ▸ h大 → 過少適合（構造が消える）<br>
+        ▸ 最適hはScott則など経験則で決定
+      </div>
+    </div>
+  </div>
+</template>
 
 <template id="modal-contact">
   <h2>// CONTACT</h2>
@@ -1280,10 +1432,12 @@ const Modal = (() => {
     if (cleanupFn) { try { cleanupFn(); } catch(e){} }
     cleanupFn = null;
     if (key === 'svdd') cleanupFn = SVDD.init();
-    else if (key === 'term') cleanupFn = Terminal.init();
-    else if (key === 'evade') cleanupFn = Evade.init();
-    else if (key === 'draw') cleanupFn = Draw.init();
-    else if (key === 'shiri') cleanupFn = Shiritori.init();
+    else if (key === 'tsne') cleanupFn = TSNE_Viz.init();
+    else if (key === 'svm') cleanupFn = SVM_Viz.init();
+    else if (key === 'knn') cleanupFn = KNN_Viz.init();
+    else if (key === 'kmeans') cleanupFn = KMeans_Viz.init();
+    else if (key === 'gd') cleanupFn = GD_Viz.init();
+    else if (key === 'kde') cleanupFn = KDE_Viz.init();
   }
   function close() {
     modal.classList.remove('open');
@@ -1588,972 +1742,1288 @@ const SVDD = (() => {
 })();
 
 /* ===========================================================================
-   ターミナル
+   t-SNE ビジュアライザ
    =========================================================================== */
-const Terminal = (() => {
-  let screen, input, history = [], hidx = 0;
+const TSNE_Viz = (() => {
+  let canvas, ctx, animId = null;
+  let dataset = 'clusters';
+  let perplexity = 30, lr = 200, maxIter = 200;
+  let points2d = [], rawData = [], labels = [];
+  let running = false;
+  let iter = 0;
 
-  const banner = `
-  ████████╗███████╗██╗   ██╗ ██████╗██╗  ██╗██╗ ██████╗
-  ╚══██╔══╝██╔════╝██║   ██║██╔════╝██║  ██║██║██╔═══██╗
-     ██║   ███████╗██║   ██║██║     ███████║██║██║   ██║
-     ██║   ╚════██║██║   ██║██║     ██╔══██║██║██║   ██║
-     ██║   ███████║╚██████╔╝╚██████╗██║  ██║██║╚██████╔╝
-     ╚═╝   ╚══════╝ ╚═════╝  ╚═════╝╚═╝  ╚═╝╚═╝ ╚═════╝
+  const PALETTE = ['#00ff9d','#ff3860','#ffaa00','#44aaff','#cc44ff','#ff8800'];
 
-  Welcome to tsuchio-shell v0.1.0
-  Type 'help' for available commands.
-`;
+  // ===================== データセット生成 =====================
+  function gauss() {
+    let u=0,v=0;
+    while(u===0)u=Math.random(); while(v===0)v=Math.random();
+    return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);
+  }
 
-  const fs = {
-    'README.md': "Hi, I'm Shuta Tsuchio.\nResearcher in ML / Anomaly Detection.\nTry: ls, cat papers/01.txt, sudo, fortune",
-    'papers/': null,
-    'papers/01.txt': "[01] DSVDD ファインチューニングの効率化 (2022)",
-    'papers/02.txt': "[02] Efficient Learning through Data Selection (2023)",
-    'papers/03.txt': "[03] Anomaly detection with pseudo anomaly data (2023)",
-    'papers/04.txt': "[04] GANによるCut-Pasteの改良 (2024)",
-    'papers/05.txt': "[05] Pseudo-anomaly generation method (2025)",
-    'about.txt': "Name: Shuta Tsuchio (土尾 崇太)\nUniv: University of Tsukuba\nLab: AIST AI Research Center (RA)",
-    'contact.txt': "s2520794[at]u.tsukuba.ac.jp",
-  };
-
-  const cmds = {
-    help() {
-      return `Available commands:
-  <span class="hl">help</span>          show this message
-  <span class="hl">ls</span> [path]     list files
-  <span class="hl">cat</span> &lt;file&gt;   show file contents
-  <span class="hl">whoami</span>        identify yourself
-  <span class="hl">date</span>          show current date
-  <span class="hl">echo</span> &lt;text&gt;   print text
-  <span class="hl">clear</span>         clear screen
-  <span class="hl">pwd</span>           show current path
-  <span class="hl">fortune</span>       random research quote
-  <span class="hl">sudo</span>          ?
-  <span class="hl">matrix</span>        ?
-  <span class="hl">exit</span>          close terminal
-`;
-    },
-    ls(arg) {
-      const path = (arg || '').replace(/\/$/, '');
-      if (!path) {
-        const top = Object.keys(fs).filter(k => !k.includes('/') || k.endsWith('/'));
-        return top.map(f => f.endsWith('/') ? `<span class="hl">${f}</span>` : f).join('  ');
-      }
-      const inside = Object.keys(fs).filter(k => k.startsWith(path + '/') && k !== path + '/');
-      if (inside.length === 0) return `ls: ${path}: No such directory`;
-      return inside.map(k => k.replace(path + '/', '')).join('  ');
-    },
-    cat(arg) {
-      if (!arg) return 'cat: missing argument';
-      if (fs[arg] !== undefined && fs[arg] !== null) return fs[arg];
-      return `cat: ${arg}: No such file`;
-    },
-    whoami() { return 'shuta_tsuchio :: visitor of his own portfolio'; },
-    date() { return new Date().toString(); },
-    echo(...args) { return args.join(' '); },
-    pwd() { return '/home/shuta'; },
-    fortune() {
-      const q = [
-        "「正常」の定義こそ、最も難しい問題である。",
-        "An outlier is just data that hasn't been understood yet.",
-        "ニューラルネットは万能ではない。だが、面白い。",
-        "GAN: Generative Adversarial Networks. Generator vs Discriminator. Like cat and mouse.",
-        "「異常検知」とは、世界の正常さを定義することの裏返しである。"
-      ];
-      return q[Math.floor(Math.random() * q.length)];
-    },
-    sudo() { return '<span class="err">sudo: Permission denied. (You are a visitor.)</span>\nTry asking nicely instead.'; },
-    matrix() {
-      // 簡易マトリクス効果
-      const lines = [];
-      for (let i = 0; i < 12; i++) {
-        let l = '';
-        for (let j = 0; j < 60; j++) {
-          l += Math.random() > 0.5 ? (Math.random() > 0.5 ? '0' : '1') : ' ';
+  function genDataset(name) {
+    const N = 120; const pts = []; const lbs = [];
+    if (name === 'clusters') {
+      const centers = [[2,2],[-2,2],[0,-3],[3,-2],[-3,-2]];
+      for (let c=0;c<5;c++) {
+        const [cx,cy]=centers[c];
+        for(let i=0;i<N/5;i++){
+          pts.push([cx+gauss()*0.5, cy+gauss()*0.5,
+                    gauss()*0.3, gauss()*0.3, gauss()*0.2]);
+          lbs.push(c);
         }
-        lines.push(`<span class="hl">${l}</span>`);
       }
-      return lines.join('\n') + '\n\n  >>> Wake up, Neo... <<<';
-    },
-    clear() { screen.innerHTML = ''; return null; },
-    exit() { Modal.close(); return null; },
-  };
+    } else if (name === 'spiral') {
+      for(let c=0;c<3;c++){
+        for(let i=0;i<N/3;i++){
+          const t = (i/(N/3))*4*Math.PI + c*(2*Math.PI/3);
+          const r = t/(4*Math.PI)*3+0.5;
+          pts.push([r*Math.cos(t)+gauss()*0.1, r*Math.sin(t)+gauss()*0.1,
+                    Math.cos(t*2)*0.5, Math.sin(t*2)*0.5, r*0.2]);
+          lbs.push(c);
+        }
+      }
+    } else if (name === 'circles') {
+      const radii=[0.8,1.8,2.8,3.8];
+      for(let c=0;c<4;c++){
+        const r=radii[c];
+        for(let i=0;i<N/4;i++){
+          const a=Math.random()*2*Math.PI;
+          pts.push([r*Math.cos(a)+gauss()*0.1, r*Math.sin(a)+gauss()*0.1,
+                    gauss()*0.2, gauss()*0.2, c*0.5]);
+          lbs.push(c);
+        }
+      }
+    } else if (name === 'mnist') {
+      // 4クラス×30点: MNIST風の分布
+      for(let c=0;c<4;c++){
+        const base=[c%2*3-1.5, Math.floor(c/2)*3-1.5];
+        for(let i=0;i<30;i++){
+          const row=[];
+          for(let d=0;d<8;d++) row.push(base[d%2]*0.3+gauss()*0.4);
+          pts.push(row); lbs.push(c);
+        }
+      }
+    }
+    return { pts, lbs };
+  }
 
+  // ===================== t-SNE 実装 =====================
+  function euclidSq(a, b) {
+    let s=0; for(let i=0;i<a.length;i++) s+=(a[i]-b[i])**2; return s;
+  }
+
+  function computePij(X, perp) {
+    const n=X.length;
+    const P=Array.from({length:n},()=>new Float64Array(n));
+    // 各点のσを二分探索で決定（目標エントロピー = log2(perplexity)）
+    const logPerp=Math.log2(perp);
+    for(let i=0;i<n;i++){
+      const dists=[];
+      for(let j=0;j<n;j++) dists.push(j===i?0:euclidSq(X[i],X[j]));
+      // beta(=1/2sigma^2)をバイナリサーチ
+      let beta=1.0, betaMin=-Infinity, betaMax=Infinity;
+      for(let trial=0;trial<50;trial++){
+        let sumExp=0;
+        const expD=[];
+        for(let j=0;j<n;j++){
+          const v=j===i?0:Math.exp(-dists[j]*beta);
+          expD.push(v); sumExp+=v;
+        }
+        if(sumExp===0){sumExp=1e-10;}
+        let H=0;
+        for(let j=0;j<n;j++){
+          if(j===i)continue;
+          const pij=expD[j]/sumExp;
+          if(pij>1e-12)H-=pij*Math.log2(pij);
+        }
+        const Hdiff=H-logPerp;
+        if(Math.abs(Hdiff)<1e-5)break;
+        if(Hdiff>0){betaMin=beta; beta=betaMax===Infinity?beta*2:(beta+betaMax)/2;}
+        else{betaMax=beta; beta=betaMin===-Infinity?beta/2:(beta+betaMin)/2;}
+      }
+      // Pを格納
+      let sumExp=0;
+      const expD=[];
+      for(let j=0;j<n;j++){const v=j===i?0:Math.exp(-dists[j]*beta);expD.push(v);sumExp+=v;}
+      if(sumExp===0)sumExp=1e-10;
+      for(let j=0;j<n;j++) P[i][j]=j===i?0:expD[j]/sumExp;
+    }
+    // 対称化 + 正規化
+    const n2=n*2;
+    for(let i=0;i<n;i++) for(let j=i+1;j<n;j++){
+      const v=(P[i][j]+P[j][i])/n2;
+      P[i][j]=Math.max(v,1e-12); P[j][i]=Math.max(v,1e-12);
+    }
+    return P;
+  }
+
+  function tsneStep(Y, P, gains, iY, t) {
+    const n=Y.length;
+    // Q行列
+    const Q=Array.from({length:n},()=>new Float64Array(n));
+    let sumQ=0;
+    for(let i=0;i<n;i++) for(let j=i+1;j<n;j++){
+      const dy0=Y[i][0]-Y[j][0], dy1=Y[i][1]-Y[j][1];
+      const v=1/(1+dy0*dy0+dy1*dy1);
+      Q[i][j]=v; Q[j][i]=v; sumQ+=2*v;
+    }
+    sumQ=Math.max(sumQ,1e-12);
+    // 勾配
+    const dY=Array.from({length:n},()=>[0,0]);
+    for(let i=0;i<n;i++){
+      for(let j=0;j<n;j++){
+        if(i===j)continue;
+        const q=Q[i][j]/sumQ;
+        const mult=4*(P[i][j]-q)*Q[i][j];
+        dY[i][0]+=mult*(Y[i][0]-Y[j][0]);
+        dY[i][1]+=mult*(Y[i][1]-Y[j][1]);
+      }
+    }
+    // gains + 更新
+    const momentum = t < 250 ? 0.5 : 0.8;
+    for(let i=0;i<n;i++){
+      for(let d=0;d<2;d++){
+        const gSign=Math.sign(gains[i][d]);
+        const dSign=Math.sign(dY[i][d]);
+        gains[i][d]=gSign===dSign?gains[i][d]*0.8:gains[i][d]+0.2;
+        gains[i][d]=Math.max(0.01,gains[i][d]);
+        iY[i][d]=momentum*iY[i][d]-lr*0.001*gains[i][d]*dY[i][d];
+        Y[i][d]+=iY[i][d];
+      }
+    }
+    // 中心寄せ
+    let m0=0,m1=0;
+    for(const y of Y){m0+=y[0];m1+=y[1];}
+    m0/=n;m1/=n;
+    for(const y of Y){y[0]-=m0;y[1]-=m1;}
+    return {Y,dY};
+  }
+
+  // ===================== 描画 =====================
+  function render() {
+    const W=canvas.width, H=canvas.height;
+    ctx.fillStyle='#0a0a0c';
+    ctx.fillRect(0,0,W,H);
+
+    if(points2d.length===0)return;
+
+    // スケーリング
+    let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+    for(const [x,y] of points2d){
+      if(x<minX)minX=x;if(x>maxX)maxX=x;
+      if(y<minY)minY=y;if(y>maxY)maxY=y;
+    }
+    const pad=40;
+    const sx=(W-pad*2)/Math.max(maxX-minX,0.001);
+    const sy=(H-pad*2)/Math.max(maxY-minY,0.001);
+    const sc=Math.min(sx,sy);
+    const offX=(W-(maxX-minX)*sc)/2-minX*sc;
+    const offY=(H-(maxY-minY)*sc)/2-minY*sc;
+
+    // グリッド（薄い）
+    ctx.strokeStyle='rgba(255,255,255,0.04)';
+    ctx.lineWidth=1;
+    for(let i=0;i<W;i+=50){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,H);ctx.stroke();}
+    for(let i=0;i<H;i+=50){ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(W,i);ctx.stroke();}
+
+    // 各点
+    for(let i=0;i<points2d.length;i++){
+      const [x,y]=points2d[i];
+      const px=x*sc+offX, py=y*sc+offY;
+      const col=PALETTE[labels[i]%PALETTE.length];
+      ctx.beginPath();
+      ctx.arc(px,py,4.5,0,Math.PI*2);
+      ctx.fillStyle=col;
+      ctx.globalAlpha=0.85;
+      ctx.fill();
+      ctx.globalAlpha=1;
+      ctx.strokeStyle='rgba(0,0,0,0.4)';
+      ctx.lineWidth=0.8;
+      ctx.stroke();
+    }
+
+    // ラベル凡例
+    const usedLabels=[...new Set(labels)].sort();
+    const dataNames=['CLUSTER','SPIRAL','CIRCLES','MNIST'];
+    const dIdx=['clusters','spiral','circles','mnist'].indexOf(dataset);
+    const classNames=dIdx>=0 ? (
+      dataset==='clusters'?['C0','C1','C2','C3','C4']:
+      dataset==='spiral'?['S0','S1','S2']:
+      dataset==='circles'?['R0','R1','R2','R3']:
+      ['D0','D1','D2','D3']
+    ):[];
+    ctx.font='10px JetBrains Mono, monospace';
+    usedLabels.forEach((lb,k)=>{
+      ctx.fillStyle=PALETTE[lb%PALETTE.length];
+      ctx.beginPath();ctx.arc(14,H-20-k*18,4,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle='rgba(255,255,255,0.5)';
+      ctx.fillText(classNames[lb]||('C'+lb), 22, H-16-k*18);
+    });
+
+    // iter表示
+    ctx.fillStyle='rgba(0,255,157,0.6)';
+    ctx.font='10px JetBrains Mono, monospace';
+    ctx.fillText(`iter: ${iter}/${maxIter}`, 8, 16);
+  }
+
+  // ===================== 実行制御 =====================
+  let Pij=null, Yarr=null, gains=null, iY=null, stepT=0;
+
+  function initData() {
+    const {pts,lbs}=genDataset(dataset);
+    rawData=pts; labels=lbs;
+    const n=rawData.length;
+    // ランダム初期2D
+    Yarr=Array.from({length:n},()=>[(Math.random()-0.5)*0.01,(Math.random()-0.5)*0.01]);
+    points2d=Yarr.map(y=>[...y]);
+    gains=Array.from({length:n},()=>[1,1]);
+    iY=Array.from({length:n},()=>[0,0]);
+    Pij=null; iter=0; stepT=0;
+    document.getElementById('tsneBar').style.width='0%';
+    updateInfo('データ生成完了。RUNで最適化開始。');
+    render();
+  }
+
+  function updateInfo(msg) {
+    const el=document.getElementById('tsneInfo');
+    if(el) el.innerHTML=`▸ ${msg}<br>▸ Perplexity=${perplexity} : ${perplexity<15?'ローカル構造強調':perplexity>50?'グローバル構造重視':'バランス型'}<br>▸ LR=${lr} : ${lr<50?'収束が遅い':lr>600?'発散リスクあり':'適切'}<br>▸ iter=${iter}/${maxIter}`;
+  }
+
+  function runTSNE() {
+    if(running){stop();return;}
+    if(!Yarr||Yarr.length===0){initData();}
+    if(!Pij){
+      updateInfo('P行列を計算中...');
+      // 非同期でP行列を計算（ブロック防止）
+      setTimeout(()=>{
+        Pij=computePij(rawData,perplexity);
+        running=true;
+        document.getElementById('tsneRun').textContent='■ STOP';
+        document.getElementById('tsneRun').classList.add('running');
+        loop();
+      },10);
+      return;
+    }
+    running=true;
+    document.getElementById('tsneRun').textContent='■ STOP';
+    document.getElementById('tsneRun').classList.add('running');
+    loop();
+  }
+
+  function stop() {
+    running=false;
+    if(animId)cancelAnimationFrame(animId);
+    const btn=document.getElementById('tsneRun');
+    if(btn){btn.textContent='▶ RUN';btn.classList.remove('running');}
+  }
+
+  function loop() {
+    if(!running)return;
+    if(iter>=maxIter){stop();updateInfo('最適化完了！パラメータを変えてRUNしてみよう。');return;}
+    // 1ステップ
+    const res=tsneStep(Yarr,Pij,gains,iY,stepT);
+    Yarr=res.Y;
+    points2d=Yarr.map(y=>[...y]);
+    iter++; stepT++;
+    const prog=(iter/maxIter*100).toFixed(0);
+    const bar=document.getElementById('tsneBar');
+    if(bar)bar.style.width=prog+'%';
+    updateInfo(`最適化中... ${prog}%`);
+    render();
+    animId=requestAnimationFrame(loop);
+  }
+
+  // ===================== 初期化 =====================
   function init() {
-    screen = document.getElementById('termScreen');
-    input = document.getElementById('termInput');
-    history = []; hidx = 0;
+    canvas=document.getElementById('tsneCanvas');
+    ctx=canvas.getContext('2d');
+    running=false; animId=null;
 
-    print(banner);
+    // データセットボタン
+    document.querySelectorAll('.dataset-buttons button').forEach(b=>{
+      b.addEventListener('click',()=>{
+        document.querySelectorAll('.dataset-buttons button').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active');
+        dataset=b.dataset.dataset;
+        stop();
+        Pij=null;
+        initData();
+      });
+    });
 
-    input.focus();
-    input.addEventListener('keydown', onKey);
+    // スライダー
+    const perpSl=document.getElementById('tsnePerp');
+    const perpVal=document.getElementById('tsnePerpVal');
+    perpSl.addEventListener('input',()=>{
+      perplexity=parseInt(perpSl.value);
+      perpVal.textContent=`Perplexity = ${perplexity}`;
+      stop(); Pij=null;
+    });
 
-    return () => { input.removeEventListener('keydown', onKey); };
+    const lrSl=document.getElementById('tsneLR');
+    const lrVal=document.getElementById('tsneLRVal');
+    lrSl.addEventListener('input',()=>{
+      lr=parseInt(lrSl.value);
+      lrVal.textContent=`LR = ${lr}`;
+    });
+
+    const iterSl=document.getElementById('tsneIter');
+    const iterVal=document.getElementById('tsneIterVal');
+    iterSl.addEventListener('input',()=>{
+      maxIter=parseInt(iterSl.value);
+      iterVal.textContent=`Iter = ${maxIter}`;
+    });
+
+    document.getElementById('tsneRun').addEventListener('click',runTSNE);
+    document.getElementById('tsneReset').addEventListener('click',()=>{
+      stop(); Pij=null; initData();
+    });
+
+    initData();
+
+    return ()=>{
+      stop();
+    };
   }
 
-  function print(s) {
-    const div = document.createElement('div');
-    div.innerHTML = s.replace(/\n/g, '<br>');
-    screen.appendChild(div);
-    screen.scrollTop = screen.scrollHeight;
+  return {init};
+})();
+/* ===========================================================================
+   共通ユーティリティ
+   =========================================================================== */
+function gauss2(){let u=0,v=0;while(u===0)u=Math.random();while(v===0)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+
+/* ===========================================================================
+   SVM ビジュアライザ（LS-SVM近似 / RBFカーネル対応）
+   =========================================================================== */
+const SVM_Viz = (() => {
+  let canvas, ctx;
+  let bluePoints=[], redPoints=[];
+  let kernel='linear', C=1.0, gamma=0.5;
+
+  function init(){
+    canvas=document.getElementById('svmCanvas');
+    ctx=canvas.getContext('2d');
+    bluePoints=[]; redPoints=[];
+
+    canvas.addEventListener('click', onLeft);
+    canvas.addEventListener('contextmenu', onRight);
+
+    document.querySelectorAll('[data-svm-kernel]').forEach(b=>{
+      b.addEventListener('click',()=>{
+        document.querySelectorAll('[data-svm-kernel]').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active'); kernel=b.dataset.svmKernel;
+        document.getElementById('svmGammaRow').style.display=(kernel==='linear')?'none':'block';
+        draw();
+      });
+    });
+    document.getElementById('svmGammaRow').style.display='none';
+
+    const cSl=document.getElementById('svmC');
+    cSl.addEventListener('input',()=>{C=parseFloat(cSl.value);document.getElementById('svmCVal').textContent=`C = ${C.toFixed(2)}`;draw();});
+    const gSl=document.getElementById('svmGamma');
+    gSl.addEventListener('input',()=>{gamma=parseFloat(gSl.value);document.getElementById('svmGammaVal').textContent=`γ = ${gamma.toFixed(3)}`;draw();});
+
+    document.getElementById('svmSample').addEventListener('click',sample);
+    document.getElementById('svmClear').addEventListener('click',()=>{bluePoints=[];redPoints=[];updateCount();draw();});
+
+    sample();
+    return ()=>{canvas.removeEventListener('click',onLeft);canvas.removeEventListener('contextmenu',onRight);};
   }
 
-  function onKey(e) {
-    if (e.key === 'Enter') {
-      const v = input.value.trim();
-      if (v) {
-        history.push(v); hidx = history.length;
-        print(`<span class="pr">$</span> ${v}`);
-        const [c, ...args] = v.split(/\s+/);
-        const fn = cmds[c];
-        if (fn) {
-          const out = fn(...args);
-          if (out !== null && out !== undefined) print(`<span class="o">${out}</span>`);
+  function onLeft(e){e.preventDefault();const [x,y]=pos(e);bluePoints.push([x,y]);updateCount();draw();}
+  function onRight(e){e.preventDefault();const [x,y]=pos(e);redPoints.push([x,y]);updateCount();draw();}
+  function pos(e){const r=canvas.getBoundingClientRect();return[(e.clientX-r.left)*(canvas.width/r.width),(e.clientY-r.top)*(canvas.height/r.height)];}
+  function updateCount(){document.getElementById('svmCount').textContent=`Blue=${bluePoints.length} Red=${redPoints.length}`;}
+
+  function sample(){
+    bluePoints=[]; redPoints=[];
+    const W=canvas.width, H=canvas.height;
+    for(let i=0;i<20;i++){bluePoints.push([W*0.28+gauss2()*55, H*0.5+gauss2()*65]);}
+    for(let i=0;i<20;i++){redPoints.push([W*0.72+gauss2()*55, H*0.5+gauss2()*65]);}
+    updateCount(); draw();
+  }
+
+  // ピクセル座標→正規化座標 [-1, 1]
+  function norm(x, y){
+    const W=canvas.width, H=canvas.height;
+    return [x/W*2-1, y/H*2-1];
+  }
+
+  // カーネル関数（正規化座標で計算）
+  function Kern(a, b){
+    if(kernel==='linear') return a[0]*b[0]+a[1]*b[1];
+    if(kernel==='rbf'){
+      // gammaはユーザー設定値をそのまま使う（正規化座標スケールで適切）
+      const d=(a[0]-b[0])**2+(a[1]-b[1])**2;
+      return Math.exp(-gamma*10*d);
+    }
+    if(kernel==='poly'){
+      return (0.5*(a[0]*b[0]+a[1]*b[1])+1)**3;
+    }
+    return 0;
+  }
+
+  // LS-SVM（最小二乗SVM）の近似解を勾配降下で求める
+  // 目的: min 0.5*||w||^2 + C/2*sum((yi*(w·phi(xi)+b)-1)^2)
+  // → 各点の双対変数 alpha を勾配法で最適化
+  function computeAlphas(){
+    const pts=[...bluePoints.map(p=>[norm(...p), 1]), ...redPoints.map(p=>[norm(...p), -1])];
+    const n=pts.length;
+    if(n===0) return {pts,alphas:[],bias:0};
+
+    // カーネル行列
+    const Kmat=[];
+    for(let i=0;i<n;i++){
+      Kmat.push([]);
+      for(let j=0;j<n;j++) Kmat[i].push(Kern(pts[i][0], pts[j][0]));
+    }
+
+    // LS-SVM: (K + I/C) * alpha = y  → 反復ヤコビ法で解く
+    // ここでは単純なgradient descentで alpha を求める
+    const alpha=new Float64Array(n).fill(0);
+    const y=pts.map(p=>p[1]);
+    const lr_a=0.01;
+    const reg=1.0/Math.max(C,0.01);
+
+    for(let iter=0;iter<200;iter++){
+      for(let i=0;i<n;i++){
+        let pred=0;
+        for(let j=0;j<n;j++) pred+=alpha[j]*Kmat[i][j];
+        const err=pred+reg*alpha[i]-y[i];
+        alpha[i]-=lr_a*err;
+      }
+    }
+
+    // バイアス: b = mean(yi - sum_j alpha_j K(xj,xi))
+    let bias=0;
+    for(let i=0;i<n;i++){
+      let f=0;
+      for(let j=0;j<n;j++) f+=alpha[j]*Kmat[i][j];
+      bias+=y[i]-f;
+    }
+    bias/=n;
+
+    return {pts, alphas:Array.from(alpha), bias};
+  }
+
+  // グリッド点でのスコア計算
+  function scoreAt(nx, ny, pts, alphas, bias){
+    let s=bias;
+    for(let i=0;i<pts.length;i++){
+      s+=alphas[i]*Kern([nx,ny], pts[i][0]);
+    }
+    return s;
+  }
+
+  function draw(){
+    const W=canvas.width, H=canvas.height;
+    ctx.fillStyle='#0a0a0c'; ctx.fillRect(0,0,W,H);
+
+    // グリッド背景線
+    ctx.strokeStyle='rgba(255,255,255,0.04)'; ctx.lineWidth=1;
+    for(let i=0;i<W;i+=40){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,H);ctx.stroke();}
+    for(let i=0;i<H;i+=40){ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(W,i);ctx.stroke();}
+
+    if(bluePoints.length===0||redPoints.length===0){drawPoints();return;}
+
+    // LS-SVMで alpha, bias を計算
+    const {pts, alphas, bias} = computeAlphas();
+
+    // グリッドスコア計算
+    const step=12;
+    const scores=[];
+    for(let py=0;py<H;py+=step){
+      const row=[];
+      for(let px=0;px<W;px+=step){
+        const [nx,ny]=norm(px,py);
+        row.push(scoreAt(nx,ny,pts,alphas,bias));
+      }
+      scores.push(row);
+    }
+
+    // スコアの範囲を取得して正規化
+    let minS=Infinity, maxS=-Infinity;
+    for(const row of scores) for(const s of row){if(s<minS)minS=s;if(s>maxS)maxS=s;}
+    const absMax=Math.max(Math.abs(minS), Math.abs(maxS), 0.001);
+
+    // カラーマップ描画（青=正=blue クラス, 赤=負=red クラス）
+    const img=ctx.createImageData(W,H);
+    const nCols=scores[0].length, nRows=scores.length;
+    for(let r=0;r<nRows;r++) for(let col=0;col<nCols;col++){
+      const t=clamp(scores[r][col]/absMax, -1, 1); // -1(赤)〜+1(青)
+      for(let dy=0;dy<step&&r*step+dy<H;dy++) for(let dx=0;dx<step&&col*step+dx<W;dx++){
+        const idx=((r*step+dy)*W+(col*step+dx))*4;
+        if(t>=0){
+          // 正スコア → 青
+          img.data[idx]=0;
+          img.data[idx+1]=Math.round(t*80);
+          img.data[idx+2]=Math.round(t*180);
+          img.data[idx+3]=65;
         } else {
-          print(`<span class="err">${c}: command not found</span> — try 'help'`);
+          // 負スコア → 赤
+          img.data[idx]=Math.round(-t*200);
+          img.data[idx+1]=0;
+          img.data[idx+2]=Math.round(-t*60);
+          img.data[idx+3]=65;
         }
       }
-      input.value = '';
-    } else if (e.key === 'ArrowUp') {
-      if (hidx > 0) { hidx--; input.value = history[hidx]; }
-      e.preventDefault();
-    } else if (e.key === 'ArrowDown') {
-      if (hidx < history.length - 1) { hidx++; input.value = history[hidx]; }
-      else { hidx = history.length; input.value = ''; }
-      e.preventDefault();
+    }
+    ctx.putImageData(img,0,0);
+
+    // マーチングスクエアで等高線を引く
+    function drawContour(threshold, color, dash){
+      ctx.strokeStyle=color; ctx.lineWidth=2;
+      ctx.setLineDash(dash||[]);
+      const nC=scores[0].length, nR=scores.length;
+      for(let r=0;r<nR-1;r++) for(let col=0;col<nC-1;col++){
+        const v00=scores[r][col]-threshold,   v10=scores[r][col+1]-threshold;
+        const v01=scores[r+1][col]-threshold, v11=scores[r+1][col+1]-threshold;
+        const idx2=(v00>=0?1:0)|(v10>=0?2:0)|(v11>=0?4:0)|(v01>=0?8:0);
+        if(idx2===0||idx2===15) continue;
+        const x0=col*step, y0=r*step;
+        function lerp(va,vb,pa,pb){
+          const dv=vb-va; if(Math.abs(dv)<1e-10) return [(pa[0]+pb[0])/2,(pa[1]+pb[1])/2];
+          const tt=-va/dv;
+          return[pa[0]+(pb[0]-pa[0])*tt, pa[1]+(pb[1]-pa[1])*tt];
+        }
+        const TL=[x0,y0], TR=[x0+step,y0], BR=[x0+step,y0+step], BL=[x0,y0+step];
+        const T=lerp(v00,v10,TL,TR), R=lerp(v10,v11,TR,BR);
+        const B=lerp(v01,v11,BL,BR), L=lerp(v00,v01,TL,BL);
+        const tbl={1:[L,T],2:[T,R],4:[B,R],8:[L,B],3:[L,R],6:[T,B],12:[L,R],9:[T,B],7:[L,B],11:[B,R],13:[T,R],14:[L,T]};
+        const seg=tbl[idx2]; if(!seg) continue;
+        ctx.beginPath();
+        for(let i=0;i<seg.length;i+=2){ctx.moveTo(seg[i][0],seg[i][1]);ctx.lineTo(seg[i+1][0],seg[i+1][1]);}
+        ctx.stroke();
+      }
+      ctx.setLineDash([]);
+    }
+
+    // 決定境界（score=0）と マージン境界（score=±margin_level）
+    const mLevel = absMax * 0.3;
+    drawContour(0,      'rgba(0,255,157,0.95)');
+    drawContour( mLevel,'rgba(0,255,157,0.35)',[6,4]);
+    drawContour(-mLevel,'rgba(0,255,157,0.35)',[6,4]);
+
+    drawPoints();
+
+    document.getElementById('svmInfo').innerHTML=
+      `▸ 左クリック: 青クラス追加<br>▸ 右クリック: 赤クラス追加<br>▸ 緑実線=決定境界, 破線=マージン<br>▸ C=${C.toFixed(2)}: ${C<1?'マージン幅を優先':'誤分類を厳しく制限'}<br>▸ kernel: ${kernel.toUpperCase()}`;
+  }
+
+  function drawPoints(){
+    for(const [x,y] of bluePoints){
+      ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);
+      ctx.fillStyle='#4488ff';ctx.fill();
+      ctx.strokeStyle='rgba(255,255,255,0.5)';ctx.lineWidth=1;ctx.stroke();
+    }
+    for(const [x,y] of redPoints){
+      ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);
+      ctx.fillStyle='#ff3860';ctx.fill();
+      ctx.strokeStyle='rgba(255,255,255,0.5)';ctx.lineWidth=1;ctx.stroke();
     }
   }
 
-  return { init };
+  return {init};
 })();
 
 /* ===========================================================================
-   Evade the Detector
+   k-NN ビジュアライザ
    =========================================================================== */
-const Evade = (() => {
-  // 3つの検知器 + INSTANT DEATH
-  let arena, msg, stat, dots = [], player, raf = null, lastT = 0;
-  let mouseX = 0, mouseY = 0;
-  let lastMouseX = 0, lastMouseY = 0, mouseSpeed = 0, smoothMouseSpeed = 0;
-  let detectors = [];
-  let gameTime = 0, gameOver = false;
-  let bestTime = 0;
-  // 検知器の半径（DOM上の見た目90px = 半径45。当たり判定はこれと一致）
-  const DET_RADIUS = 45;
+const KNN_Viz = (() => {
+  let canvas, ctx;
+  let bluePoints=[], redPoints=[];
+  let k=3, distMetric='euclidean';
 
-  function init() {
-    arena = document.getElementById('evadeArena');
-    msg = document.getElementById('evadeMsg');
-    stat = document.getElementById('evadeStat');
-    document.getElementById('evadeRestart').addEventListener('click', restart);
+  function init(){
+    canvas=document.getElementById('knnCanvas');
+    ctx=canvas.getContext('2d');
+    bluePoints=[]; redPoints=[];
 
-    arena.addEventListener('mousemove', onMouse);
-    arena.addEventListener('touchmove', onTouch, {passive:false});
+    canvas.addEventListener('click', onLeft);
+    canvas.addEventListener('contextmenu', onRight);
+    canvas.addEventListener('mousemove', onHover);
 
-    restart();
+    document.getElementById('knnK').addEventListener('input',e=>{
+      k=parseInt(e.target.value);
+      document.getElementById('knnKVal').textContent=`k = ${k}`;
+      draw();
+    });
+    document.querySelectorAll('[data-knn-dist]').forEach(b=>{
+      b.addEventListener('click',()=>{
+        document.querySelectorAll('[data-knn-dist]').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active'); distMetric=b.dataset.knnDist; draw();
+      });
+    });
+    document.getElementById('knnSample').addEventListener('click',sample);
+    document.getElementById('knnClear').addEventListener('click',()=>{bluePoints=[];redPoints=[];updateCount();draw();});
 
-    return () => {
-      arena.removeEventListener('mousemove', onMouse);
-      arena.removeEventListener('touchmove', onTouch);
-      if (raf) cancelAnimationFrame(raf);
+    sample();
+    return ()=>{
+      canvas.removeEventListener('click',onLeft);
+      canvas.removeEventListener('contextmenu',onRight);
+      canvas.removeEventListener('mousemove',onHover);
     };
   }
 
-  function onMouse(e) {
-    const r = arena.getBoundingClientRect();
-    mouseX = e.clientX - r.left;
-    mouseY = e.clientY - r.top;
+  function onLeft(e){e.preventDefault();const[x,y]=pos(e);bluePoints.push([x,y]);updateCount();draw();}
+  function onRight(e){e.preventDefault();const[x,y]=pos(e);redPoints.push([x,y]);updateCount();draw();}
+  function pos(e){const r=canvas.getBoundingClientRect();return[(e.clientX-r.left)*(canvas.width/r.width),(e.clientY-r.top)*(canvas.height/r.height)];}
+  function updateCount(){document.getElementById('knnCount').textContent=`Blue=${bluePoints.length} Red=${redPoints.length}`;}
+
+  let hoverX=-1,hoverY=-1;
+  function onHover(e){const[x,y]=pos(e);hoverX=x;hoverY=y;draw();}
+
+  function dist(a,b){
+    if(distMetric==='euclidean') return Math.hypot(a[0]-b[0],a[1]-b[1]);
+    return Math.abs(a[0]-b[0])+Math.abs(a[1]-b[1]);
   }
-  function onTouch(e) {
-    const r = arena.getBoundingClientRect();
-    mouseX = e.touches[0].clientX - r.left;
-    mouseY = e.touches[0].clientY - r.top;
-    e.preventDefault();
+
+  function classify(x,y){
+    const all=[...bluePoints.map(p=>[p,0]),...redPoints.map(p=>[p,1])];
+    if(all.length===0) return 0.5;
+    const sorted=all.map(([p,l])=>[dist([x,y],p),l]).sort((a,b)=>a[0]-b[0]);
+    const kk=Math.min(k,sorted.length);
+    const redCount=sorted.slice(0,kk).filter(([d,l])=>l===1).length;
+    return redCount/kk;
   }
 
-  function restart() {
-    arena.querySelectorAll('.evade-dot').forEach(d => d.remove());
-    msg.classList.remove('show');
+  function sample(){
+    bluePoints=[]; redPoints=[];
+    const W=canvas.width,H=canvas.height;
+    for(let i=0;i<25;i++) bluePoints.push([W*0.3+gauss2()*80,H*0.5+gauss2()*80]);
+    for(let i=0;i<25;i++) redPoints.push([W*0.7+gauss2()*80,H*0.5+gauss2()*80]);
+    updateCount(); draw();
+  }
 
-    const w = arena.clientWidth, h = arena.clientHeight;
-    dots = [];
-    for (let i = 0; i < 99; i++) {
-      const d = document.createElement('div');
-      d.className = 'evade-dot';
-      const x = Math.random() * w, y = Math.random() * h;
-      d.style.left = x + 'px'; d.style.top = y + 'px';
-      arena.appendChild(d);
-      // ダミー点も少し速く動かす（プレイヤーが目立たないように）
-      dots.push({ el: d, x, y, vx: (Math.random()-0.5)*0.6, vy: (Math.random()-0.5)*0.6 });
-    }
+  function draw(){
+    const W=canvas.width,H=canvas.height;
+    ctx.fillStyle='#0a0a0c'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='rgba(255,255,255,0.04)'; ctx.lineWidth=1;
+    for(let i=0;i<W;i+=40){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,H);ctx.stroke();}
+    for(let i=0;i<H;i+=40){ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(W,i);ctx.stroke();}
 
-    player = document.createElement('div');
-    player.className = 'evade-dot evade-player';
-    arena.appendChild(player);
-    mouseX = w/2; mouseY = h/2;
-    lastMouseX = mouseX; lastMouseY = mouseY;
-    smoothMouseSpeed = 0;
-    player.style.left = mouseX + 'px'; player.style.top = mouseY + 'px';
+    const all=[...bluePoints,...redPoints];
+    if(all.length===0){return;}
 
-    // 3つの検知器を初期化（できるだけ離れた位置から）
-    detectors = [
-      { id: 'evadeDetector1', cls: '',   x: w * 0.15, y: h * 0.20, tx: w*0.15, ty: h*0.20, retarget: 0, role: 'scan',  lerp: 0.020 },
-      { id: 'evadeDetector2', cls: 'd2', x: w * 0.85, y: h * 0.50, tx: w*0.85, ty: h*0.50, retarget: 700, role: 'track', lerp: 0.030 },
-      { id: 'evadeDetector3', cls: 'd3', x: w * 0.50, y: h * 0.85, tx: w*0.50, ty: h*0.85, retarget: 1400, role: 'hunt',  lerp: 0.045 },
-    ];
-    for (const d of detectors) {
-      d.el = document.getElementById(d.id);
-      if (d.el) {
-        d.el.classList.remove('d2', 'd3');
-        if (d.cls) d.el.classList.add(d.cls);
-        d.el.style.left = d.x + 'px';
-        d.el.style.top = d.y + 'px';
+    // 背景カラーマップ
+    const step=10;
+    const img=ctx.createImageData(W,H);
+    for(let y=0;y<H;y+=step) for(let x=0;x<W;x+=step){
+      const t=classify(x,y);
+      for(let dy=0;dy<step&&y+dy<H;dy++) for(let dx=0;dx<step&&x+dx<W;dx++){
+        const idx=((y+dy)*W+(x+dx))*4;
+        img.data[idx]=Math.round(t*160);
+        img.data[idx+1]=0;
+        img.data[idx+2]=Math.round((1-t)*180);
+        img.data[idx+3]=55;
       }
     }
+    ctx.putImageData(img,0,0);
 
-    gameTime = 0; gameOver = false;
-    lastT = performance.now();
-    if (raf) cancelAnimationFrame(raf);
-    raf = requestAnimationFrame(loop);
-  }
-
-  function loop(t) {
-    const dt = Math.min(50, t - lastT);
-    lastT = t;
-    if (!gameOver) gameTime += dt / 1000;
-
-    const w = arena.clientWidth, h = arena.clientHeight;
-
-    // 点群
-    for (const d of dots) {
-      d.x += d.vx; d.y += d.vy;
-      if (d.x < 0 || d.x > w) d.vx *= -1;
-      if (d.y < 0 || d.y > h) d.vy *= -1;
-      d.el.style.left = d.x + 'px'; d.el.style.top = d.y + 'px';
+    // 決定境界（等高線）
+    const scores=[];
+    const step2=14;
+    for(let y=0;y<H;y+=step2){
+      const row=[];
+      for(let x=0;x<W;x+=step2) row.push(classify(x,y)-0.5);
+      scores.push(row);
+    }
+    ctx.strokeStyle='rgba(0,255,157,0.8)'; ctx.lineWidth=2; ctx.setLineDash([]);
+    const cols=scores[0].length, rows=scores.length;
+    for(let r=0;r<rows-1;r++) for(let col=0;col<cols-1;col++){
+      const v00=scores[r][col],v10=scores[r]?.[col+1]??0,v01=scores[r+1]?.[col]??0,v11=scores[r+1]?.[col+1]??0;
+      const idx2=(v00>=0?1:0)|(v10>=0?2:0)|(v11>=0?4:0)|(v01>=0?8:0);
+      if(idx2===0||idx2===15) continue;
+      function lerp2(va,vb,a,b){const tt=-va/(vb-va||0.001);return[a[0]+(b[0]-a[0])*tt,a[1]+(b[1]-a[1])*tt];}
+      const x0=col*step2,y0=r*step2;
+      const TL=[x0,y0],TR=[x0+step2,y0],BR=[x0+step2,y0+step2],BL=[x0,y0+step2];
+      const T=lerp2(v00,v10,TL,TR),R=lerp2(v10,v11,TR,BR),B=lerp2(v01,v11,BL,BR),L=lerp2(v00,v01,TL,BL);
+      const tbl={1:[L,T],2:[T,R],4:[B,R],8:[L,B],3:[L,R],6:[T,B],12:[L,R],9:[T,B],7:[L,B],11:[B,R],13:[T,R],14:[L,T]};
+      const seg=tbl[idx2]; if(!seg) continue;
+      ctx.beginPath();
+      for(let i=0;i<seg.length;i+=2){ctx.moveTo(seg[i][0],seg[i][1]);ctx.lineTo(seg[i+1][0],seg[i+1][1]);}
+      ctx.stroke();
     }
 
-    // プレイヤー
-    player.style.left = mouseX + 'px'; player.style.top = mouseY + 'px';
-    const rawSpeed = Math.hypot(mouseX - lastMouseX, mouseY - lastMouseY);
-    smoothMouseSpeed = smoothMouseSpeed * 0.85 + rawSpeed * 0.15;
-    mouseSpeed = rawSpeed;
-    lastMouseX = mouseX; lastMouseY = mouseY;
+    // ホバー時にk近傍を表示
+    if(hoverX>=0){
+      const allPts=[...bluePoints.map(p=>[p,0]),...redPoints.map(p=>[p,1])];
+      const sorted=allPts.map(([p,l])=>[dist([hoverX,hoverY],p),p,l]).sort((a,b)=>a[0]-b[0]);
+      const kk=Math.min(k,sorted.length);
+      const kDist=kk>0?sorted[kk-1][0]:0;
+      ctx.beginPath();ctx.arc(hoverX,hoverY,kDist,0,Math.PI*2);
+      ctx.strokeStyle='rgba(255,170,0,0.4)';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);ctx.stroke();ctx.setLineDash([]);
+      sorted.slice(0,kk).forEach(([d,p,l])=>{
+        ctx.beginPath();ctx.moveTo(hoverX,hoverY);ctx.lineTo(p[0],p[1]);
+        ctx.strokeStyle=l===0?'rgba(68,136,255,0.5)':'rgba(255,56,96,0.5)';ctx.lineWidth=1;ctx.stroke();
+      });
+    }
 
-    // 各検知器のAI
-    let anyInside = false;
-    for (let i = 0; i < detectors.length; i++) {
-      const d = detectors[i];
-      d.retarget -= dt;
+    // 点を描画
+    for(const[x,y] of bluePoints){ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fillStyle='#4488ff';ctx.fill();ctx.strokeStyle='rgba(255,255,255,0.5)';ctx.lineWidth=1;ctx.stroke();}
+    for(const[x,y] of redPoints){ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fillStyle='#ff3860';ctx.fill();ctx.strokeStyle='rgba(255,255,255,0.5)';ctx.lineWidth=1;ctx.stroke();}
+    if(hoverX>=0){ctx.beginPath();ctx.arc(hoverX,hoverY,6,0,Math.PI*2);ctx.fillStyle='#ffaa00';ctx.fill();}
 
-      if (d.retarget <= 0) {
-        // 役割ごとに目標を決定
-        if (d.role === 'scan') {
-          // SCAN: 画面をランダムに広く徘徊
-          d.tx = Math.random() * w;
-          d.ty = Math.random() * h;
-          d.retarget = 1100 + Math.random() * 800;
-        } else if (d.role === 'track') {
-          // TRACK: プレイヤーの予測位置（速度ベクトル先）を狙う
-          // ただしプレイヤーが遅いときは見失う
-          if (smoothMouseSpeed > 0.8) {
-            const aheadX = mouseX + (mouseX - lastMouseX) * 18;
-            const aheadY = mouseY + (mouseY - lastMouseY) * 18;
-            d.tx = aheadX + (Math.random()-0.5) * 80;
-            d.ty = aheadY + (Math.random()-0.5) * 80;
-          } else {
-            // 視界を失って漂流
-            d.tx = d.x + (Math.random()-0.5) * 200;
-            d.ty = d.y + (Math.random()-0.5) * 200;
-          }
-          d.retarget = 700 + Math.random() * 500;
-        } else if (d.role === 'hunt') {
-          // HUNT: 「異質さ」検出 — プレイヤーと周辺点群の速度差を見て差が大きいと寄ってくる
-          // 単純化：プレイヤーの動きが大きいほど直接狙う
-          const aggression = Math.min(1, smoothMouseSpeed / 4);
-          if (aggression > 0.3) {
-            d.tx = mouseX + (Math.random()-0.5) * 40 * (1 - aggression);
-            d.ty = mouseY + (Math.random()-0.5) * 40 * (1 - aggression);
-          } else {
-            // 静かにしてると周辺をうろつく（プレイヤーの近く中心）
-            d.tx = mouseX + (Math.random()-0.5) * 250;
-            d.ty = mouseY + (Math.random()-0.5) * 250;
-          }
-          d.retarget = 500 + Math.random() * 400;
+    document.getElementById('knnInfo').innerHTML=`▸ 左クリック: 青クラス追加<br>▸ 右クリック: 赤クラス追加<br>▸ マウス位置でk近傍を表示<br>▸ k=${k}: ${k===1?'完全過学習':k>15?'過少適合気味':'適切な範囲'}<br>▸ 距離: ${distMetric}`;
+  }
+
+  return {init};
+})();
+
+/* ===========================================================================
+   k-means ビジュアライザ
+   =========================================================================== */
+const KMeans_Viz = (() => {
+  let canvas, ctx;
+  let points=[], labels=[], centroids=[];
+  let k=3, initMethod='random', dataType='blobs';
+  let step=0, converged=false, autoId=null;
+  const PALETTE=['#00ff9d','#ff3860','#ffaa00','#4488ff','#cc44ff','#ff8800','#00ccff','#ff44cc'];
+
+  function init(){
+    canvas=document.getElementById('kmeansCanvas');
+    ctx=canvas.getContext('2d');
+
+    document.getElementById('kmeansK').addEventListener('input',e=>{
+      k=parseInt(e.target.value);
+      document.getElementById('kmeansKVal').textContent=`k = ${k}`;
+      reset();
+    });
+    document.querySelectorAll('[data-kmeans-init]').forEach(b=>{
+      b.addEventListener('click',()=>{
+        document.querySelectorAll('[data-kmeans-init]').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active'); initMethod=b.dataset.kmeansInit; reset();
+      });
+    });
+    document.querySelectorAll('[data-kmeans-data]').forEach(b=>{
+      b.addEventListener('click',()=>{
+        document.querySelectorAll('[data-kmeans-data]').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active'); dataType=b.dataset.kmeansData; reset();
+      });
+    });
+    document.getElementById('kmeansStep').addEventListener('click',doStep);
+    document.getElementById('kmeansAuto').addEventListener('click',toggleAuto);
+    document.getElementById('kmeansReset').addEventListener('click',reset);
+
+    reset();
+    return ()=>{if(autoId)clearInterval(autoId);};
+  }
+
+  function genData(){
+    const W=canvas.width, H=canvas.height;
+    points=[];
+    if(dataType==='blobs'){
+      const cens=[[0.25,0.3],[0.75,0.3],[0.5,0.75],[0.2,0.75],[0.8,0.7]].slice(0,Math.max(k,3));
+      cens.forEach(([cx,cy])=>{
+        for(let i=0;i<25;i++) points.push([cx*W+gauss2()*50,cy*H+gauss2()*50]);
+      });
+    } else if(dataType==='uniform'){
+      for(let i=0;i<100;i++) points.push([Math.random()*W*0.9+W*0.05,Math.random()*H*0.9+H*0.05]);
+    } else {
+      const radii=[0.15,0.28,0.4];
+      radii.forEach((r,ri)=>{
+        for(let i=0;i<25;i++){
+          const a=Math.random()*Math.PI*2;
+          points.push([W/2+Math.cos(a)*r*W+gauss2()*15,H/2+Math.sin(a)*r*H+gauss2()*15]);
         }
-      }
+      });
+    }
+  }
 
-      // 検知器の追従（lerp）
-      d.x += (d.tx - d.x) * d.lerp;
-      d.y += (d.ty - d.y) * d.lerp;
-      if (d.el) {
-        d.el.style.left = d.x + 'px';
-        d.el.style.top = d.y + 'px';
+  function initCentroids(){
+    const W=canvas.width, H=canvas.height;
+    if(initMethod==='random'){
+      centroids=Array.from({length:k},()=>points[Math.floor(Math.random()*points.length)].slice());
+    } else {
+      // k-means++
+      centroids=[points[Math.floor(Math.random()*points.length)].slice()];
+      while(centroids.length<k){
+        const dists=points.map(p=>Math.min(...centroids.map(c=>(p[0]-c[0])**2+(p[1]-c[1])**2)));
+        const sum=dists.reduce((a,b)=>a+b,0);
+        let r=Math.random()*sum, cum=0;
+        for(let i=0;i<points.length;i++){cum+=dists[i];if(cum>=r){centroids.push(points[i].slice());break;}}
       }
+    }
+  }
 
-      // 当たり判定：一瞬でも入ったら即終了
-      const inside = Math.hypot(mouseX - d.x, mouseY - d.y) < DET_RADIUS;
-      if (inside) anyInside = true;
+  function assign(){
+    labels=points.map(p=>{
+      let minD=Infinity,best=0;
+      centroids.forEach((c,i)=>{const d=(p[0]-c[0])**2+(p[1]-c[1])**2;if(d<minD){minD=d;best=i;}});
+      return best;
+    });
+  }
+
+  function updateCentroids(){
+    const prev=centroids.map(c=>[...c]);
+    centroids=Array.from({length:k},(_,i)=>{
+      const pts=points.filter((_,j)=>labels[j]===i);
+      if(pts.length===0) return prev[i];
+      return[pts.reduce((s,p)=>s+p[0],0)/pts.length,pts.reduce((s,p)=>s+p[1],0)/pts.length];
+    });
+    converged=centroids.every((c,i)=>Math.hypot(c[0]-prev[i][0],c[1]-prev[i][1])<0.5);
+  }
+
+  function doStep(){
+    if(converged){reset();return;}
+    assign(); updateCentroids(); step++;
+    draw();
+    const bar=document.getElementById('kmeansBar');
+    if(bar) bar.style.width=Math.min(100,step*10)+'%';
+    document.getElementById('kmeansInfo').innerHTML=`▸ Step ${step} ${converged?'— 収束！':'— 継続中'}<br>▸ init: ${initMethod}<br>▸ k=${k}, dataset: ${dataType}`;
+    if(converged&&autoId){clearInterval(autoId);autoId=null;document.getElementById('kmeansAuto').textContent='AUTO';document.getElementById('kmeansAuto').classList.remove('running');}
+  }
+
+  function toggleAuto(){
+    if(autoId){clearInterval(autoId);autoId=null;document.getElementById('kmeansAuto').textContent='AUTO';document.getElementById('kmeansAuto').classList.remove('running');}
+    else{document.getElementById('kmeansAuto').textContent='■ STOP';document.getElementById('kmeansAuto').classList.add('running');autoId=setInterval(doStep,300);}
+  }
+
+  function reset(){
+    if(autoId){clearInterval(autoId);autoId=null;document.getElementById('kmeansAuto').textContent='AUTO';document.getElementById('kmeansAuto').classList.remove('running');}
+    step=0; converged=false;
+    genData(); assign(); initCentroids(); assign();
+    document.getElementById('kmeansBar').style.width='0%';
+    document.getElementById('kmeansInfo').innerHTML=`▸ STEPで1ステップずつ確認<br>▸ AUTOで自動収束まで実行<br>▸ k-means++は初期重心が賢い`;
+    draw();
+  }
+
+  function draw(){
+    const W=canvas.width,H=canvas.height;
+    ctx.fillStyle='#0a0a0c'; ctx.fillRect(0,0,W,H);
+
+    // ボロノイ領域（簡易）
+    const step2=16;
+    const img=ctx.createImageData(W,H);
+    for(let y=0;y<H;y+=step2) for(let x=0;x<W;x+=step2){
+      let minD=Infinity,best=0;
+      centroids.forEach((c,i)=>{const d=(x-c[0])**2+(y-c[1])**2;if(d<minD){minD=d;best=i;}});
+      const col=hexToRGB(PALETTE[best%PALETTE.length]);
+      for(let dy=0;dy<step2&&y+dy<H;dy++) for(let dx=0;dx<step2&&x+dx<W;dx++){
+        const idx=((y+dy)*W+(x+dx))*4;
+        img.data[idx]=col[0];img.data[idx+1]=col[1];img.data[idx+2]=col[2];img.data[idx+3]=22;
+      }
+    }
+    ctx.putImageData(img,0,0);
+
+    // グリッド
+    ctx.strokeStyle='rgba(255,255,255,0.04)'; ctx.lineWidth=1;
+    for(let i=0;i<W;i+=40){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,H);ctx.stroke();}
+    for(let i=0;i<H;i+=40){ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(W,i);ctx.stroke();}
+
+    // 重心→各点の線
+    points.forEach((p,i)=>{
+      const c=centroids[labels[i]];
+      ctx.beginPath();ctx.moveTo(p[0],p[1]);ctx.lineTo(c[0],c[1]);
+      ctx.strokeStyle=PALETTE[labels[i]%PALETTE.length]+'22';ctx.lineWidth=0.8;ctx.stroke();
+    });
+
+    // 点
+    points.forEach((p,i)=>{
+      ctx.beginPath();ctx.arc(p[0],p[1],4,0,Math.PI*2);
+      ctx.fillStyle=PALETTE[labels[i]%PALETTE.length];ctx.globalAlpha=0.8;ctx.fill();ctx.globalAlpha=1;
+    });
+
+    // 重心
+    centroids.forEach((c,i)=>{
+      ctx.beginPath();ctx.arc(c[0],c[1],10,0,Math.PI*2);
+      ctx.fillStyle=PALETTE[i%PALETTE.length];ctx.fill();
+      ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();
+      // X マーク
+      ctx.strokeStyle='#000';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.moveTo(c[0]-4,c[1]-4);ctx.lineTo(c[0]+4,c[1]+4);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(c[0]+4,c[1]-4);ctx.lineTo(c[0]-4,c[1]+4);ctx.stroke();
+    });
+
+    if(converged){
+      ctx.fillStyle='rgba(0,255,157,0.9)';ctx.font='bold 14px JetBrains Mono, monospace';
+      ctx.fillText(`CONVERGED in ${step} steps`,12,22);
+    }
+  }
+
+  function hexToRGB(hex){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return[r,g,b];}
+
+  return {init};
+})();
+
+/* ===========================================================================
+   勾配降下法 ビジュアライザ
+   =========================================================================== */
+const GD_Viz = (() => {
+  let canvas, ctx, animId=null;
+  let optType='sgd', lr=0.05, landscape='bowl';
+  let running=false, t=0;
+  const COLORS={sgd:'#00ff9d',momentum:'#ff3860',adam:'#ffaa00',all:'#4488ff'};
+  const OPTS=['sgd','momentum','adam'];
+
+  // 最適化器状態
+  let states={};
+
+  function loss(x,y){
+    if(landscape==='bowl') return x*x+y*y;
+    if(landscape==='banana') return (1-x)**2*10+100*(y-x*x)**2*0.1;
+    if(landscape==='saddle') return x*x-y*y*0.5;
+    if(landscape==='multi') return Math.sin(x*3)*Math.cos(y*3)*2+x*x*0.3+y*y*0.3;
+    return x*x+y*y;
+  }
+  function grad(x,y){
+    const h=0.001;
+    return[(loss(x+h,y)-loss(x-h,y))/(2*h),(loss(x,y+h)-loss(x,y-h))/(2*h)];
+  }
+
+  function initState(name,x0,y0){
+    return{
+      name,x:x0,y:y0,path:[[x0,y0]],
+      // momentum
+      vx:0,vy:0,
+      // adam
+      mx:0,my:0,vvx:0,vvy:0,tt:0,
+    };
+  }
+
+  function stepOpt(st){
+    const[gx,gy]=grad(st.x,st.y);
+    if(st.name==='sgd'){
+      st.x-=lr*gx; st.y-=lr*gy;
+    } else if(st.name==='momentum'){
+      st.vx=0.9*st.vx-lr*gx; st.vy=0.9*st.vy-lr*gy;
+      st.x+=st.vx; st.y+=st.vy;
+    } else if(st.name==='adam'){
+      st.tt++;
+      const beta1=0.9,beta2=0.999,eps=1e-8;
+      st.mx=beta1*st.mx+(1-beta1)*gx; st.my=beta1*st.my+(1-beta1)*gy;
+      st.vvx=beta2*st.vvx+(1-beta2)*gx*gx; st.vvy=beta2*st.vvy+(1-beta2)*gy*gy;
+      const mxh=st.mx/(1-beta1**st.tt), myh=st.my/(1-beta1**st.tt);
+      const vxh=st.vvx/(1-beta2**st.tt), vyh=st.vvy/(1-beta2**st.tt);
+      st.x-=lr*2*mxh/(Math.sqrt(vxh)+eps); st.y-=lr*2*myh/(Math.sqrt(vyh)+eps);
+    }
+    st.x=clamp(st.x,-3,3); st.y=clamp(st.y,-3,3);
+    st.path.push([st.x,st.y]);
+  }
+
+  function init(){
+    canvas=document.getElementById('gdCanvas');
+    ctx=canvas.getContext('2d');
+    running=false;
+
+    document.querySelectorAll('[data-gd-opt]').forEach(b=>{
+      b.addEventListener('click',()=>{
+        document.querySelectorAll('[data-gd-opt]').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active'); optType=b.dataset.gdOpt; reset();
+      });
+    });
+    document.querySelectorAll('[data-gd-land]').forEach(b=>{
+      b.addEventListener('click',()=>{
+        document.querySelectorAll('[data-gd-land]').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active'); landscape=b.dataset.gdLand; reset();
+      });
+    });
+    const lrSl=document.getElementById('gdLR');
+    lrSl.addEventListener('input',()=>{lr=parseFloat(lrSl.value);document.getElementById('gdLRVal').textContent=`LR = ${lr.toFixed(3)}`;reset();});
+
+    canvas.addEventListener('click',e=>{
+      const[px,py]=canvasToWorld(pos(e));
+      resetWithStart(px,py);
+    });
+
+    document.getElementById('gdRun').addEventListener('click',toggleRun);
+    document.getElementById('gdReset').addEventListener('click',reset);
+
+    reset();
+    return ()=>{running=false;if(animId)cancelAnimationFrame(animId);};
+  }
+
+  function pos(e){const r=canvas.getBoundingClientRect();return[(e.clientX-r.left)*(canvas.width/r.width),(e.clientY-r.top)*(canvas.height/r.height)];}
+  function canvasToWorld([cx,cy]){const W=canvas.width,H=canvas.height;return[(cx/W-0.5)*6,(cy/H-0.5)*6];}
+  function worldToCanvas([wx,wy]){const W=canvas.width,H=canvas.height;return[(wx/6+0.5)*W,(wy/6+0.5)*H];}
+
+  function reset(){
+    running=false; if(animId)cancelAnimationFrame(animId); t=0;
+    const x0=landscape==='banana'?-2:1.8+gauss2()*0.3;
+    const y0=landscape==='banana'?1.5:1.8+gauss2()*0.3;
+    resetWithStart(x0,y0);
+  }
+
+  function resetWithStart(x0,y0){
+    running=false; if(animId)cancelAnimationFrame(animId); t=0;
+    states={};
+    const opts=optType==='all'?OPTS:[optType];
+    opts.forEach(name=>states[name]=initState(name,x0,y0));
+    document.getElementById('gdRun').textContent='▶ RUN';
+    document.getElementById('gdRun').classList.remove('running');
+    document.getElementById('gdBar').style.width='0%';
+    drawLandscape();
+    document.getElementById('gdInfo').innerHTML=`▸ キャンバスクリックで開始点変更<br>▸ LR=${lr.toFixed(3)}: ${lr>0.2?'大きい（発散リスク）':lr<0.01?'小さい（遅い）':'適切'}<br>▸ landscape: ${landscape}`;
+  }
+
+  function toggleRun(){
+    if(running){running=false;if(animId)cancelAnimationFrame(animId);document.getElementById('gdRun').textContent='▶ RUN';document.getElementById('gdRun').classList.remove('running');}
+    else{running=true;document.getElementById('gdRun').textContent='■ STOP';document.getElementById('gdRun').classList.add('running');loop();}
+  }
+
+  const MAX_STEPS=300;
+  function loop(){
+    if(!running)return;
+    if(t>=MAX_STEPS){running=false;document.getElementById('gdRun').textContent='▶ RUN';document.getElementById('gdRun').classList.remove('running');
+      document.getElementById('gdInfo').innerHTML=`▸ 完了 (${MAX_STEPS} steps)<br>▸ optimizer: ${optType.toUpperCase()}<br>▸ landscape: ${landscape}`;return;}
+    for(const st of Object.values(states)) stepOpt(st);
+    t++;
+    document.getElementById('gdBar').style.width=(t/MAX_STEPS*100)+'%';
+    drawLandscape();
+    animId=requestAnimationFrame(loop);
+  }
+
+  function drawLandscape(){
+    const W=canvas.width,H=canvas.height;
+    ctx.fillStyle='#0a0a0c'; ctx.fillRect(0,0,W,H);
+
+    // 等高線ヒートマップ
+    const step=8;
+    const img=ctx.createImageData(W,H);
+    let minL=Infinity,maxL=-Infinity;
+    const lv=[];
+    for(let y=0;y<H;y+=step){const row=[];for(let x=0;x<W;x+=step){const[wx,wy]=canvasToWorld([x,y]);const l=loss(wx,wy);row.push(l);if(l<minL)minL=l;if(l>maxL)maxL=l;}lv.push(row);}
+    const range=Math.max(maxL-minL,0.001);
+    for(let r=0;r<lv.length;r++) for(let col=0;col<lv[r].length;col++){
+      const t2=clamp((lv[r][col]-minL)/range,0,1);
+      const c=lossColor(t2);
+      for(let dy=0;dy<step&&r*step+dy<H;dy++) for(let dx=0;dx<step&&col*step+dx<W;dx++){
+        const idx=((r*step+dy)*W+(col*step+dx))*4;
+        img.data[idx]=c[0];img.data[idx+1]=c[1];img.data[idx+2]=c[2];img.data[idx+3]=200;
+      }
+    }
+    ctx.putImageData(img,0,0);
+
+    // 等高線
+    const nLines=8;
+    for(let li=1;li<nLines;li++){
+      const lv2=minL+range*li/nLines;
+      ctx.strokeStyle=`rgba(255,255,255,${0.08+li*0.01})`; ctx.lineWidth=0.8;
+      // 簡易：セルを走査して境界を描く
+      for(let r=0;r<lv.length-1;r++) for(let col=0;col<lv[r].length-1;col++){
+        const v00=lv[r][col]-lv2,v10=(lv[r][col+1]??lv[r][col])-lv2;
+        if((v00>0)!==(v10>0)){const t3=-v00/(v10-v00||0.001);const x0=(col+t3)*step,y0=r*step;ctx.beginPath();ctx.arc(x0,y0,0.5,0,Math.PI*2);ctx.fill();}
+      }
     }
 
-    // 最も近い検知器までの距離を表示
-    let nearest = Infinity;
-    for (const d of detectors) {
-      const dist = Math.hypot(mouseX - d.x, mouseY - d.y) - DET_RADIUS;
-      if (dist < nearest) nearest = dist;
+    // パス
+    for(const[name,st] of Object.entries(states)){
+      const col=COLORS[name]||'#fff';
+      if(st.path.length<2) continue;
+      ctx.strokeStyle=col; ctx.lineWidth=2; ctx.globalAlpha=0.85;
+      ctx.beginPath();
+      const[sx,sy]=worldToCanvas(st.path[0]);
+      ctx.moveTo(sx,sy);
+      for(let i=1;i<st.path.length;i++){const[px2,py2]=worldToCanvas(st.path[i]);ctx.lineTo(px2,py2);}
+      ctx.stroke();
+      ctx.globalAlpha=1;
+      // 現在点
+      const[ex,ey]=worldToCanvas(st.path[st.path.length-1]);
+      ctx.beginPath();ctx.arc(ex,ey,5,0,Math.PI*2);ctx.fillStyle=col;ctx.fill();
+      ctx.fillStyle=col;ctx.font='9px JetBrains Mono, monospace';
+      ctx.fillText(name.toUpperCase(),ex+7,ey+3);
     }
-    nearest = Math.max(0, nearest);
 
-    if (!gameOver) {
-      if (anyInside) {
-        gameEnd();
+    // 最小値マーク
+    let minX=-1,minY=-1,minV=Infinity;
+    for(let y2=0;y2<H;y2+=step) for(let x2=0;x2<W;x2+=step){const[wx,wy]=canvasToWorld([x2,y2]);const l=loss(wx,wy);if(l<minV){minV=l;minX=x2;minY=y2;}}
+    ctx.beginPath();ctx.arc(minX,minY,6,0,Math.PI*2);ctx.strokeStyle='#fff';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,0.6)';ctx.font='9px JetBrains Mono,monospace';ctx.fillText('MIN',minX+8,minY-4);
+  }
+
+  function lossColor(t2){
+    // 低→高: 青→紫→赤→黄
+    if(t2<0.33){const s=t2/0.33;return[Math.round(s*120),0,Math.round(100+s*80)];}
+    if(t2<0.66){const s=(t2-0.33)/0.33;return[Math.round(120+s*130),0,Math.round(180-s*100)];}
+    const s=(t2-0.66)/0.34;
+    return[250,Math.round(s*180),0];
+  }
+
+  return {init};
+})();
+
+/* ===========================================================================
+   KDE ビジュアライザ
+   =========================================================================== */
+const KDE_Viz = (() => {
+  let canvas, ctx;
+  let points=[], bw=0.1, kernelType='gaussian', viewMode='1d';
+
+  function init(){
+    canvas=document.getElementById('kdeCanvas');
+    ctx=canvas.getContext('2d');
+    points=[];
+
+    canvas.addEventListener('click',e=>{
+      const r=canvas.getBoundingClientRect();
+      const x=(e.clientX-r.left)*(canvas.width/r.width);
+      const y=(e.clientY-r.top)*(canvas.height/r.height);
+      points.push([x,y]);
+      document.getElementById('kdeCount').textContent=`N = ${points.length}`;
+      draw();
+    });
+
+    const bwSl=document.getElementById('kdeBW');
+    bwSl.addEventListener('input',()=>{bw=parseFloat(bwSl.value);document.getElementById('kdeBWVal').textContent=`h = ${bw.toFixed(3)}`;draw();});
+
+    document.querySelectorAll('[data-kde-kernel]').forEach(b=>{
+      b.addEventListener('click',()=>{
+        document.querySelectorAll('[data-kde-kernel]').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active'); kernelType=b.dataset.kdeKernel; draw();
+      });
+    });
+    document.querySelectorAll('[data-kde-view]').forEach(b=>{
+      b.addEventListener('click',()=>{
+        document.querySelectorAll('[data-kde-view]').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active'); viewMode=b.dataset.kdeView; draw();
+      });
+    });
+    document.getElementById('kdeSample').addEventListener('click',sample);
+    document.getElementById('kdeClear').addEventListener('click',()=>{points=[];document.getElementById('kdeCount').textContent='N = 0';draw();});
+
+    sample();
+    return ()=>{};
+  }
+
+  function K(u){
+    if(kernelType==='gaussian') return Math.exp(-0.5*u*u)/(Math.sqrt(2*Math.PI));
+    if(kernelType==='epanechnikov') return Math.abs(u)<1?0.75*(1-u*u):0;
+    if(kernelType==='tophat') return Math.abs(u)<1?0.5:0;
+    return 0;
+  }
+
+  function sample(){
+    points=[];
+    const W=canvas.width,H=canvas.height;
+    // 2ピーク分布
+    for(let i=0;i<25;i++) points.push([W*0.3+gauss2()*60,H*0.5+gauss2()*60]);
+    for(let i=0;i<15;i++) points.push([W*0.7+gauss2()*40,H*0.5+gauss2()*40]);
+    document.getElementById('kdeCount').textContent=`N = ${points.length}`;
+    draw();
+  }
+
+  function draw(){
+    const W=canvas.width,H=canvas.height;
+    ctx.fillStyle='#0a0a0c'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='rgba(255,255,255,0.04)'; ctx.lineWidth=1;
+    for(let i=0;i<W;i+=40){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,H);ctx.stroke();}
+    for(let i=0;i<H;i+=40){ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(W,i);ctx.stroke();}
+
+    if(points.length===0){
+      ctx.fillStyle='var(--muted)';ctx.font='13px JetBrains Mono,monospace';
+      ctx.fillText('クリックで点を追加',W/2-80,H/2);
+      return;
+    }
+
+    if(viewMode==='1d'){
+      draw1D(W,H);
+    } else {
+      draw2D(W,H);
+    }
+
+    // データ点
+    for(const[x,y] of points){
+      if(viewMode==='1d'){
+        ctx.beginPath();ctx.arc(x,H-30,4,0,Math.PI*2);
+        ctx.fillStyle='rgba(255,255,255,0.7)';ctx.fill();
       } else {
-        // 危険度の色付け
-        let color = 'var(--accent)';
-        let label = 'HIDDEN';
-        if (nearest < 30) { color = 'var(--accent-2)'; label = 'CRITICAL'; }
-        else if (nearest < 80) { color = '#ffaa00'; label = 'WARNING'; }
-        stat.style.color = color;
-        stat.innerHTML = `TIME: <span style="color:var(--accent)">${gameTime.toFixed(2)}s</span>` +
-          ` &nbsp;|&nbsp; NEAREST: <span style="color:${color}">${nearest.toFixed(0)}px</span>` +
-          ` &nbsp;|&nbsp; STATUS: <span style="color:${color}">${label}</span>` +
-          (bestTime > 0 ? ` &nbsp;|&nbsp; BEST: <span style="color:var(--muted)">${bestTime.toFixed(2)}s</span>` : '');
+        ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);
+        ctx.fillStyle='rgba(255,255,255,0.8)';ctx.fill();
+        ctx.strokeStyle='rgba(0,255,157,0.5)';ctx.lineWidth=1;ctx.stroke();
       }
     }
-
-    raf = requestAnimationFrame(loop);
   }
 
-  function gameEnd() {
-    gameOver = true;
-    if (gameTime > bestTime) bestTime = gameTime;
-    const newRecord = gameTime === bestTime && gameTime > 0;
-    msg.innerHTML = `CAUGHT BY DETECTOR<span class="sub">SURVIVED ${gameTime.toFixed(2)}s${newRecord ? '   ▸ NEW RECORD' : ''}</span>`;
-    msg.classList.add('show');
-  }
-
-  return { init };
-})();
-
-/* ===========================================================================
-   Neural Sketch（特徴量ベースの簡易推測）
-   =========================================================================== */
-const Draw = (() => {
-  let canvas, ctx, drawing = false, lastX = 0, lastY = 0, hasInk = false;
-
-  function init() {
-    canvas = document.getElementById('drawCanvas');
-    ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
-    ctx.lineWidth = 8; ctx.lineCap = 'round'; ctx.strokeStyle = '#000';
-    hasInk = false;
-
-    canvas.addEventListener('mousedown', start);
-    canvas.addEventListener('mousemove', move);
-    window.addEventListener('mouseup', end);
-    canvas.addEventListener('touchstart', startT, {passive:false});
-    canvas.addEventListener('touchmove', moveT, {passive:false});
-    canvas.addEventListener('touchend', end);
-
-    document.getElementById('drawClear').addEventListener('click', clear);
-    document.getElementById('drawGuessBtn').addEventListener('click', guess);
-
-    return () => {
-      canvas.removeEventListener('mousedown', start);
-      canvas.removeEventListener('mousemove', move);
-      window.removeEventListener('mouseup', end);
-      canvas.removeEventListener('touchstart', startT);
-      canvas.removeEventListener('touchmove', moveT);
-      canvas.removeEventListener('touchend', end);
-    };
-  }
-
-  function getPos(e) {
-    const r = canvas.getBoundingClientRect();
-    const sx = canvas.width / r.width, sy = canvas.height / r.height;
-    return [(e.clientX - r.left) * sx, (e.clientY - r.top) * sy];
-  }
-  function start(e) { drawing = true; [lastX, lastY] = getPos(e); }
-  function move(e) {
-    if (!drawing) return;
-    const [x, y] = getPos(e);
-    ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(x, y); ctx.stroke();
-    lastX = x; lastY = y; hasInk = true;
-  }
-  function startT(e) { drawing = true; const t = e.touches[0]; const r = canvas.getBoundingClientRect(); lastX = (t.clientX-r.left)*(canvas.width/r.width); lastY = (t.clientY-r.top)*(canvas.height/r.height); e.preventDefault(); }
-  function moveT(e) {
-    if (!drawing) return;
-    const t = e.touches[0]; const r = canvas.getBoundingClientRect();
-    const x = (t.clientX-r.left)*(canvas.width/r.width), y = (t.clientY-r.top)*(canvas.height/r.height);
-    ctx.beginPath(); ctx.moveTo(lastX, lastY); ctx.lineTo(x, y); ctx.stroke();
-    lastX = x; lastY = y; hasInk = true; e.preventDefault();
-  }
-  function end() { drawing = false; }
-  function clear() {
-    ctx.fillStyle = '#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
-    hasInk = false;
-    document.getElementById('drawGuess').textContent = '何か描いてGUESSを押してください。';
-  }
-
-  function guess() {
-    if (!hasInk) {
-      document.getElementById('drawGuess').textContent = '...白紙ですね？空白の哲学的表現でしょうか。';
-      return;
+  function draw1D(W,H){
+    // 1D KDE: x軸のみ使用
+    const xs=points.map(p=>p[0]);
+    const bwPx=bw*W;
+    const nSamples=200;
+    const vals=[];
+    let maxV=0;
+    for(let i=0;i<nSamples;i++){
+      const x=W*i/nSamples;
+      let v=0;
+      for(const xi of xs) v+=K((x-xi)/bwPx)/bwPx;
+      v/=xs.length;
+      vals.push(v);
+      if(v>maxV)maxV=v;
     }
-    // 特徴量抽出
-    const W = canvas.width, H = canvas.height;
-    const img = ctx.getImageData(0, 0, W, H).data;
-    let inkCount = 0, sx = 0, sy = 0, minX = W, minY = H, maxX = 0, maxY = 0;
-    for (let y = 0; y < H; y += 4) {
-      for (let x = 0; x < W; x += 4) {
-        const i = (y * W + x) * 4;
-        const v = (img[i] + img[i+1] + img[i+2]) / 3;
-        if (v < 100) {
-          inkCount++;
-          sx += x; sy += y;
-          if (x < minX) minX = x; if (x > maxX) maxX = x;
-          if (y < minY) minY = y; if (y > maxY) maxY = y;
+    const yScale=(H-80)/Math.max(maxV,0.001);
+
+    // 塗り
+    ctx.beginPath();
+    ctx.moveTo(0,H-50);
+    for(let i=0;i<nSamples;i++){const x=W*i/nSamples;ctx.lineTo(x,H-50-vals[i]*yScale);}
+    ctx.lineTo(W,H-50);
+    ctx.fillStyle='rgba(0,255,157,0.12)';ctx.fill();
+
+    // 線
+    ctx.strokeStyle='#00ff9d';ctx.lineWidth=2.5;ctx.setLineDash([]);
+    ctx.beginPath();ctx.moveTo(0,H-50-vals[0]*yScale);
+    for(let i=1;i<nSamples;i++) ctx.lineTo(W*i/nSamples,H-50-vals[i]*yScale);
+    ctx.stroke();
+
+    // スコット則の参照線
+    const std=Math.sqrt(xs.map(x=>x-xs.reduce((a,b)=>a+b,0)/xs.length).map(d=>d*d).reduce((a,b)=>a+b,0)/xs.length);
+    const scottBW=1.06*std*Math.pow(xs.length,-0.2)/W;
+    const bwOld=bw; bw=scottBW;
+    const bwPx2=scottBW*W;
+    const vals2=[];
+    for(let i=0;i<nSamples;i++){const x=W*i/nSamples;let v=0;for(const xi of xs)v+=K((x-xi)/bwPx2)/bwPx2;v/=xs.length;vals2.push(v);}
+    const max2=Math.max(...vals2,0.001);
+    bw=bwOld;
+    ctx.strokeStyle='rgba(255,170,0,0.5)';ctx.lineWidth=1.5;ctx.setLineDash([5,4]);
+    ctx.beginPath();ctx.moveTo(0,H-50-vals2[0]*(H-80)/max2);
+    for(let i=1;i<nSamples;i++) ctx.lineTo(W*i/nSamples,H-50-vals2[i]*(H-80)/max2);
+    ctx.stroke();ctx.setLineDash([]);
+
+    ctx.fillStyle='rgba(255,170,0,0.6)';ctx.font='9px JetBrains Mono,monospace';
+    ctx.fillText(`Scott: h=${scottBW.toFixed(3)}`,8,H-56);
+
+    document.getElementById('kdeInfo').innerHTML=`▸ クリックで点追加<br>▸ h=${bw.toFixed(3)}: ${bw<0.03?'過学習（h小さすぎ）':bw>0.3?'過少適合（h大きすぎ）':'適切'}<br>▸ 黄破線=Scott則最適h<br>▸ kernel: ${kernelType}`;
+  }
+
+  function draw2D(W,H){
+    const bwPx=bw*W;
+    const step=14;
+    let maxV=0;
+    const grid=[];
+    for(let y=0;y<H;y+=step){
+      const row=[];
+      for(let x=0;x<W;x+=step){
+        let v=0;
+        for(const[px,py] of points){
+          const r=Math.hypot(x-px,y-py);
+          v+=K(r/bwPx)/(bwPx*bwPx);
         }
+        v/=Math.max(points.length,1);
+        row.push(v); if(v>maxV)maxV=v;
+      }
+      grid.push(row);
+    }
+    const img=ctx.createImageData(W,H);
+    for(let r=0;r<grid.length;r++) for(let col=0;col<grid[r].length;col++){
+      const t2=clamp(grid[r][col]/Math.max(maxV,0.001),0,1);
+      const g=Math.round(t2*255), b2=Math.round(t2*157);
+      for(let dy=0;dy<step&&r*step+dy<H;dy++) for(let dx=0;dx<step&&col*step+dx<W;dx++){
+        const idx=((r*step+dy)*W+(col*step+dx))*4;
+        img.data[idx]=0;img.data[idx+1]=g;img.data[idx+2]=b2;img.data[idx+3]=Math.round(t2*220+30);
       }
     }
-    if (inkCount < 10) {
-      document.getElementById('drawGuess').textContent = '...小さすぎてよく見えません。もっと大きく描いてください。';
-      return;
-    }
-    const cx = sx / inkCount, cy = sy / inkCount;
-    const bw = maxX - minX, bh = maxY - minY;
-    const aspect = bw / bh;
-    const fillRatio = inkCount / (bw * bh / 16);
-    const coverage = inkCount / (W * H / 16);
-
-    // 円形度の近似：中心からの距離分散
-    let distSum = 0, distMax = 0;
-    for (let y = 0; y < H; y += 4) {
-      for (let x = 0; x < W; x += 4) {
-        const i = (y * W + x) * 4;
-        const v = (img[i] + img[i+1] + img[i+2]) / 3;
-        if (v < 100) {
-          const d = Math.hypot(x - cx, y - cy);
-          distSum += d;
-          if (d > distMax) distMax = d;
-        }
-      }
-    }
-    const distMean = distSum / inkCount;
-    const circularity = distMean / distMax; // 円なら大きい、線分なら小さい
-
-    // 推測ロジック
-    const guesses = [];
-    if (coverage > 0.5) guesses.push("塗り絵？", "ベタ塗りの何か", "黒い四角");
-    if (aspect > 2.5) guesses.push("横長の何か（バナナ？魚？棒？）", "横線", "電車の窓");
-    if (aspect < 0.4) guesses.push("縦長の何か（ペン？タワー？人？）", "縦線", "鉛筆");
-    if (circularity > 0.7 && fillRatio < 1.5) guesses.push("円", "丸", "顔", "ボール", "太陽");
-    if (circularity > 0.7 && fillRatio > 1.5) guesses.push("塗りつぶされた円", "黒丸", "月");
-    if (circularity < 0.4) guesses.push("線", "棒", "矢印", "なにか細長いもの");
-    if (Math.abs(aspect - 1) < 0.2 && fillRatio < 1.5) guesses.push("四角形", "ボックス", "家", "窓");
-    if (inkCount > 1000) guesses.push("複雑な絵", "落書き", "宇宙", "脳の構造", "ニューラルネットワーク");
-    if (inkCount < 100) guesses.push("点", "シンプルな何か", "句読点");
-
-    // 抽象的な推測も追加
-    const abstracts = [
-      "...心の中の検知器が反応しています。",
-      "これは『正常』ですか？それとも『異常』ですか？",
-      "雲が見えそうです。",
-      "私は球状にしか考えられないので、ご了承ください。",
-      "もしかして、カバですか？",
-      "あなたは絵描きにおける外れ値かもしれません。",
-    ];
-
-    if (guesses.length === 0) guesses.push("解読不能...");
-
-    const main = guesses[Math.floor(Math.random() * guesses.length)];
-    const sub = abstracts[Math.floor(Math.random() * abstracts.length)];
-
-    const conf = Math.floor(20 + Math.random() * 60);
-    document.getElementById('drawGuess').innerHTML = `
-      <strong style="color:var(--accent);">${main}</strong>
-      <div style="margin-top:8px;font-size:11px;color:var(--muted);">CONFIDENCE: ${conf}%</div>
-      <div style="margin-top:10px;font-style:italic;font-size:11px;color:var(--fg-2);">${sub}</div>
-      <div style="margin-top:10px;font-size:10px;color:var(--muted);font-family:monospace;">
-        ▸ aspect: ${aspect.toFixed(2)}<br>
-        ▸ circularity: ${circularity.toFixed(2)}<br>
-        ▸ ink coverage: ${(coverage*100).toFixed(1)}%
-      </div>
-    `;
+    ctx.putImageData(img,0,0);
+    document.getElementById('kdeInfo').innerHTML=`▸ クリックで点追加<br>▸ h=${bw.toFixed(3)}: 2Dヒートマップ<br>▸ 明るい部分=密度が高い<br>▸ kernel: ${kernelType}`;
   }
 
-  return { init };
+  return {init};
 })();
 
-/* ===========================================================================
-   研究者しりとり
-   =========================================================================== */
-const Shiritori = (() => {
-  // 出典：Google Developers ML Glossary、ITmedia AI・機械学習用語辞典、
-  // zero to one G検定対応用語集、Qiita 機械学習の用語一覧、セイコンサルティング 300語集
-  // 各用語は [表示語, 読み（ひらがな）, 短い説明] の3項。
-  // しりとりは「読み」ベースで判定。「ん」終わりは実行時にフィルタ。
-  const dict = {
-    'あ': [
-      ['アルゴリズム', 'あるごりずむ', '計算手順'],
-      ['アンサンブル学習', 'あんさんぶるがくしゅう', '複数モデルの統合'],
-      ['アダム', 'あだむ', 'Adam最適化手法'],
-      ['アンダーフィッティング', 'あんだーふぃってぃんぐ', '学習不足'],
-      ['アクセラレータ', 'あくせられーた', '計算ハードウェア'],
-    ],
-    'い': [
-      ['異常検知', 'いじょうけんち', '本研究の中心テーマ'],
-      ['一般化', 'いっぱんか', '未知データへの対応力'],
-      ['一様分布', 'いちようぶんぷ', 'uniform distribution'],
-      ['因果推論', 'いんがすいろん', 'causal inference'],
-      ['移動平均', 'いどうへいきん', '時系列の平滑化'],
-    ],
-    'う': [
-      ['ウェイト', 'うぇいと', 'モデルの重み'],
-      ['ウォームアップ', 'うぉーむあっぷ', '学習率の暖機'],
-      ['ウィンドウ関数', 'うぃんどうかんすう', 'window function'],
-      ['上振れ', 'うわぶれ', '統計の偏り'],
-    ],
-    'え': [
-      ['エポック', 'えぽっく', '学習の1周期'],
-      ['エンコーダ', 'えんこーだ', '符号化器'],
-      ['エントロピー', 'えんとろぴー', '情報量'],
-      ['エンベディング', 'えんべでぃんぐ', '埋め込み表現'],
-      ['エージェント', 'えーじぇんと', '強化学習の主体'],
-      ['エラー', 'えらー', '誤差'],
-    ],
-    'お': [
-      ['オーバーフィッティング', 'おーばーふぃってぃんぐ', '過学習'],
-      ['オートエンコーダ', 'おーとえんこーだ', '自己符号化器'],
-      ['オフライン学習', 'おふらいんがくしゅう', 'バッチ学習'],
-      ['オンライン学習', 'おんらいんがくしゅう', '逐次学習'],
-      ['重み', 'おもみ', 'パラメータ'],
-      ['オッズ比', 'おっずひ', '統計の指標'],
-    ],
-    'か': [
-      ['カーネル', 'かーねる', 'SVMの核'],
-      ['過学習', 'かがくしゅう', 'overfitting'],
-      ['学習率', 'がくしゅうりつ', 'learning rate'],
-      ['カルマンフィルタ', 'かるまんふぃるた', '状態推定'],
-      ['活性化関数', 'かっせいかかんすう', 'ReLUなど'],
-      ['ガウス分布', 'がうすぶんぷ', '正規分布'],
-    ],
-    'き': [
-      ['機械学習', 'きかいがくしゅう', '分野そのもの'],
-      ['距離学習', 'きょりがくしゅう', 'metric learning'],
-      ['教師あり学習', 'きょうしありがくしゅう', 'supervised'],
-      ['教師なし学習', 'きょうしなしがくしゅう', 'unsupervised'],
-      ['寄与率', 'きよりつ', 'PCAの指標'],
-      ['帰無仮説', 'きむかせつ', 'null hypothesis'],
-    ],
-    'ぎ': [
-      ['行列分解', 'ぎょうれつぶんかい', 'matrix factorization'],
-      ['逆伝播', 'ぎゃくでんぱ', 'backpropagation'],
-    ],
-    'く': [
-      ['クラスタリング', 'くらすたりんぐ', '群分け'],
-      ['クラス分類', 'くらすぶんるい', 'classification'],
-      ['クロスエントロピー', 'くろすえんとろぴー', '損失関数'],
-      ['組み合わせ最適化', 'くみあわせさいてきか', 'combinatorial opt.'],
-      ['区間推定', 'くかんすいてい', 'interval estimation'],
-    ],
-    'ぐ': [
-      ['グラフ理論', 'ぐらふりろん', 'graph theory'],
-      ['グリッドサーチ', 'ぐりっどさーち', 'hyperparameter search'],
-      ['群論', 'ぐんろん', 'group theory'],
-      ['グラム行列', 'ぐらむぎょうれつ', 'Gram matrix'],
-    ],
-    'け': [
-      ['決定境界', 'けっていきょうかい', '分類の境界線'],
-      ['決定木', 'けっていぎ', 'decision tree'],
-      ['検定', 'けんてい', '統計的仮説検定'],
-      ['結合確率', 'けつごうかくりつ', 'joint probability'],
-      ['形態素解析', 'けいたいそかいせき', 'morphological analysis'],
-    ],
-    'こ': [
-      ['勾配降下法', 'こうばいこうかほう', 'gradient descent'],
-      ['勾配消失', 'こうばいしょうしつ', 'vanishing gradient'],
-      ['交差検証', 'こうさけんしょう', 'cross-validation'],
-      ['コサイン類似度', 'こさいんるいじど', 'cosine similarity'],
-    ],
-    'ご': [
-      ['誤差逆伝播', 'ごさぎゃくでんぱ', 'backprop'],
-      ['誤分類', 'ごぶんるい', 'misclassification'],
-    ],
-    'さ': [
-      ['サポートベクトル', 'さぽーとべくとる', 'SVMの主役'],
-      ['再現率', 'さいげんりつ', 'recall'],
-      ['再構成誤差', 'さいこうせいごさ', '異常検知の指標'],
-      ['サンプリング', 'さんぷりんぐ', '標本抽出'],
-      ['最尤推定', 'さいゆうすいてい', 'MLE'],
-      ['最適化', 'さいてきか', 'optimization'],
-    ],
-    'し': [
-      ['シグモイド関数', 'しぐもいどかんすう', '活性化関数の一種'],
-      ['シャノンエントロピー', 'しゃのんえんとろぴー', '情報量'],
-      ['識別モデル', 'しきべつもでる', 'discriminative model'],
-      ['主成分分析', 'しゅせいぶんぶんせき', 'PCA'],
-      ['深層学習', 'しんそうがくしゅう', 'deep learning'],
-    ],
-    'じ': [
-      ['事後確率', 'じごかくりつ', 'posterior'],
-      ['事前確率', 'じぜんかくりつ', 'prior'],
-    ],
-    'す': [
-      ['推論', 'すいろん', 'inference'],
-      ['スケーリング', 'すけーりんぐ', '特徴量の標準化'],
-      ['スパース', 'すぱーす', '疎表現'],
-      ['スコア関数', 'すこあかんすう', 'score function'],
-      ['ステップ関数', 'すてっぷかんすう', '活性化関数の一種'],
-      ['推定量', 'すいていりょう', 'estimator'],
-    ],
-    'ず': [
-      ['頭部姿勢推定', 'ずぶしせいすいてい', 'head pose estimation'],
-    ],
-    'せ': [
-      ['正規化', 'せいきか', 'normalization'],
-      ['線形回帰', 'せんけいかいき', 'linear regression'],
-      ['線形分離', 'せんけいぶんり', 'linearly separable'],
-      ['説明変数', 'せつめいへんすう', '独立変数'],
-      ['潜在変数', 'せんざいへんすう', 'latent variable'],
-      ['正則化', 'せいそくか', 'regularization'],
-      ['正解率', 'せいかいりつ', 'accuracy'],
-      ['生成モデル', 'せいせいもでる', 'generative model'],
-    ],
-    'そ': [
-      ['ソフトマックス', 'そふとまっくす', '多クラス分類'],
-      ['相関係数', 'そうかんけいすう', 'correlation'],
-      ['損失関数', 'そんしつかんすう', 'loss function'],
-      ['疎行列', 'そぎょうれつ', 'sparse matrix'],
-    ],
-    'た': [
-      ['畳み込み', 'たたみこみ', 'convolution'],
-      ['多変量解析', 'たへんりょうかいせき', 'multivariate analysis'],
-      ['対数尤度', 'たいすうゆうど', 'log likelihood'],
-      ['ターゲット', 'たーげっと', '目的変数'],
-      ['多項分布', 'たこうぶんぷ', 'multinomial distribution'],
-    ],
-    'だ': [
-      ['ダミー変数', 'だみーへんすう', 'dummy variable'],
-      ['第一種過誤', 'だいいっしゅかご', 'Type I error'],
-    ],
-    'ち': [
-      ['チューニング', 'ちゅーにんぐ', 'パラメータ調整'],
-      ['中央値', 'ちゅうおうち', 'median'],
-      ['チェビシェフの不等式', 'ちぇびしぇふのふとうしき', '統計の基本'],
-      ['逐次推定', 'ちくじすいてい', 'sequential estimation'],
-    ],
-    'つ': [
-      ['通時的解析', 'つうじてきかいせき', 'diachronic analysis'],
-      ['通常の最小二乗法', 'つうじょうのさいしょうにじょうほう', 'OLS'],
-    ],
-    'て': [
-      ['敵対的生成', 'てきたいてきせいせい', 'GAN'],
-      ['敵対的攻撃', 'てきたいてきこうげき', 'adversarial attack'],
-      ['転移学習', 'てんいがくしゅう', 'transfer learning'],
-      ['テンソル', 'てんそる', 'tensor'],
-    ],
-    'で': [
-      ['データ拡張', 'でーたかくちょう', 'data augmentation'],
-      ['データセット', 'でーたせっと', 'training data'],
-    ],
-    'と': [
-      ['特徴量', 'とくちょうりょう', 'feature'],
-      ['特徴抽出', 'とくちょうちゅうしゅつ', 'feature extraction'],
-      ['統計的検定', 'とうけいてきけんてい', 'hypothesis testing'],
-      ['トランスフォーマー', 'とらんすふぉーまー', 'Transformer'],
-      ['トレーニング', 'とれーにんぐ', '学習'],
-    ],
-    'ど': [
-      ['ドロップアウト', 'どろっぷあうと', '過学習抑制'],
-    ],
-    'な': [
-      ['内積', 'ないせき', 'inner product'],
-      ['ナイーブベイズ', 'ないーぶべいず', '単純ベイズ分類器'],
-      ['内挿', 'ないそう', 'interpolation'],
-    ],
-    'に': [
-      ['二乗誤差', 'にじょうごさ', 'MSE'],
-      ['二値分類', 'にちぶんるい', 'binary classification'],
-      ['認識', 'にんしき', 'recognition'],
-      ['ニューラル', 'にゅーらる', 'NN関連'],
-    ],
-    'ぬ': [
-      ['ぬり潰し', 'ぬりつぶし', 'fill'],
-    ],
-    'ね': [
-      ['ネガティブサンプリング', 'ねがてぃぶさんぷりんぐ', 'negative sampling'],
-      ['ネットワーク構造', 'ねっとわーくこうぞう', 'NN構造'],
-    ],
-    'の': [
-      ['ノイズ', 'のいず', 'noise'],
-      ['ノルム', 'のるむ', 'norm'],
-      ['濃度', 'のうど', 'cardinality'],
-    ],
-    'は': [
-      ['汎化', 'はんか', '未知データへの対応'],
-      ['ハイパーパラメータ', 'はいぱーぱらめーた', 'hyperparameter'],
-      ['発火', 'はっか', 'ニューロンの活性'],
-      ['判別分析', 'はんべつぶんせき', 'discriminant analysis'],
-      ['汎化誤差', 'はんかごさ', 'generalization error'],
-    ],
-    'ば': [
-      ['バッチ正規化', 'ばっちせいきか', 'batch normalization'],
-    ],
-    'ぱ': [
-      ['パラメータ', 'ぱらめーた', 'parameter'],
-      ['パディング', 'ぱでぃんぐ', 'padding'],
-    ],
-    'ひ': [
-      ['表現学習', 'ひょうげんがくしゅう', 'representation learning'],
-      ['標準化', 'ひょうじゅんか', 'standardization'],
-      ['ヒストグラム', 'ひすとぐらむ', 'histogram'],
-      ['ヒンジ損失', 'ひんじそんしつ', 'hinge loss'],
-      ['標本平均', 'ひょうほんへいきん', 'sample mean'],
-    ],
-    'ぴ': [
-      ['ピアソン相関', 'ぴあそんそうかん', 'Pearson correlation'],
-      ['ピーク検出', 'ぴーくけんしゅつ', 'peak detection'],
-    ],
-    'ふ': [
-      ['ファインチューニング', 'ふぁいんちゅーにんぐ', 'fine-tuning'],
-      ['不偏推定量', 'ふへんすいていりょう', 'unbiased estimator'],
-      ['負例', 'ふれい', 'negative example'],
-      ['フィッシャー情報量', 'ふぃっしゃーじょうほうりょう', 'Fisher information'],
-    ],
-    'ぶ': [
-      ['ブースティング', 'ぶーすてぃんぐ', 'boosting'],
-    ],
-    'ぷ': [
-      ['プーリング', 'ぷーりんぐ', 'pooling'],
-      ['プーリング層', 'ぷーりんぐそう', 'pooling layer'],
-      ['プロンプト', 'ぷろんぷと', 'prompt'],
-    ],
-    'へ': [
-      ['平均二乗誤差', 'へいきんにじょうごさ', 'MSE'],
-      ['偏微分', 'へんびぶん', 'partial derivative'],
-    ],
-    'べ': [
-      ['ベイズ推定', 'べいずすいてい', 'Bayesian inference'],
-      ['ベクトル', 'べくとる', 'vector'],
-      ['ベルヌーイ分布', 'べるぬーいぶんぷ', 'Bernoulli distribution'],
-    ],
-    'ほ': [
-      ['ホールドアウト法', 'ほーるどあうとほう', 'hold-out'],
-    ],
-    'ぼ': [
-      ['母集団', 'ぼしゅうだん', 'population'],
-      ['ボックスプロット', 'ぼっくすぷろっと', '箱ひげ図'],
-      ['母分散', 'ぼぶんさん', 'population variance'],
-    ],
-    'ま': [
-      ['マルコフ連鎖', 'まるこふれんさ', 'Markov chain'],
-      ['マハラノビス距離', 'まはらのびすきょり', '距離尺度'],
-      ['マルチタスク学習', 'まるちたすくがくしゅう', 'multi-task learning'],
-      ['前処理', 'まえしょり', 'preprocessing'],
-    ],
-    'み': [
-      ['ミニバッチ', 'みにばっち', 'mini-batch'],
-      ['密度推定', 'みつどすいてい', 'density estimation'],
-      ['見せかけの相関', 'みせかけのそうかん', 'spurious correlation'],
-    ],
-    'む': [
-      ['無向グラフ', 'むこうぐらふ', 'undirected graph'],
-      ['無作為抽出', 'むさくいちゅうしゅつ', 'random sampling'],
-    ],
-    'め': [
-      ['メトリック', 'めとりっく', '評価指標'],
-      ['メタ学習', 'めたがくしゅう', 'meta learning'],
-      ['メモリ', 'めもり', 'memory'],
-    ],
-    'も': [
-      ['モデル', 'もでる', 'モデルそのもの'],
-      ['モーメンタム', 'もーめんたむ', '慣性項'],
-      ['モンテカルロ法', 'もんてかるろほう', 'Monte Carlo'],
-      ['目的関数', 'もくてきかんすう', 'objective function'],
-    ],
-    'や': [
-      ['焼きなまし法', 'やきなましほう', 'simulated annealing'],
-      ['ヤコビ行列', 'やこびぎょうれつ', 'Jacobian matrix'],
-    ],
-    'ゆ': [
-      ['ユークリッド距離', 'ゆーくりっどきょり', '基本距離'],
-      ['尤度', 'ゆうど', 'likelihood'],
-      ['ゆらぎ', 'ゆらぎ', 'fluctuation'],
-    ],
-    'よ': [
-      ['予測', 'よそく', 'prediction'],
-      ['抑制', 'よくせい', 'suppression'],
-      ['要因分析', 'よういんぶんせき', 'factor analysis'],
-    ],
-    'ら': [
-      ['ランダムフォレスト', 'らんだむふぉれすと', 'Random Forest'],
-      ['ラッソ回帰', 'らっそかいき', 'L1正則化'],
-      ['ラベル', 'らべる', 'label'],
-      ['ラグランジュ乗数', 'らぐらんじゅじょうすう', 'Lagrange multiplier'],
-    ],
-    'り': [
-      ['リッジ回帰', 'りっじかいき', 'L2正則化'],
-      ['離散化', 'りさんか', 'discretization'],
-      ['リカレント', 'りかれんと', 'RNN'],
-      ['リーキーレル', 'りーきーれる', 'Leaky ReLU'],
-      ['粒子フィルタ', 'りゅうしふぃるた', 'particle filter'],
-    ],
-    'る': [
-      ['ループ', 'るーぷ', '学習の反復'],
-    ],
-    'れ': [
-      ['レイヤー', 'れいやー', '層'],
-      ['レル', 'れる', 'ReLU活性化'],
-      ['連続値', 'れんぞくち', 'continuous value'],
-      ['例外検出', 'れいがいけんしゅつ', 'outlier detection'],
-    ],
-    'ろ': [
-      ['ロジスティック回帰', 'ろじすてぃっくかいき', '分類の基本'],
-      ['ロス関数', 'ろすかんすう', 'loss function'],
-      ['ロバスト統計', 'ろばすととうけい', 'robust statistics'],
-      ['ロングテール', 'ろんぐてーる', 'long tail'],
-    ],
-    'わ': [
-      ['ワッサースタイン距離', 'わっさーすたいんきょり', 'Wasserstein distance'],
-      ['和集合', 'わしゅうごう', 'union'],
-    ],
-  };
 
-  // 全エントリをフラットなindexに展開（読みの最初の文字をキーに、「ん」終わりを除外）
-  const indexByHead = {};
-  for (const arr of Object.values(dict)) {
-    for (const entry of arr) {
-      const yomi = entry[1];
-      const head = yomi[0];
-      const tail = lastChar(yomi);
-      if (tail === 'ん') continue;
-      if (!indexByHead[head]) indexByHead[head] = [];
-      indexByHead[head].push(entry);
-    }
-  }
-
-  // カナ→ひらがな、長音処理（先頭でも末尾でも使う）
-  function toHiragana(s) {
-    return s.replace(/[\u30a1-\u30f6]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60))
-            .replace(/ー/g, '');
-  }
-  // 末尾文字を取り出し（小書き→対応する大書きに正規化、長音は前の音に）
-  function lastChar(s) {
-    s = toHiragana(s);
-    // 末尾の小書き仮名を大書きに
-    s = s.replace(/[ぁぃぅぇぉゃゅょっ]$/, m => ({
-      'ぁ':'あ','ぃ':'い','ぅ':'う','ぇ':'え','ぉ':'お','ゃ':'や','ゅ':'ゆ','ょ':'よ','っ':'つ'
-    })[m] || m);
-    return s.slice(-1);
-  }
-  function firstChar(s) {
-    s = toHiragana(s);
-    return s.slice(0, 1);
-  }
-
-  let used = new Set();
-  let nextStart = null;
-  let log, input, sendBtn, nextEl, statEl;
-
-  function init() {
-    log = document.getElementById('shiriLog');
-    input = document.getElementById('shiriInput');
-    sendBtn = document.getElementById('shiriSend');
-    nextEl = document.getElementById('shiriNext');
-    statEl = document.getElementById('shiriStatus');
-
-    used = new Set();
-    nextStart = null;
-    input.disabled = false; sendBtn.disabled = false;
-    statEl.style.color = 'var(--accent)';
-
-    addLog('ai', 'しりとり', 'しりとり', 'スタート！「り」から始まる言葉をどうぞ。あなたは何でも入力OK。AIは機械学習・統計の用語で返します。');
-    nextStart = 'り';
-    nextEl.textContent = 'り';
-    used.add('しりとり');
-
-    sendBtn.addEventListener('click', send);
-    input.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
-    input.focus();
-
-    return () => {
-      sendBtn.removeEventListener('click', send);
-    };
-  }
-
-  function send() {
-    const v = input.value.trim();
-    if (!v) return;
-    const hira = toHiragana(v);
-    const fc = firstChar(v);
-
-    if (lastChar(v) === 'ん') {
-      addLog('me', v, hira, '');
-      addLog('ai', 'AIの勝ち', '', '「ん」で終わったので私の勝ちです！');
-      input.value = '';
-      input.disabled = true; sendBtn.disabled = true;
-      statEl.textContent = 'AI WIN';
-      statEl.style.color = 'var(--accent-2)';
-      return;
-    }
-
-    if (nextStart && fc !== nextStart) {
-      addLog('ai', '違反', '', `「${nextStart}」から始まる言葉を入力してください。`);
-      return;
-    }
-    if (used.has(v) || used.has(hira)) {
-      addLog('ai', '使用済み', '', 'その単語はもう使われています。');
-      return;
-    }
-
-    addLog('me', v, hira, '');
-    used.add(v); used.add(hira);
-    input.value = '';
-
-    setTimeout(() => aiTurn(lastChar(v)), 600);
-  }
-
-  function aiTurn(ch) {
-    const list = indexByHead[ch];
-    if (!list || list.length === 0) {
-      addLog('ai', '降参', '', `「${ch}」から始まるML/AI/統計の用語が思い当たりません… あなたの勝ちです！`);
-      input.disabled = true; sendBtn.disabled = true;
-      statEl.textContent = 'YOU WIN';
-      statEl.style.color = 'var(--accent)';
-      return;
-    }
-    const candidates = list.filter(([w]) => !used.has(w));
-    if (candidates.length === 0) {
-      addLog('ai', '降参', '', `「${ch}」で始まる用語は手持ちが尽きました。あなたの勝ち！`);
-      input.disabled = true; sendBtn.disabled = true;
-      statEl.textContent = 'YOU WIN';
-      statEl.style.color = 'var(--accent)';
-      return;
-    }
-    const [word, yomi, desc] = candidates[Math.floor(Math.random() * candidates.length)];
-    used.add(word);
-    addLog('ai', word, yomi, desc);
-    nextStart = lastChar(yomi);
-    nextEl.textContent = nextStart;
-  }
-
-  function addLog(who, word, yomi, desc) {
-    const turn = document.createElement('div');
-    turn.className = 'turn';
-    turn.innerHTML = `
-      <div class="who ${who}">${who === 'me' ? '▸ YOU' : '▸ AI'}</div>
-      <div><span class="word">${word}</span><span class="yomi">${yomi || ''}</span></div>
-      ${desc ? `<div class="desc">${desc}</div>` : ''}
-    `;
-    log.appendChild(turn);
-    log.scrollTop = log.scrollHeight;
-  }
-
-  return { init };
-})();
 </script>
+
 
 </body>
 </html>
