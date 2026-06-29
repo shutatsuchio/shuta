@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<meta name="description" content="2048 — a small game on Shuta Tsuchio's site. 2048（土尾崇太の好きなゲーム）。">
+<meta name="description" content="2048 — a small game on Shuta Tsuchio's site.">
 <title>2048 — Shuta Tsuchio</title>
 <link rel="stylesheet" href="assets/style.css">
 <style>
   /* ---- 2048 game-specific styles ---- */
-  .sub { color: var(--muted); font-size: 14px; margin: 16px 0 6px; }
+  body { padding-top: 32px; padding-bottom: 36px; }
+  footer { margin-top: 26px; }
+  .sub { color: var(--muted); font-size: 14px; margin: 14px 0 6px; }
 
   .topbar {
     display: flex; align-items: flex-end; justify-content: space-between;
-    gap: 16px; margin: 22px 0 18px; flex-wrap: wrap;
+    gap: 16px; margin: 16px auto 14px; max-width: 440px; flex-wrap: wrap;
   }
   .scores { display: flex; gap: 12px; }
   .score-box { background: #efeee9; border-radius: 6px; padding: 8px 16px; text-align: center; min-width: 84px; }
@@ -26,7 +28,8 @@
 
   .stage { position: relative; }
   .board { position: relative; background: #efeee9; border-radius: 10px; padding: var(--gap);
-    width: 100%; aspect-ratio: 1 / 1; touch-action: none; --gap: 12px; }
+    width: min(100%, 440px, calc(100dvh - 360px)); margin: 0 auto;
+    aspect-ratio: 1 / 1; touch-action: none; --gap: 12px; }
   .grid { position: absolute; inset: var(--gap); display: grid;
     grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(4, 1fr); gap: var(--gap); }
   .grid .cell { background: #e3e1d8; border-radius: 6px; }
@@ -57,7 +60,7 @@
   .overlay button.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
   .overlay button:hover { opacity: .85; }
 
-  .hint { margin-top: 18px; color: var(--muted); font-size: 13px; }
+  .hint { margin: 14px auto 0; max-width: 440px; color: var(--muted); font-size: 13px; }
 
   @media (max-width: 480px) {
     .board { --gap: 9px; }
@@ -71,7 +74,7 @@
 <body>
 
 <h1><em>2048</em>
-  <span class="role">土尾 崇太の好きなゲーム ・ A small game</span>
+  <span class="role">A small game</span>
 </h1>
 
 <nav>
@@ -81,7 +84,7 @@
   <a href="contact.html">Contact</a>
 </nav>
 
-<p class="sub">矢印キー / WASD、またはスワイプで操作。 ・ Arrow keys / WASD, or swipe.</p>
+<p class="sub">Arrow keys / WASD, or swipe.</p>
 
 <div class="topbar">
   <div class="scores">
@@ -105,7 +108,7 @@
   </div>
 </div>
 
-<p class="hint">同じ数字を合わせて 2048 を目指そう。 ・ Combine matching numbers to reach 2048.</p>
+<p class="hint">Combine matching numbers to reach 2048.</p>
 
 <footer>&copy; Shuta Tsuchio</footer>
 
@@ -326,6 +329,14 @@
   overlayPrimary.addEventListener('click', reset);
   overlayKeep.addEventListener('click', () => overlay.classList.remove('show'));
   window.addEventListener('resize', () => render(null, null));
+  if (window.ResizeObserver) {
+    let raf = null;
+    const ro = new ResizeObserver(() => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => render(null, null));
+    });
+    ro.observe(boardEl);
+  }
 
   reset();
 })();
