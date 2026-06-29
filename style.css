@@ -1,0 +1,128 @@
+/* Shared styles — Shuta Tsuchio
+   Minimal, single-column, bilingual (JP / EN). */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #222;
+  --muted: #888;
+  --line: #ccc;
+  --accent: #222;
+  --bg: #fff;
+}
+
+body {
+  font-family: 'Helvetica Neue', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', YuGothic, Meiryo, sans-serif;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--ink);
+  background: var(--bg);
+  padding: 48px 32px 80px;
+  max-width: 680px;
+  margin: 0 auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header / name */
+h1 {
+  font-size: 26px;
+  font-style: italic;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+h1 .role {
+  display: block;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* Nav */
+nav {
+  margin: 20px 0 0;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 12px;
+}
+nav a {
+  color: var(--ink);
+  text-decoration: none;
+  margin-right: 18px;
+  font-size: 14px;
+}
+nav a:hover { text-decoration: underline; }
+nav a[aria-current="page"] { font-weight: bold; text-decoration: underline; }
+
+/* Sections */
+hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 28px 0;
+}
+
+h2 {
+  font-size: 17px;
+  font-weight: bold;
+  margin-bottom: 14px;
+}
+h2 .en {
+  font-weight: normal;
+  font-size: 13px;
+  color: var(--muted);
+  margin-left: 8px;
+  letter-spacing: .02em;
+}
+
+p { margin-bottom: 8px; }
+
+/* Bilingual helpers */
+.en-line { color: var(--muted); font-size: 13.5px; }
+.kv { margin-bottom: 6px; }
+.kv .label { color: var(--muted); }
+
+ul { list-style: none; }
+ul.entries > li { margin-bottom: 16px; }
+ul.entries > li:last-child { margin-bottom: 0; }
+.entry-ja { }
+.entry-en { color: var(--muted); font-size: 13.5px; }
+.note { color: var(--muted); font-size: 13.5px; }
+
+/* Inline disc lists (research topics etc.) */
+ul.disc { list-style: disc; padding-left: 1.4em; margin-bottom: 8px; }
+ul.disc li { margin-bottom: 6px; }
+ul.disc li .entry-en { display: block; }
+
+/* Publications */
+ol.pubs { list-style: none; counter-reset: pub; }
+ol.pubs > li {
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 18px;
+}
+ol.pubs > li::before {
+  counter-increment: pub;
+  content: "[" counter(pub) "]";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+ol.pubs u { text-decoration: underline; }
+
+a { color: var(--ink); }
+a:hover { color: var(--muted); }
+
+footer {
+  margin-top: 48px;
+  font-size: 13px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+
+@media (max-width: 480px) {
+  body { padding: 32px 18px 60px; }
+  nav a { margin-right: 14px; }
+}
